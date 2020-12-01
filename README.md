@@ -12,4 +12,3 @@ https://www.youtube.com/watch?v=uRCgeQAklmw
 
 Screenshot:
 
-<img src="muse-code-screen.png" width="490"/>
