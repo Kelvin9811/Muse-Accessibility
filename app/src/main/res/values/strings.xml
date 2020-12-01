@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Muse Code</string>
+    <string name="permission_dialog_title">Muse Needs Your Permission</string>
+    <string name="permission_dialog_description">Muse needs a few permissions to work properly. On the next screens, tap "Allow" to proceed. If you deny, Muse will not work properly until you go into your Android settings and allow.</string>
+    <string name="permission_dialog_understand">I Understand</string>
+    <string name="app_icon">app_icon</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="iniciar_captura_de_datos">Iniciar captura de datos</string>
+    <string name="conecci_n">Conección</string>
+    <string name="lista_de_dispositivos_disponibles">Lista de dispositivos disponibles</string>
+    <string name="conectar">Conectar</string>
+    <string name="continuar">Continuar</string>
+    <string name="estado_de_la_conecci_n_con_el_dispositivo_seleccionado">Estado de la conección con el dispositivo seleccionado</string>
+    <string name="desconectado">Desconectado</string>
+    <string name="primary_font">Roboto</string>
+    <string name="refresh">Refrescar</string>
+
+</resources>
