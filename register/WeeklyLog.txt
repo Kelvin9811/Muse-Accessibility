@@ -1,0 +1,130 @@
+
+Guardar datos en archivos
+
+No preocuparme mucho por la parte visual pero si una rutina par programar 
+
+
+
+
+
+Hacer un gif o un video de como es un parpadeo corto o uno largo
+
+Retroalimentacion auditiva
+
+En resumen
+
+Tema de para que personas esta dirigido
+En telefono facilidad de conexion y red de datos
+Telefono no es terminal para aplicaciones, es dispositivo para correr muchas cosas
+No es especificamente para eso
+
+
+Verificar si puedo bloquear el celular y prender para ahorro de energia
+
+
+Señal de 5 segundos por gesto. Eso es una muestra por clase, cuanto tiempo de señal grabamos dependiendo del tiempo del parpadeo
+
+Menos de 3 no creo que sea posible
+
+
+Elementos para adquirir, sensor y sw
+
+El sw con interfaz que le diga cuando empezar a ejecutar la accion o que intencion va a ejecutar
+
+
+
+
+
+
+
+
+
+Faltas de ortografía, revisar bien la caligrafía
+
+Boton de capturar que lanza el tiempo de 3 segundos para parpadear
+
+En caso de que haga un parpadeo no correspondiente. 
+El usuario concientemente sabe que lo hizo mal entonces lo quiere borrar
+Agregar boton de borrar muestra
+
+
+Depende de la idea, la bandera o la captura como es.
+Vizualizar la señal para ver que voy a guardar.
+
+Muse a veces coge ruido entonces hay que saber que voy a guardar.
+
+
+sacar las envolventes de los canales para sumar y tener una sola señal
+
+Valor absoluto de la señal y filtro pasa bajos.
+
+
+
+Barra de progreso a cambio del cronómetro.
+Tener aspectos para ver donde pongo, cuantos centimetros arriba de las cejas ejemplo
+
+
+
+
+
+
+---------------------------------------26-11----------------------------------------------------------
+
+Dependiendo del clasificador se va a saber si es necesario reajustar el clasificador
+
+
+Indicar numero de muestras 
+Registro de avances mensual.
+
+
+
+
+---------------- 03/12----------------------
+Grabar de 2 personas 5 muestras de cada clase
+
+Graficar eso por clase para ver si las señales se parecen y en función de eso ver que clasificador y poder determinar cuantos datos por persona
+
+Ver si tiene implementado java para knn. En caso de que nó, verificar si hay como conectar py con java.
+Ver que clasificadores hay en java xd
+
+Pendiente: Ver cuantas muestras por usuario para ajustar la adquisicion de datos.
+Configurar. Cuantas muestras para saber si es corrido o hasta que el usuario quiera.
+Combinar los 2 y ver si se puede hacer eso: Maximo de 5 pero se puede detener en las 4 o 3era muestra de clases
+
+2 o 3 semanas ir pensando en la integración con las demás cosas.
+
+
+Determinar a ver si los cortos y largos es suficiente para hacer las cosas.
+
+Dentro de 2 semanas estariamos listos para adquirir datos
+
+
+
+
+----------------10-12----------------
+
+Calcular espectro de fourier, para eso ingresar el muestreo que son 250/s dependiendo del manual
+
+Determinar la frecuencia de muestreo
+sino mido un segundo y veo cual es la frecuencia de muestreo
+
+Si la frecuencia de muestreo es 35 no tiene sentido filtrara 60hz
+
+teorema ed nitwiz debo hacerlo al menos al doble de la frecuencia maxima del dispositivo.
+
+Verificar la frecuencia de muestreo. ver si puedo variar o puedo configurar.
+Y asegurarme que siempre mido a esta frecuencia
+
+
+Seguramente trabaja con un número de 10 bits y hay que ver que hacer para la perdida ceros o bits
+
+No es perdida de bits. 
+
+
+Pasabajos, trabajar con matlab.
+
+//no usas un filtro en 60hz y un pasabajos en 20hz
+
+//baterword de 5to orden de 15hz
+
+Grabar de la persona normal antes de grabar nada de nada. Procurar rgabar video.

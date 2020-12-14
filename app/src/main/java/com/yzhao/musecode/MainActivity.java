@@ -12,6 +12,7 @@ import com.choosemuse.libmuse.Muse;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static Muse connectedMuse;
+    public final String TAG = "MuseCode";
 
     @Override
     public void onClick(View view) {

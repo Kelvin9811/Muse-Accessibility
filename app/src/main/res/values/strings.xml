@@ -10,9 +10,10 @@
     <string name="lista_de_dispositivos_disponibles">Lista de dispositivos disponibles</string>
     <string name="conectar">Conectar</string>
     <string name="continuar">Continuar</string>
-    <string name="estado_de_la_conecci_n_con_el_dispositivo_seleccionado">Estado de la conección con el dispositivo seleccionado</string>
+    <string name="estado_de_la_conecci_n_con_el_dispositivo_seleccionado">Estado de la conección con el dispositivo</string>
     <string name="desconectado">Desconectado</string>
     <string name="primary_font">Roboto</string>
     <string name="refresh">Refrescar</string>
+    <string name="Iniciar">Iniciar</string>
 
 </resources>

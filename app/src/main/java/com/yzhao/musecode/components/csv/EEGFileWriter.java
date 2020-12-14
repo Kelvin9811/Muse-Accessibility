@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 /**
  * Writes EEG data (either raw/filtered EEG or computed FFT) into a csv. Presents a toast when
@@ -41,6 +43,7 @@ public class EEGFileWriter {
 
     public void initFile(String title) {
         builder = new StringBuilder();
+        System.out.println(title);
         builder.append("Timestamp (ms),");
         makeToast(title);
         isRecording = true;
@@ -96,6 +99,7 @@ public class EEGFileWriter {
         } catch (IOException e) {}
     }
 
+
     public void makeToast(String title) {
         CharSequence toastText = "Recording data in " + title+fileNum+".csv";
         Toast toast = Toast.makeText(context, toastText, Toast.LENGTH_SHORT);
@@ -104,15 +108,26 @@ public class EEGFileWriter {
 
     public void sendData(File dataCSV) {
 
-        FileProvider fileProvider = new FileProvider();
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.setType("application/csv");
-        sendIntent.putExtra(Intent.EXTRA_STREAM, fileProvider.getUriForFile(this.context, "com.eeg_project.fileprovider", dataCSV));
-        context.startActivity(Intent.createChooser(sendIntent, "Export data to..."));
+        //FileProvider fileProvider = new FileProvider();
+        //Intent sendIntent = new Intent();
+        //sendIntent.setAction(Intent.ACTION_SEND);
+        //sendIntent.setType("application/csv");
+        //sendIntent.putExtra(Intent.EXTRA_STREAM, fileProvider.getUriForFile(this.context, "com.eeg_project.fileprovider", dataCSV));
+        //context.startActivity(Intent.createChooser(sendIntent, "Export data to..."));
     }
 
     public boolean isRecording() {
         return isRecording;
+    }
+
+    public void writeToFile(String data, Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.csv", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 }

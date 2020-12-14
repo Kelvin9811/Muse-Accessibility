@@ -3,14 +3,11 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <com.androidplot.xy.XYPlot
-        style="@style/APDefacto.Dark"
-        android:id="@+id/plot"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        ap:title="A Simple XY Plot"
-        ap:rangeTitle="range"
-        ap:domainTitle="domain"
-        ap:lineLabels="left|bottom"
-        ap:lineLabelRotationBottom="-45"/>
+
+    <Button
+        android:id="@+id/btn_init_file"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/Iniciar" />
 </LinearLayout>

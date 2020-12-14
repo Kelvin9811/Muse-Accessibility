@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.choosemuse.libmuse.Accelerometer;
+import com.choosemuse.libmuse.Battery;
 import com.choosemuse.libmuse.ConnectionState;
+import com.choosemuse.libmuse.Eeg;
 import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseArtifactPacket;
 import com.choosemuse.libmuse.MuseConnectionListener;
@@ -29,41 +30,37 @@ import com.choosemuse.libmuse.MuseDataPacket;
 import com.choosemuse.libmuse.MuseDataPacketType;
 import com.choosemuse.libmuse.MuseListener;
 import com.choosemuse.libmuse.MuseManagerAndroid;
-import com.choosemuse.libmuse.MuseVersion;
-import com.yzhao.musecode.components.connector.ConnectorModule;
-import com.yzhao.musecode.components.graphs.EEGGraph;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.choosemuse.libmuse.MuseDataPacketType.ACCELEROMETER;
 
 public class MuseConnection extends AppCompatActivity implements View.OnClickListener {
 
-    private final String TAG = "MuseCode";
+
     private MuseManagerAndroid manager;
     private Muse muse;
     private MuseConnection.ConnectionListener connectionListener;
     private MuseDataListener dataListener;
     private final double[] accelBuffer = new double[3];
-    private boolean accelStale;
-
-    private boolean blink = false;
-    private boolean lastBlink = false;
-    private boolean jawClench = false;
-    private boolean lastJawClench = false;
-
     private final Handler handler = new Handler();
-
-    private int EMGcounter = 0;
-    private boolean EMGflag = false;
     private ArrayAdapter<String> spinnerAdapter;
-    private boolean dataTransmission = true;
     private final float LEFT_THRESHOLD = -0.25f;
     private final float FRONT_THRESHOLD = 0.35f;
     private AccelerometerData nodQ = new AccelerometerData(FRONT_THRESHOLD);
     private AccelerometerData backspaceQ = new AccelerometerData(LEFT_THRESHOLD);
+    private WeakReference<MuseConnection> weakActivity = new WeakReference<>(this);
+
+
+    private boolean blink = false;
+    private boolean jawClench = false;
+    private boolean lastJawClench = false;
+
+
+    private int EMGcounter = 0;
+    private boolean EMGflag = false;
+    private boolean dataTransmission = true;
     private StringBuilder translation = new StringBuilder();
     private SignalQueue sigQ = new SignalQueue();
 
@@ -77,29 +74,20 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
 
     private MorseDictionary dict = new MorseDictionary();
     private TextView morseTextView;
-    private ArrayList<String> morseSequences;
 
     EMGData jawData = new EMGData();
     EMGData blinkData = new EMGData();
 
     private int packetCounter = 0;
 
-    private TextView translateTextView;
 
-    private ConnectorModule connectorModule = new ConnectorModule();
-
-    private final Runnable tickUi = new Runnable() {
-        @Override
-        public void run() {
-            handler.postDelayed(tickUi, 1000 / 60);
-        }
-    };
-    MainApplication appState;
-
+    MainActivity appState;
+    MainActivity TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ensurePermissions();
         startConnection();
         initUI();
     }
@@ -107,32 +95,16 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
     public void startConnection() {
         manager = MuseManagerAndroid.getInstance();
         manager.setContext(this);
-        WeakReference<MuseConnection> weakActivity = new WeakReference<>(this);
         connectionListener = new MuseConnection.ConnectionListener(weakActivity);
         dataListener = new MuseConnection.DataListener(weakActivity);
         manager.setMuseListener(new MuseConnection.MuseL(weakActivity));
-        ensurePermissions();
-        handler.post(tickUi);
+        manager.startListening();
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btn_connect) {
-            manager.stopListening();
-
-            List<Muse> availableMuses = manager.getMuses();
-            Spinner musesSpinner = (Spinner) findViewById(R.id.muses_conected_spinner);
-
-            if (availableMuses.size() < 1 || musesSpinner.getAdapter().getCount() < 1) {
-                Log.w(TAG, "There is nothing to connect to");
-            } else {
-                muse = availableMuses.get(musesSpinner.getSelectedItemPosition());
-                muse.unregisterAllListeners();
-                muse.registerConnectionListener(connectionListener);
-                muse.registerDataListener(dataListener, MuseDataPacketType.ARTIFACTS);
-                muse.registerDataListener(dataListener, MuseDataPacketType.ACCELEROMETER);
-                muse.runAsynchronously();
-            }
+            connectToSelectedDevice();
         } else if (view.getId() == R.id.btn_refresh) {
             refreshMuseList();
         } else if (view.getId() == R.id.btn_disconnect) {
@@ -140,6 +112,22 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
         } else if (view.getId() == R.id.btn_continue) {
             Intent intent = new Intent(this, EEGPlot.class);
             startActivity(intent);
+        }
+    }
+
+    private void connectToSelectedDevice() {
+        manager.stopListening();
+        List<Muse> availableMuses = manager.getMuses();
+        Spinner musesSpinner = findViewById(R.id.muses_conected_spinner);
+        if (availableMuses.size() < 1 || musesSpinner.getAdapter().getCount() < 1) {
+            Log.w(String.valueOf(TAG), "No hay dispositivos para conectar");
+        } else {
+            muse = availableMuses.get(musesSpinner.getSelectedItemPosition());
+            muse.unregisterAllListeners();
+            muse.registerConnectionListener(connectionListener);
+            //muse.registerDataListener(dataListener, MuseDataPacketType.ARTIFACTS);
+           // muse.registerDataListener(dataListener, MuseDataPacketType.ACCELEROMETER);
+            muse.runAsynchronously();
         }
     }
 
@@ -157,7 +145,6 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
         manager.startListening();
     }
 
-
     public void disconnectDevice() {
         if (appState.connectedMuse != null) {
             muse.disconnect(false);
@@ -166,114 +153,16 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
-
-        final long n = p.valuesSize();
-        if (p.packetType() == ACCELEROMETER) {
-            assert (accelBuffer.length >= n);
-            getAccelValues(p);
-            accelStale = true;
-        }
-    }
-
-    public void receiveMuseArtifactPacket(final MuseArtifactPacket p, final Muse muse) {
-
-        // System.out.println(p.toString());
-        /*if (packetCounter == 0) { // packetCounter is reset after 5 ignored packets
-            blink = p.getBlink();
-            if (blink)
-                System.out.println("True");
-            else
-                System.out.println("False");
-            jawClench = p.getJawClench();
-            jawData.add(jawClench);
-            blinkData.add(blink);
-
-        } else {
-            packetCounter = (packetCounter + 1) % 5; // wait for 5 packets before scanning again
-        }*/
-    }
-
 
     private void getAccelValues(MuseDataPacket p) {
-        System.out.println((float) (p.getAccelerometerValue(Accelerometer.X)));
+        double[] newData = new double[0];
+
+        newData[0] = p.getEegChannelValue(Eeg.EEG1);
+
+
+        System.out.println(newData[0]);
         nodQ.add((float) (p.getAccelerometerValue(Accelerometer.X)));
         backspaceQ.add((float) (p.getAccelerometerValue(Accelerometer.Y)));
-    }
-
-    public void receiveMuseConnectionPacket(final MuseConnectionPacket p, final Muse muse) {
-
-        final ConnectionState current = p.getCurrentConnectionState();
-
-        final String status = p.getPreviousConnectionState() + " -> " + current;
-        // Update the UI with the change in connection state.
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-
-                final TextView statusText = (TextView) findViewById(R.id.txt_connection_state);
-                statusText.setText(status);
-                if (current == ConnectionState.CONNECTED) {
-                    appState.connectedMuse = muse;
-                }
-            }
-        });
-
-        if (current == ConnectionState.DISCONNECTED) {
-            // We have disconnected from the headband, so set our cached copy to null.
-            this.muse = null;
-            if (appState.connectedMuse != null) {
-                appState.connectedMuse.disconnect(true);
-                appState.connectedMuse.unregisterAllListeners();
-            }
-        }
-    }
-
-
-    static class MuseL extends MuseListener {
-        final WeakReference<MuseConnection> activityRef;
-
-        MuseL(final WeakReference<MuseConnection> activityRef) {
-            this.activityRef = activityRef;
-        }
-
-        @Override
-        public void museListChanged() {
-            activityRef.get().museListChanged();
-        }
-    }
-
-    static class ConnectionListener extends MuseConnectionListener {
-        final WeakReference<MuseConnection> activityRef;
-
-        ConnectionListener(final WeakReference<MuseConnection> activityRef) {
-            this.activityRef = activityRef;
-        }
-
-        @Override
-        public void receiveMuseConnectionPacket(final MuseConnectionPacket p, final Muse muse) {
-            activityRef.get().receiveMuseConnectionPacket(p, muse);
-        }
-    }
-
-    static class DataListener extends MuseDataListener {
-        final WeakReference<MuseConnection> activityRef;
-
-
-        DataListener(final WeakReference<MuseConnection> activityRef) {
-            this.activityRef = activityRef;
-        }
-
-        @Override
-        public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
-            activityRef.get().receiveMuseDataPacket(p, muse);
-        }
-
-        @Override
-        public void receiveMuseArtifactPacket(final MuseArtifactPacket p, final Muse muse) {
-
-            activityRef.get().receiveMuseArtifactPacket(p, muse);
-        }
     }
 
     private void initUI() {
@@ -313,5 +202,114 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    public void receiveMuseConnectionPacket(final MuseConnectionPacket p, final Muse muse) {
+
+        final ConnectionState current = p.getCurrentConnectionState();
+        final String status = current.name();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                final TextView statusText = findViewById(R.id.txt_connection_state);
+                statusText.setText(status);
+                if (current == ConnectionState.CONNECTED) {
+                    appState.connectedMuse = muse;
+                }
+            }
+        });
+
+        if (current == ConnectionState.DISCONNECTED) {
+            this.muse = null;
+            if (appState.connectedMuse != null) {
+                appState.connectedMuse.disconnect(true);
+                appState.connectedMuse.unregisterAllListeners();
+            }
+        }
+    }
+
+    public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
+        //double[] newData = new double[0];
+        //p.getBatteryValue(Battery )
+        //newData[1] = p.getEegChannelValue(Eeg.EEG2);
+        //newData[2] = p.getEegChannelValue(Eeg.EEG3);
+        //newData[3] = p.getEegChannelValue(Eeg.EEG4);
+
+        nodQ.add((float) (p.getAccelerometerValue(Accelerometer.X)));
+        backspaceQ.add((float) (p.getAccelerometerValue(Accelerometer.Y)));
+
+    }
+
+    public void receiveMuseArtifactPacket(final MuseArtifactPacket p, final Muse muse) {
+
+        // System.out.println(p.toString());
+        if (packetCounter == 0) { // packetCounter is reset after 5 ignored packets
+            blink = p.getBlink();
+            if (!blink)
+                System.out.println("True");
+
+//            else
+//                System.out.println("False");
+            jawClench = p.getJawClench();
+            jawData.add(jawClench);
+            blinkData.add(blink);
+
+        } else {
+
+            packetCounter = (packetCounter + 1) % 5; // wait for 5 packets before scanning again
+            System.out.println("packetCounter--"+packetCounter);
+        }
+    }
+
+
+    static class MuseL extends MuseListener {
+        final WeakReference<MuseConnection> activityRef;
+
+        MuseL(final WeakReference<MuseConnection> activityRef) {
+            this.activityRef = activityRef;
+        }
+
+        @Override
+        public void museListChanged() {
+            activityRef.get().museListChanged();
+        }
+    }
+
+    static class DataListener extends MuseDataListener {
+        final WeakReference<MuseConnection> activityRef;
+
+        DataListener(final WeakReference<MuseConnection> activityRef) {
+            this.activityRef = activityRef;
+        }
+
+        @Override
+        public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
+            activityRef.get().receiveMuseDataPacket(p, muse);
+        }
+
+        @Override
+        public void receiveMuseArtifactPacket(final MuseArtifactPacket p, final Muse muse) {
+            //activityRef.get().receiveMuseArtifactPacket(p, muse);
+        }
+    }
+
+    static class ConnectionListener extends MuseConnectionListener {
+        final WeakReference<MuseConnection> activityRef;
+
+        ConnectionListener(final WeakReference<MuseConnection> activityRef) {
+            this.activityRef = activityRef;
+        }
+
+        @Override
+        public void receiveMuseConnectionPacket(final MuseConnectionPacket p, final Muse muse) {
+            activityRef.get().receiveMuseConnectionPacket(p, muse);
+        }
+    }
 
 }
+
+
+/*
+com.yzhao.musecode E/MUSE: CHECK fail at libmuse/src/interfaces/implementation/muse_data_packet.h:63 (in virtual double interaxon::MuseDataPacketImpl::get_eeg_channel_value(interaxon::bridge::Eeg)): correctType
+com.yzhao.musecode A/libc: Fatal signal 6 (SIGABRT), code -6 in tid 5339 (.yzhao.musecode)
+
+* */
