@@ -38,7 +38,14 @@ public class CircularBuffer {
         pts++;
     }
 
-    // Extracts an array containing the last nbSamples from the buffer. If the loop that fills the extracted samples encounters the beginning of the buffer, it will begin to take samples from the end of the buffer
+    // Extracts an array containing the last nbSamples from the buffer. If the loop that fills the
+    // extracted samples encounters the beginning of the buffer, it will begin to take samples from
+    // the end of the buffer
+
+    // Extrae una matriz que contiene los últimos nbSamples del búfer. Si el bucle que llena las
+    // muestras extraídas se encuentra con el comienzo del búfer, comenzará a tomar muestras desde
+    // el final del búfer.
+
     public double[][] extract(int nbSamples) {
         int extractIndex;
         double[][] extractedArray = new double[nbSamples][nbCh];
@@ -64,6 +71,17 @@ public class CircularBuffer {
         // instead done here.)
         //
         // TODO: find more efficient way to do that (use EJML?)
+
+        // Devuelve una matriz que contiene los últimos `nbSamples` recopilados en
+        // el búfer circular.
+        //
+        // La forma de la matriz devuelta es [nbCh, nbSamples].
+        //
+        // Esta versión transpuesta es útil para evitar bucles adicionales
+        // a través de la matriz devuelta al calcular FFT (el bucle es
+        // en su lugar hecho aquí.)
+        //
+        // TODO: encontrar una forma más eficiente de hacer eso (¿usar EJML?)
 
         int extractIndex;
         double[][] extractedArray = new double[nbCh][nbSamples];
@@ -128,6 +146,12 @@ public class CircularBuffer {
 
     public void print() {
         System.out.println(Arrays.deepToString(buffer));
+    }
+
+    public String getLine() {
+        //System.out.println(Arrays.deepToString(buffer));
+        return Arrays.deepToString(buffer);
+
     }
 
     public int getIndex() { return index; }

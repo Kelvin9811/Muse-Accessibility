@@ -1,6 +1,7 @@
 package com.yzhao.musecode;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
 import android.os.Bundle;
@@ -8,7 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.androidplot.ui.HorizontalPositioning;
+import com.androidplot.ui.Size;
+import com.androidplot.ui.SizeMetric;
+import com.androidplot.ui.SizeMode;
+import com.androidplot.ui.VerticalPositioning;
 import com.androidplot.xy.BoundaryMode;
+import com.androidplot.xy.FastLineAndPointRenderer;
+import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.XYPlot;
 import com.choosemuse.libmuse.Eeg;
 import com.choosemuse.libmuse.Muse;
@@ -28,7 +36,9 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public String offlineData = "";
     public DataListener dataListener;
     MainActivity appState;
+    private LineAndPointFormatter lineFormatter;
     private int notchFrequency = 60;
+    private static final int PLOT_LENGTH = 256 * 4;
     public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
     private static final String PLOT_TITLE = "Raw_EEG";
     private int PLOT_LOW_BOUND = 600;
@@ -38,6 +48,9 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public int samplingRate = 256;
     public Filter activeFilter;
     public double[][] filtState;
+    public int channelOfInterest = 1;
+    public boolean isRecording = true;
+
 
     EEGFileWriter csv = new EEGFileWriter(this, "Titulo de ejemplo");
 
@@ -49,38 +62,94 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         csv.initFile(PLOT_TITLE);
 
         startDataListener();
-        setNotchFrequency(notchFrequency);
-        setFilterType("BANDPASS");
+
+        //setFilterType("BANDPASS");
         initUI();
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btn_init_file) {
-            initFile();
-        }
+//        if (view.getId() == R.id.btn_init_file) {
+//            initFile();
+//        }
     }
 
     public void initUI() {
         dataSeries = new DynamicSeries(PLOT_TITLE);
         filterPlot = new XYPlot(this, PLOT_TITLE);
-
-        Button init_file = (Button) findViewById(R.id.btn_init_file);
-        init_file.setOnClickListener(this);
+        initView(this);
+        //Button init_file = (Button) findViewById(R.id.btn_init_file);
+        // init_file.setOnClickListener(this);
     }
 
     public void initFile() {
         csv.writeFile(PLOT_TITLE);
-        //csv.writeFile("Titulo de ejemplo3");
     }
 
-    public void setNotchFrequency(int notchFrequency) {
-        this.notchFrequency = notchFrequency;
-        if (dataListener != null) {
-            dataListener.updateFilter(notchFrequency);
-        }
-    }
+    public void initView(Context context) {
 
+
+        FrameLayout frameLayout = findViewById(R.id.frame_layout_xyplot);
+
+        filterPlot = new XYPlot(context, PLOT_TITLE);
+
+        // Create dataSeries that will be drawn on plot (Y will be obtained from dataSource, x will be implicitly generated):
+        dataSeries = new DynamicSeries(PLOT_TITLE);
+
+        // Set X and Y domain
+        filterPlot.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
+        filterPlot.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
+
+        // Create line formatter with set color
+        lineFormatter = new FastLineAndPointRenderer.Formatter(Color.WHITE, null, null);
+
+        // Set line thickness
+        lineFormatter.getLinePaint().setStrokeWidth(3);
+
+        // Add line to plot
+        filterPlot.addSeries(dataSeries, lineFormatter);
+
+        // Format plot layout
+        //Remove margins, padding and border
+        filterPlot.setPlotMargins(0, 0, 0, 0);
+        filterPlot.setPlotPadding(0, 0, 0, 0);
+        filterPlot.getBorderPaint().setColor(Color.WHITE);
+
+        // Set plot background color
+        filterPlot.getGraph().getBackgroundPaint().setColor(Color.rgb(114, 194, 241));
+
+        // Remove gridlines
+        filterPlot.getGraph().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
+        filterPlot.getGraph().getDomainGridLinePaint().setColor(Color.TRANSPARENT);
+        filterPlot.getGraph().getDomainOriginLinePaint().setColor(Color.TRANSPARENT);
+        filterPlot.getGraph().getRangeGridLinePaint().setColor(Color.TRANSPARENT);
+        filterPlot.getGraph().getRangeOriginLinePaint().setColor(Color.TRANSPARENT);
+
+        // Remove axis labels and values
+        // Domain = X; Range = Y
+        filterPlot.setDomainLabel(null);
+        filterPlot.setRangeLabel(null);
+        filterPlot.getGraph().getRangeGridLinePaint().setColor(Color.TRANSPARENT);
+        filterPlot.getGraph().getRangeOriginLinePaint().setColor(Color.TRANSPARENT);
+        filterPlot.getGraph().getDomainGridLinePaint().setColor(Color.TRANSPARENT);
+        filterPlot.getGraph().getDomainOriginLinePaint().setColor(Color.TRANSPARENT);
+
+        // Remove extraneous elements
+        filterPlot.getLayoutManager().remove(filterPlot.getLegend());
+
+        // Set size of plot
+        SizeMetric height = new SizeMetric(1, SizeMode.FILL);
+        SizeMetric width = new SizeMetric(1, SizeMode.FILL);
+        filterPlot.getGraph().setSize(new Size(height, width));
+
+        // Set position of plot (should be tweaked in order to center chart position)
+        filterPlot.getGraph().position(0, HorizontalPositioning.ABSOLUTE_FROM_LEFT.ABSOLUTE_FROM_LEFT,
+                0, VerticalPositioning.ABSOLUTE_FROM_TOP);
+
+        // Add plot to FilterGraph
+        frameLayout.addView(filterPlot, new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+    }
 
     public void setFilterType(String filterType) {
 //        dataSeries.clear();
@@ -146,7 +215,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
             getEegChannelValues(newData, p);
 
-
             bandstopFiltState = bandstopFilter.transform(newData, bandstopFiltState);
             newData = bandstopFilter.extractFilteredSamples(bandstopFiltState);
 
@@ -154,14 +222,13 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
 
             frameCounter++;
+            System.out.println(frameCounter);
             if (frameCounter % 15 == 0) {
-                //updatePlot();
+                updatePlot();
             }
-            csv.addDataToFile(newData);
-
-            /*if (isRecording) {
-                fileWriter.addDataToFile(newData);
-            }*/
+            if (isRecording) {
+                csv.addDataToFile(activeFilter.extractFilteredSamples(filtState));
+            }
         }
 
         // Updates newData array based on incoming EEG channel values
@@ -170,7 +237,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             newData[1] = p.getEegChannelValue(Eeg.EEG2);
             newData[2] = p.getEegChannelValue(Eeg.EEG3);
             newData[3] = p.getEegChannelValue(Eeg.EEG4);
-            //System.out.println("---" + newData[3]);
         }
 
         @Override
@@ -183,6 +249,21 @@ public class EEGPlot extends Activity implements View.OnClickListener {
                 bandstopFilter.updateFilter(notchFrequency - 5, notchFrequency + 5);
             }
         }
+    }
+
+    public void updatePlot() {
+        int numEEGPoints = eegBuffer.getPts();
+        if (dataSeries.size() >= PLOT_LENGTH) {
+            dataSeries.remove(numEEGPoints);
+        }
+
+        // For adding all data points (Full sampling)
+        dataSeries.addAll(eegBuffer.extractSingleChannelTransposedAsDouble(numEEGPoints, channelOfInterest - 1));
+
+        // resets the 'points-since-dataSource-read' value
+        eegBuffer.resetPts();
+
+        filterPlot.redraw();
     }
 
 }

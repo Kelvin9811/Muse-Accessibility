@@ -20,6 +20,26 @@ directly in the Android graph code) is meant to simplify
 interpretation of the code and allow an eventual custom
 FFT implementation.
 */
+
+/*
+Esta clase usa el objeto DoubleFFT_1D de JTransforms para
+calcule la DFT de una matriz de tamaño fijo.
+
+Args:
+inputLength (int): longitud de la señal de entrada (número de muestras)
+fftLength (int): longitud FFT; si es diferente a inputLength, la entrada
+se rellenará con ceros (más grande) o se truncará (más pequeño)
+sampleRate (doble): frecuencia de muestreo de la señal de entrada, en Hz.
+utilizado para definir intervalos de frecuencia
+
+El uso de una clase encapsulada (en lugar de usar JTransforms
+directamente en el código gráfico de Android) está destinado a simplificar
+interpretación del código y permitir una eventual personalización
+Implementación de FFT.
+
+*/
+
+
 public class FFT {
 
 	// ------------------------------------------------------------------------
@@ -61,7 +81,7 @@ public class FFT {
 			even = true;
 		} else {
 			nbFFTPoints = (int)(this.fftLength /2) + 1;
-			even = false; 
+			even = false;
 		}
 
 		// Initialize arrays to hold internal values
@@ -189,7 +209,7 @@ public class FFT {
 		}
 		return logpower;
 	}
- 
+
 	private double[] hamming(int L) {
 		// Compute Hamming window coefficients.
 		//
@@ -221,7 +241,7 @@ public class FFT {
 		double[] values = new double[inputLength];
 		for (int i = 0; i < inputLength; i++) {
 			values[i] = i;
-		}	
+		}
 
 		// Compute log PSD
 		double[] logpower = fft.computeLogPSD(values);

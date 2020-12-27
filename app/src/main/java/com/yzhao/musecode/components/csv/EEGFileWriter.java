@@ -85,6 +85,8 @@ public class EEGFileWriter {
         builder.append("\n");
     }
 
+
+
     public void writeFile(String title) {
         try {
             final File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);

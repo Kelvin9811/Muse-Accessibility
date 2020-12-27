@@ -128,3 +128,58 @@ Pasabajos, trabajar con matlab.
 //baterword de 5to orden de 15hz
 
 Grabar de la persona normal antes de grabar nada de nada. Procurar rgabar video.
+
+
+----------------------------------------17-12----------------------------------------
+
+Porque llega x10^15
+
+unidades de 1000 voltios o menos 
+
+Por lo general se envia en bits y hay que transfrmarlo a decimal
+
+Necesito diseñar la funcion que filtra señales
+
+debo implementar la funcion filter de matlab
+
+
+Implemenmtar el filtro en java
+
+
+A la una seal se presenta en el dominio del tiempo y otra de la frecuencia
+
+
+frecuencua en funcion el tiempo
+
+
+trabajar al dominio del tiempo
+
+trabajar 
+
+
+
+
+z es frecuencia y lo demas es tiempo
+funcion que aplique fulotrs
+
+
+
+
+mostrar en un gráfico todos los canales
+
+
+conseguir una foto con la diademos y que canal es que canal
+
+
+
+
+
+
+
+
+
+
+-----------------------
+
+
+Revisar icono en succes e indicador

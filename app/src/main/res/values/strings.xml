@@ -15,5 +15,7 @@
     <string name="primary_font">Roboto</string>
     <string name="refresh">Refrescar</string>
     <string name="Iniciar">Iniciar</string>
+    <string name="iniciar_contorl_de_dispositivos">Iniciar control de dispositivos</string>
+    <string name="deconectar">Deconectar</string>
 
 </resources>
