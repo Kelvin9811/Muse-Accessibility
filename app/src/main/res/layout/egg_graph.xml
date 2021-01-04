@@ -1,21 +1,117 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ap="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/primary_white">
 
+    <LinearLayout
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/white_border_bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!--    <Button-->
-    <!--        android:id="@+id/btn_init_file"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_weight="1"-->
-    <!--        android:text="@string/Iniciar" />-->
-    <!--    -->
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            android:background="#00FFFFFF"
+            android:foreground="@drawable/ic_black_arrow_left" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="@font/roboto_thin"
+            android:text="@string/captura_de_datos"
+            android:textColor="@color/primary_black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
 
     <FrameLayout
         android:id="@+id/frame_layout_xyplot"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="160dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_capture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerView" />
 
-    </FrameLayout>
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_capture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginVertical="12dp"
+        android:drawableStart="@drawable/ic_white_plus_circle"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto_thin"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/capturar"
+        android:textAllCaps="false"
+        android:textColor="@color/primary_color4"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/footerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_layout_xyplot" />
+
+    <LinearLayout
+        android:id="@+id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/white_border_top"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_save_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:drawableStart="@drawable/ic_white_close"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/borrar"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_color4"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_delete_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:drawableStart="@drawable/ic_white_check"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/guardar"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_color4"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

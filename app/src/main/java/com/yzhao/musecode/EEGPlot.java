@@ -49,8 +49,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public Filter activeFilter;
     public double[][] filtState;
     public int channelOfInterest = 1;
-    public boolean isRecording = true;
-
 
     EEGFileWriter csv = new EEGFileWriter(this, "Titulo de ejemplo");
 
@@ -62,8 +60,8 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         csv.initFile(PLOT_TITLE);
 
         startDataListener();
-
-        //setFilterType("BANDPASS");
+        setNotchFrequency(notchFrequency);
+        setFilterType("BANDPASS");
         initUI();
     }
 
@@ -78,16 +76,23 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         dataSeries = new DynamicSeries(PLOT_TITLE);
         filterPlot = new XYPlot(this, PLOT_TITLE);
         initView(this);
-        //Button init_file = (Button) findViewById(R.id.btn_init_file);
-        // init_file.setOnClickListener(this);
+//        Button init_file = (Button) findViewById(R.id.btn_init_file);
+//        init_file.setOnClickListener(this);
     }
 
     public void initFile() {
         csv.writeFile(PLOT_TITLE);
+        //csv.writeFile("Titulo de ejemplo3");
+    }
+
+    public void setNotchFrequency(int notchFrequency) {
+        this.notchFrequency = notchFrequency;
+        if (dataListener != null) {
+            dataListener.updateFilter(notchFrequency);
+        }
     }
 
     public void initView(Context context) {
-
 
         FrameLayout frameLayout = findViewById(R.id.frame_layout_xyplot);
 
@@ -101,7 +106,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         filterPlot.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
-        lineFormatter = new FastLineAndPointRenderer.Formatter(Color.WHITE, null, null);
+        lineFormatter = new FastLineAndPointRenderer.Formatter(Color.WHITE, null,  null);
 
         // Set line thickness
         lineFormatter.getLinePaint().setStrokeWidth(3);
@@ -116,7 +121,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         filterPlot.getBorderPaint().setColor(Color.WHITE);
 
         // Set plot background color
-        filterPlot.getGraph().getBackgroundPaint().setColor(Color.rgb(114, 194, 241));
+        filterPlot.getGraph().getBackgroundPaint().setColor(Color.rgb(114,194,241));
 
         // Remove gridlines
         filterPlot.getGraph().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
@@ -222,13 +227,14 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
 
             frameCounter++;
-            System.out.println(frameCounter);
             if (frameCounter % 15 == 0) {
                 updatePlot();
             }
-            if (isRecording) {
-                csv.addDataToFile(activeFilter.extractFilteredSamples(filtState));
-            }
+            csv.addDataToFile(newData);
+
+            /*if (isRecording) {
+                fileWriter.addDataToFile(newData);
+            }*/
         }
 
         // Updates newData array based on incoming EEG channel values
@@ -237,6 +243,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             newData[1] = p.getEegChannelValue(Eeg.EEG2);
             newData[2] = p.getEegChannelValue(Eeg.EEG3);
             newData[3] = p.getEegChannelValue(Eeg.EEG4);
+            //System.out.println("---" + newData[3]);
         }
 
         @Override
@@ -250,7 +257,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             }
         }
     }
-
     public void updatePlot() {
         int numEEGPoints = eegBuffer.getPts();
         if (dataSeries.size() >= PLOT_LENGTH) {
@@ -267,90 +273,3 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     }
 
 }
-
-/*public static final int BACKGROUND_COLOUR = Color.rgb(114, 194, 241);
-    public static final int LINE_COLOUR = Color.rgb(255, 255, 255);
-    public static XYPlot eegPlot;
-    public static final int PLOT_LENGTH = 256 * 4;
-    private static final String PLOT_TITLE = "Raw_EEG";
-    public DynamicSeries dataSeries;
-    private LineAndPointFormatter lineFormatter;
-    //public  DataListener dataListener;
-    //public OfflineDataListener offlineDataListener;
-    public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
-    private int numEEGPoints;
-    private Thread dataThread;
-    private boolean isPlaying = true;
-
-    // Bridged props
-    // Default channelOfInterest = 1 (left ear)
-    public int channelOfInterest = 1;
-    public String offlineData = "";
-    public boolean isRecording;
-
-    // grab reference to global Muse
-    MainActivity appState;
-    private int notchFrequency = 60;*/
-
-/*
-        // initialize our XYPlot reference:
-        eegPlot = (XYPlot) findViewById(R.id.plot);
-        eegPlot = new XYPlot(this, "Raw EEG Plot");
-        dataSeries = new DynamicSeries("dataSeries");
-
-        // Set X and Y domain
-        eegPlot.setRangeBoundaries(600, 1000, BoundaryMode.FIXED);
-        eegPlot.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
-
-        // This is critical for being able to set the color of the plot
-        //PixelUtils.init(getContext());
-
-        // Create line formatter with set color
-        lineFormatter = new FastLineAndPointRenderer.Formatter(LINE_COLOUR, null,  null);
-
-        // Set line thickness
-        lineFormatter.getLinePaint().setStrokeWidth(3);
-
-        // add series to plot
-        eegPlot.addSeries(dataSeries, lineFormatter);
-
-        // Format plot layout
-        //Remove margins, padding and border
-        eegPlot.setPlotMargins(0, 0, 0, 0);
-        eegPlot.setPlotPadding(0, 0, 0, 0);
-        eegPlot.getBorderPaint().setColor(Color.WHITE);
-
-        // Make plot background blue (including removing grid lines)
-        XYGraphWidget graph = eegPlot.getGraph();
-        graph.getBackgroundPaint().setColor(BACKGROUND_COLOUR);
-        graph.getGridBackgroundPaint().setColor(Color.TRANSPARENT);
-        graph.getDomainGridLinePaint().setColor(Color.TRANSPARENT);
-        graph.getDomainOriginLinePaint().setColor(Color.TRANSPARENT);
-        graph.getRangeGridLinePaint().setColor(Color.TRANSPARENT);
-        graph.getRangeOriginLinePaint().setColor(Color.TRANSPARENT);
-
-        // Remove axis labels and values
-        // Domain = X; Range = Y
-        eegPlot.setDomainLabel(null);
-        eegPlot.setRangeLabel(null);
-        graph.getRangeGridLinePaint().setColor(Color.TRANSPARENT);
-        graph.getRangeOriginLinePaint().setColor(Color.TRANSPARENT);
-        graph.getDomainGridLinePaint().setColor(Color.TRANSPARENT);
-        graph.getDomainOriginLinePaint().setColor(Color.TRANSPARENT);
-
-        // Remove extraneous elements
-        eegPlot.getLayoutManager().remove(eegPlot.getLegend());
-
-        // Set size of plot
-        SizeMetric height = new SizeMetric(1, SizeMode.FILL);
-        SizeMetric width = new SizeMetric(1, SizeMode.FILL);
-        graph.setSize(new Size(height, width));
-
-        // Set position of plot (should be tweaked in order to center chart position)
-        graph.position(0, HorizontalPositioning.ABSOLUTE_FROM_LEFT.ABSOLUTE_FROM_LEFT,
-                0, VerticalPositioning.ABSOLUTE_FROM_TOP);
-
-        // Add plot to EEGGraph
-        //this.addView(eegPlot, new FrameLayout.LayoutParams(
-          //      FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-        System.out.println("final de el metodo init");*/

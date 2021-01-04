@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8FC0A9</color>
-    <color name="colorPrimaryDark">#68B0AB</color>
+    <color name="colorPrimary">#C9C9C9</color>
+    <color name="colorPrimaryDark">#40000000</color>
     <color name="colorAccent">#C8D5B9</color>
     <color name="primary_color1">#68B0AB</color>
     <color name="primary_color2">#8FC0A9</color>
     <color name="primary_color3">#C8D5B9</color>
     <color name="primary_color4">#FAF3DD</color>
-    <color name="primary_white">#FAF3DD</color>
+    <color name="primary_white">#FFF</color>
+    <color name="border">#1A333333</color>
+    <color name="dissable_button">#C9C9C9</color>
+    <color name="primary_black">#000</color>
 
 </resources>

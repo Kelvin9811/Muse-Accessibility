@@ -4,101 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_color1"
+    android:background="@color/primary_white">
 
-    >
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="#00FFFFFF"
-        android:foreground="@drawable/ic_arrow_left"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_thin"
-        android:text="@string/conecci_n"
-        android:textColor="@color/primary_color4"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.086"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/white_border_bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
 
-        />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            android:background="#00FFFFFF"
+            android:foreground="@drawable/ic_black_arrow_left" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="24dp"
-        android:fontFamily="@font/roboto_thin"
-        android:text="@string/lista_de_dispositivos_disponibles"
-        android:textColor="@color/primary_color4"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_thin"
+            android:text="@string/conecci_n_de_dispositivos"
+            android:textColor="@color/primary_black"
+            android:textSize="24sp"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+            />
+    </LinearLayout>
 
     <Spinner
         android:id="@+id/muses_conected_spinner"
         android:layout_width="0dp"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/primary_color4"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/primary_black"
         android:fontFamily="@font/roboto_thin"
-        android:textColor="@color/primary_color4"
+        android:textColor="@color/primary_black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintEnd_toStartOf="@+id/btn_refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <Button
-        android:id="@+id/btn_connect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corners"
-        android:backgroundTint="@color/primary_color2"
-        android:fontFamily="@font/roboto_thin"
-        android:text="@string/conectar"
-        android:textAllCaps="false"
-        android:textColor="@color/ap_white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_disconnect"
-        app:layout_constraintStart_toEndOf="@+id/btn_refresh"
-        app:layout_constraintTop_toBottomOf="@+id/txt_connection_state" />
-
-    <Button
-        android:id="@+id/btn_continue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/rounded_corners"
-        android:backgroundTint="@color/primary_color2"
-        android:fontFamily="@font/roboto_thin"
-        android:text="@string/continuar"
-        android:textAllCaps="false"
-        android:textColor="@color/primary_color4"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/headerView" />
 
     <TextView
         android:id="@+id/textView3"
@@ -109,7 +60,7 @@
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto_thin"
         android:text="@string/estado_de_la_conecci_n_con_el_dispositivo_seleccionado"
-        android:textColor="@color/primary_color4"
+        android:textColor="@color/primary_black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,51 +68,73 @@
 
     <TextView
         android:id="@+id/txt_connection_state"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto_thin"
         android:text="@string/desconectado"
-        android:textColor="@color/primary_color4"
+        android:textColor="@color/primary_black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <Button
-        android:id="@+id/btn_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corners"
-        android:backgroundTint="@color/primary_color2"
-        android:fontFamily="@font/roboto_thin"
-        android:text="@string/refresh"
-        android:textAllCaps="false"
-        android:textColor="@color/primary_color4"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_connect"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_connection_state" />
-
-    <Button
-        android:id="@+id/btn_disconnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corners"
-        android:backgroundTint="@color/primary_color2"
-        android:fontFamily="@font/roboto_thin"
-        android:text="@string/deconectar"
-        android:textAllCaps="false"
-        android:textColor="@color/primary_color4"
-
-        android:textSize="18sp"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:background="@drawable/white_border_top"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_connect"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/continuar"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_color4"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="#00FFFFFF"
+        android:drawableStart="@drawable/ic_refresh"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/muses_conected_spinner" />
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/primary_color1"
+        android:fontFamily="@font/roboto_thin"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/conectar"
+        android:textAllCaps="false"
+        android:textColor="@color/ap_white"
+        android:textSize="18sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_connection_state" />
 
 </android.support.constraint.ConstraintLayout>

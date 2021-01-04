@@ -17,5 +17,10 @@
     <string name="Iniciar">Iniciar</string>
     <string name="iniciar_contorl_de_dispositivos">Iniciar control de dispositivos</string>
     <string name="deconectar">Deconectar</string>
+    <string name="conecci_n_de_dispositivos">Conección de dispositivos</string>
+    <string name="captura_de_datos">Captura de datos</string>
+    <string name="guardar">Guardar</string>
+    <string name="borrar">Borrar</string>
+    <string name="capturar">Capturar</string>
 
 </resources>
