@@ -66,7 +66,7 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
         } else if (view.getId() == R.id.btn_refresh) {
             refreshMuseList();
         } else if (view.getId() == R.id.btn_continue) {
-            Intent intent = new Intent(this, EEGPlot.class);
+            Intent intent = new Intent(this, HeadbandInstructions.class);
             startActivity(intent);
         }
     }

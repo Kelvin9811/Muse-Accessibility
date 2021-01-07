@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -37,7 +38,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public DataListener dataListener;
     MainActivity appState;
     private LineAndPointFormatter lineFormatter;
-    private int notchFrequency = 60;
+    private int notchFrequency = 14;
     private static final int PLOT_LENGTH = 256 * 4;
     public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
     private static final String PLOT_TITLE = "Raw_EEG";
@@ -49,6 +50,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public Filter activeFilter;
     public double[][] filtState;
     public int channelOfInterest = 1;
+    MainActivity TAG;
 
     EEGFileWriter csv = new EEGFileWriter(this, "Titulo de ejemplo");
 
@@ -56,13 +58,12 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.egg_graph);
-
         csv.initFile(PLOT_TITLE);
-
         startDataListener();
         setNotchFrequency(notchFrequency);
         setFilterType("BANDPASS");
         initUI();
+
     }
 
     @Override
@@ -70,9 +71,12 @@ public class EEGPlot extends Activity implements View.OnClickListener {
 //        if (view.getId() == R.id.btn_init_file) {
 //            initFile();
 //        }
+
     }
 
+
     public void initUI() {
+
         dataSeries = new DynamicSeries(PLOT_TITLE);
         filterPlot = new XYPlot(this, PLOT_TITLE);
         initView(this);
@@ -82,7 +86,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
 
     public void initFile() {
         csv.writeFile(PLOT_TITLE);
-        //csv.writeFile("Titulo de ejemplo3");
     }
 
     public void setNotchFrequency(int notchFrequency) {
@@ -91,6 +94,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             dataListener.updateFilter(notchFrequency);
         }
     }
+
 
     public void initView(Context context) {
 
@@ -106,7 +110,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         filterPlot.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
-        lineFormatter = new FastLineAndPointRenderer.Formatter(Color.WHITE, null,  null);
+        lineFormatter = new FastLineAndPointRenderer.Formatter(Color.WHITE, null, null);
 
         // Set line thickness
         lineFormatter.getLinePaint().setStrokeWidth(3);
@@ -121,7 +125,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         filterPlot.getBorderPaint().setColor(Color.WHITE);
 
         // Set plot background color
-        filterPlot.getGraph().getBackgroundPaint().setColor(Color.rgb(114,194,241));
+        filterPlot.getGraph().getBackgroundPaint().setColor(Color.rgb(104, 176, 171));
 
         // Remove gridlines
         filterPlot.getGraph().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
@@ -157,34 +161,12 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     }
 
     public void setFilterType(String filterType) {
-//        dataSeries.clear();
+        PLOT_HIGH_BOUND = 200;
+        PLOT_LOW_BOUND = -200;
+        //activeFilter =  new Filter(256, "bandstop", 5, 15, 5);
+        activeFilter = new Filter(samplingRate, "bandpass", 5, 2, 10);
 
-        switch (filterType) {
-
-            case "LOWPASS":
-                PLOT_LOW_BOUND = 600;
-                PLOT_HIGH_BOUND = 1000;
-                filterPlot.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
-                activeFilter = new Filter(samplingRate, "lowpass", 5, 35, 0);
-                filtState = new double[4][activeFilter.getNB()];
-                break;
-
-            case "BANDPASS":
-                PLOT_LOW_BOUND = -200;
-                PLOT_HIGH_BOUND = 200;
-                //filterPlot.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
-                activeFilter = new Filter(samplingRate, "bandpass", 5, 2, 35);
-                filtState = new double[4][activeFilter.getNB()];
-                break;
-
-            case "HIGHPASS":
-                PLOT_LOW_BOUND = -200;
-                PLOT_HIGH_BOUND = 200;
-                filterPlot.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
-                activeFilter = new Filter(samplingRate, "highpass", 2, 1, 0);
-                filtState = new double[4][activeFilter.getNB()];
-                break;
-        }
+        filtState = new double[4][activeFilter.getNB()];
     }
 
     public void startDataListener() {
@@ -192,7 +174,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         if (dataListener == null) {
             dataListener = new DataListener();
         }
-
         appState.connectedMuse.registerDataListener(dataListener, MuseDataPacketType.EEG);
     }
 
@@ -220,8 +201,8 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
             getEegChannelValues(newData, p);
 
-            bandstopFiltState = bandstopFilter.transform(newData, bandstopFiltState);
-            newData = bandstopFilter.extractFilteredSamples(bandstopFiltState);
+            // bandstopFiltState = bandstopFilter.transform(newData, bandstopFiltState);
+            // newData = bandstopFilter.extractFilteredSamples(bandstopFiltState);
 
             filtState = activeFilter.transform(newData, filtState);
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
@@ -232,9 +213,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             }
             csv.addDataToFile(newData);
 
-            /*if (isRecording) {
-                fileWriter.addDataToFile(newData);
-            }*/
         }
 
         // Updates newData array based on incoming EEG channel values
@@ -256,7 +234,9 @@ public class EEGPlot extends Activity implements View.OnClickListener {
                 bandstopFilter.updateFilter(notchFrequency - 5, notchFrequency + 5);
             }
         }
+
     }
+
     public void updatePlot() {
         int numEEGPoints = eegBuffer.getPts();
         if (dataSeries.size() >= PLOT_LENGTH) {
@@ -264,7 +244,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         }
 
         // For adding all data points (Full sampling)
-        dataSeries.addAll(eegBuffer.extractSingleChannelTransposedAsDouble(numEEGPoints, channelOfInterest - 1));
+        dataSeries.addAll(eegBuffer.extractSingleChannelTransposedAsDouble(numEEGPoints, 3));
 
         // resets the 'points-since-dataSource-read' value
         eegBuffer.resetPts();

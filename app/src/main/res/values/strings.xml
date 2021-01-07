@@ -22,5 +22,11 @@
     <string name="guardar">Guardar</string>
     <string name="borrar">Borrar</string>
     <string name="capturar">Capturar</string>
+    <string name="instrucciones">Instrucciones</string>
+    <string name="diadema_primer_paso">1.- Antes de empezar la toma de datos, verifique que la diadema (Muse Headband) este bien colocada.</string>
+    <string name="diadema_segundo_paso">2.- Para ajustar la diadema correctamente ábrala a su máxima extinción y ponga los sensores de goma detrás de las orejas, entonces empiece a apretar hasta tener un ajuste ceñido.</string>
+    <string name="diadema_tercer_paso">3.- La diadema debe estar colocada a la mitad de su frente. No muy abajo ni muy arriba.</string>
+    <string name="diadema_cuarto_paso">4.- El maquillaje, hidratantes o acumulación natural de grasa puede interferir en la toma de datos de los sensores.</string>
+    <string name="diadema_quinto_paso">5.- Pasa un pañuelo por tu piel para mejorar la señal.</string>
 
 </resources>

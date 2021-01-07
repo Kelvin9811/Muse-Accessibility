@@ -98,9 +98,10 @@
             android:fontFamily="@font/roboto_thin"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:textStyle="bold"
             android:text="@string/continuar"
             android:textAllCaps="false"
-            android:textColor="@color/primary_color4"
+            android:textColor="@color/primary_white"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -129,7 +130,8 @@
         android:paddingRight="20dp"
         android:text="@string/conectar"
         android:textAllCaps="false"
-        android:textColor="@color/ap_white"
+        android:textStyle="bold"
+        android:textColor="@color/primary_white"
         android:textSize="18sp"
 
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"

@@ -60,8 +60,9 @@
         android:paddingRight="20dp"
         android:text="@string/capturar"
         android:textAllCaps="false"
-        android:textColor="@color/primary_color4"
+        android:textColor="@color/primary_white"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/footerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,8 +92,9 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="@string/borrar"
+            android:textStyle="bold"
             android:textAllCaps="false"
-            android:textColor="@color/primary_color4"
+            android:textColor="@color/primary_white"
             android:textSize="18sp" />
 
         <Button
@@ -107,7 +109,8 @@
             android:paddingRight="20dp"
             android:text="@string/guardar"
             android:textAllCaps="false"
-            android:textColor="@color/primary_color4"
+            android:textStyle="bold"
+            android:textColor="@color/primary_white"
             android:textSize="18sp" />
 
 
