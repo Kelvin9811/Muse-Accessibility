@@ -132,7 +132,7 @@ Grabar de la persona normal antes de grabar nada de nada. Procurar rgabar video.
 
 ----------------------------------------17-12----------------------------------------
 
-Porque llega x10^15
+Porque llega x10^15 // Así mismo llega
 
 unidades de 1000 voltios o menos 
 
@@ -165,8 +165,58 @@ funcion que aplique fulotrs
 
 
 
-mostrar en un gráfico todos los canales
+mostrar en un gráfico todos los canales 
 
 
 conseguir una foto con la diademos y que canal es que canal
+
+
+------------------------------------------------------------------14 de enero
+
+Hacer en un solo archivo
+Ajustar pantalla para muestra de señal
+50 o si es complicado 40 /por cada tipo de parpadeo
+
+Guardar de todos los cnales cundo grabe
+
+
+---------------------------------------------21 de enero
+
+XML no encontre una forma de cuadrar y tratar de manera sencilla los datos
+No tomar datos en csv por el tema de la coma
+Trabajo realizado, captura de datos bien representados y filtrados.
+
+Ocultar el nombre, dentro protocolos no deberia mostrarse
+2 archivos, uso publico para no identificar a la persona y el interno
+
+
+Incluir el cabello largo como atributo.
+Incluir  si es hombre o mujer.
+
+tsne: hacer un grafico para comparar si se parecen o no
+
+cada 1024 es un vector 
+
+tsne es una tecnica para mathlab o python que permite hacer reduccion de dimensiones de 1024 a 2
+
+El parpadeo deberia ser en el mismo instante de tiempo por eso podria no parecerse todos
+
+
+
+
+Plot de 1024 de 2 a 10 muestras aleatorias superpuestas.Grafias por usuario y juntasr muestras entre usuarios
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,5 +1,7 @@
 package com.yzhao.musecode.components.signal;
 
+import com.yzhao.musecode.components.csv.EEGFileWriter;
+
 import biz.source_code.dsp.filter.FilterCharacteristicsType;
 import biz.source_code.dsp.filter.FilterPassType;
 import biz.source_code.dsp.filter.IirFilterCoefficients;
@@ -44,7 +46,7 @@ public class Filter {
 
         } else if (filterType.contains("bandstop")) {
             filterPassType = FilterPassType.bandstop;
-        
+
         } else if (filterType.contains("bandpass")) {
             filterPassType = FilterPassType.bandpass;
 
@@ -55,7 +57,7 @@ public class Filter {
         this.filterOrder = filterOrder;
         this.samplingFrequency = samplingFrequency;
 
-        coeffs = IirFilterDesignFisher.design(filterPassType, filterCharacteristicsType, filterOrder, 0., fc1/samplingFrequency, fc2/samplingFrequency);
+        coeffs = IirFilterDesignFisher.design(filterPassType, filterCharacteristicsType, filterOrder, 0., fc1 / samplingFrequency, fc2 / samplingFrequency);
 
         b = coeffs.b;
         a = coeffs.a;
@@ -80,13 +82,28 @@ public class Filter {
         //  filtered value in the last position. This is a hack
         //  that allows to pass both the internal state and the
         //  output of the filter at once.
+
+        // Esta función implementa la forma discreta II transpuesta de
+        // un filtro lineal.
+        //
+        // Args:
+        // x: la muestra actual a filtrar
+        // z: el estado interno del filtro
+        //
+        // Devoluciones:
+        // el estado interno actualizado del filtro, con el nuevo
+        // valor filtrado en la última posición. Esto es un truco
+        // que permite pasar tanto el estado interno como el
+        // salida del filtro a la vez.
+
         z[z.length - 1] = 0;
-        double y = b[0]*x + z[0];
+        double y = b[0] * x + z[0];
         for (int i = 1; i < nB; i++) {
-            z[i-1] = b[i]*x + z[i] - a[i]*y;
-         }
+            z[i - 1] = b[i] * x + z[i] - a[i] * y;
+        }
 
         z[z.length - 1] = y;
+
         return z;
 
     }
@@ -107,18 +124,36 @@ public class Filter {
 
         // double[] zNew = new double[z[0].length];
 
+
+        // Esta función implementa la forma discreta II transpuesta de
+        // un filtro lineal para señales multicanal
+        //
+        // Args:
+        // x: las muestras del canal actual a filtrar
+        // z: el estado interno del filtro para cada canal [nbCh, nbPoints]
+        //
+        // Devoluciones:
+        // los estados internos actualizados del filtro, con el nuevo
+        // valores filtrados en la última posición. [nbCh, nbPoints]
+        // Este es un truco que permite pasar tanto el estado interno como el
+        // salida del filtro a la vez.
+
+        // doble [] zNew = nuevo doble [z [0] .length];
+
+
         for (int i = 0; i < 4; i++) {       // Careful!
-            z[i] = transform(x[i],z[i]);
+            z[i] = transform(x[i], z[i]);
         }
 
         return z;
-        
+
     }
 
     public static double[] extractFilteredSamples(double[][] z) {
         // Utility function to extract the filtered samples from the returned array
         // of transform()
         int len = z.length;
+
         double[] filtSignal = new double[len];     // TODO can this instantiation be avoided?
         for (int i = 0; i < len; i++) {
             filtSignal[i] = z[i][z[0].length - 1];
@@ -139,8 +174,8 @@ public class Filter {
         return nA;
     }
 
-    public void updateFilter(int fc1, int fc2){
-        coeffs = IirFilterDesignFisher.design(filterPassType, filterCharacteristicsType, filterOrder, 0., fc1/samplingFrequency, fc2/samplingFrequency);
+    public void updateFilter(int fc1, int fc2) {
+        coeffs = IirFilterDesignFisher.design(filterPassType, filterCharacteristicsType, filterOrder, 0., fc1 / samplingFrequency, fc2 / samplingFrequency);
 
         b = coeffs.b;
         a = coeffs.a;

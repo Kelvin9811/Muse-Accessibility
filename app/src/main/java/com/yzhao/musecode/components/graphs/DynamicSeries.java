@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import com.androidplot.Plot;
 import com.androidplot.PlotListener;
 import com.androidplot.xy.XYSeries;
+import com.yzhao.musecode.components.csv.EEGFileWriter;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -21,6 +22,7 @@ public class DynamicSeries implements XYSeries, PlotListener {
     private String title;
     private volatile LinkedList<Number> yVals = new LinkedList<Number>();
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
+    private static final String PLOT_TITLE = "Raw_EEG";
 
     // -------------------------------------------------------------
     // Constructor
@@ -61,18 +63,29 @@ public class DynamicSeries implements XYSeries, PlotListener {
         yVals.addAll(Arrays.asList(y));
     }
 
+    public void clear(Double[] y) {
+        yVals.clear();
+    }
+
     public void removeFirst() {
         yVals.removeFirst();
     }
 
     public void remove(int nbsamples) {
-        for(int i = 0; i<nbsamples; i++){
+        for (int i = 0; i < nbsamples; i++) {
             yVals.removeFirst();
         }
     }
 
     public void clear() {
         yVals.clear();
+    }
+
+    public void writeFile(EEGFileWriter csv) {
+        System.out.println(yVals.size());
+        for (int i = 0; i < yVals.size(); i++) {
+            csv.addLineToFile("" + yVals.get(i));
+        }
     }
 
     // ------------------------------------------------------------

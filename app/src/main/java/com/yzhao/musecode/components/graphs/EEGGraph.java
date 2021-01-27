@@ -53,13 +53,13 @@ public class EEGGraph extends FrameLayout {
     public static final int BACKGROUND_COLOUR = Color.rgb(114, 194, 241);
     public static final int LINE_COLOUR = Color.rgb(255, 255, 255);
     public static XYPlot eegPlot;
-    public static final int PLOT_LENGTH = 256  * 4;
+    public static final int PLOT_LENGTH = 256 * 4;
     private static final String PLOT_TITLE = "Raw_EEG";
     public DynamicSeries dataSeries;
     private LineAndPointFormatter lineFormatter;
-    public  DataListener dataListener;
+    public DataListener dataListener;
     public OfflineDataListener offlineDataListener;
-    public  CircularBuffer eegBuffer = new CircularBuffer(220, 4);
+    public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
     public EEGFileWriter fileWriter = new EEGFileWriter(getContext(), PLOT_TITLE);
     private int numEEGPoints;
     private Thread dataThread;
@@ -91,7 +91,7 @@ public class EEGGraph extends FrameLayout {
         channelOfInterest = channel;
         dataSeries.clear();
 
-   }
+    }
 
     public void startRecording() {
         fileWriter.initFile(PLOT_TITLE);
@@ -146,7 +146,7 @@ public class EEGGraph extends FrameLayout {
         PixelUtils.init(getContext());
 
         // Create line formatter with set color
-        lineFormatter = new FastLineAndPointRenderer.Formatter(LINE_COLOUR, null,  null);
+        lineFormatter = new FastLineAndPointRenderer.Formatter(LINE_COLOUR, null, null);
 
         // Set line thickness
         lineFormatter.getLinePaint().setStrokeWidth(3);
@@ -201,20 +201,20 @@ public class EEGGraph extends FrameLayout {
     // Listener management functions
 
 
-    public void startDataListener(){
-        if(offlineData.length() >= 1) {
+    public void startDataListener() {
+        if (offlineData.length() >= 1) {
             startOfflineData(offlineData);
         } else {
-            if(dataListener == null) {
+            if (dataListener == null) {
                 dataListener = new DataListener();
             }
             appState.connectedMuse.registerDataListener(dataListener, MuseDataPacketType.EEG);
         }
     }
 
-    public void stopDataListener(){
+    public void stopDataListener() {
         if (dataListener != null || offlineDataListener != null) {
-            if(offlineData.length() > 1) {
+            if (offlineData.length() > 1) {
                 offlineDataListener.stopThread();
                 dataThread.interrupt();
                 dataThread = null;
@@ -229,7 +229,6 @@ public class EEGGraph extends FrameLayout {
         dataThread = new Thread(offlineDataListener);
         dataThread.start();
     }
-
 
 
     // --------------------------------------------------------------
@@ -250,9 +249,9 @@ public class EEGGraph extends FrameLayout {
 
         // if connected Muse is a 2016 BLE version, init a bandstop filter to remove 60hz noise
         DataListener() {
-                filterOn = true;
-                bandstopFilter = new Filter(256, "bandstop", 5, notchFrequency - 5, notchFrequency + 5);
-                bandstopFiltState = new double[4][bandstopFilter.getNB()];
+            filterOn = true;
+            bandstopFilter = new Filter(256, "bandstop", 5, notchFrequency - 5, notchFrequency + 5);
+            bandstopFiltState = new double[4][bandstopFilter.getNB()];
             newData = new double[4];
         }
 
@@ -262,8 +261,8 @@ public class EEGGraph extends FrameLayout {
             getEegChannelValues(newData, p);
 
             if (filterOn) {
-                bandstopFiltState = bandstopFilter.transform(newData, bandstopFiltState);
-                newData = bandstopFilter.extractFilteredSamples(bandstopFiltState);
+                //bandstopFiltState = bandstopFilter.transform(newData, bandstopFiltState);
+                //newData = bandstopFilter.extractFilteredSamples(bandstopFiltState);
             }
 
             eegBuffer.update(newData);
@@ -293,8 +292,8 @@ public class EEGGraph extends FrameLayout {
             // Does nothing for now
         }
 
-        public void updateFilter(int notchFrequency){
-            if(bandstopFilter != null){
+        public void updateFilter(int notchFrequency) {
+            if (bandstopFilter != null) {
                 bandstopFilter.updateFilter(notchFrequency - 5, notchFrequency + 5);
             }
         }
@@ -315,7 +314,9 @@ public class EEGGraph extends FrameLayout {
                 InputStream inputStream = getResources().getAssets().open(offlineData + ".csv");
                 EEGFileReader fileReader = new EEGFileReader(inputStream);
                 data = fileReader.read();
-            } catch (IOException e) { Log.w("EEGGraph", "File not found error"); }
+            } catch (IOException e) {
+                Log.w("EEGGraph", "File not found error");
+            }
         }
 
         @Override
@@ -331,12 +332,12 @@ public class EEGGraph extends FrameLayout {
                         updatePlot();
                     }
 
-                    if(index >= data.size()) {
+                    if (index >= data.size()) {
                         index = 0;
                     }
 
                 }
-            } catch(InterruptedException e){
+            } catch (InterruptedException e) {
                 Log.w("EEGGraph", "interrupted exception");
             }
         }
@@ -350,7 +351,7 @@ public class EEGGraph extends FrameLayout {
     // Plot update functions
 
     public void updatePlot() {
-        if(isPlaying) {
+        if (isPlaying) {
             numEEGPoints = eegBuffer.getPts();
             if (dataSeries.size() >= PLOT_LENGTH) {
                 dataSeries.remove(numEEGPoints);

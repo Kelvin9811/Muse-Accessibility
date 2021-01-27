@@ -28,5 +28,6 @@
     <string name="diadema_tercer_paso">3.- La diadema debe estar colocada a la mitad de su frente. No muy abajo ni muy arriba.</string>
     <string name="diadema_cuarto_paso">4.- El maquillaje, hidratantes o acumulación natural de grasa puede interferir en la toma de datos de los sensores.</string>
     <string name="diadema_quinto_paso">5.- Pasa un pañuelo por tu piel para mejorar la señal.</string>
+    <string name="empezar">Empezar</string>
 
 </resources>

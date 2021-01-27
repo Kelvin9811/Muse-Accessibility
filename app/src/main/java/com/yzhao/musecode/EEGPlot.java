@@ -2,13 +2,12 @@ package com.yzhao.musecode;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.*;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.androidplot.ui.HorizontalPositioning;
 import com.androidplot.ui.Size;
@@ -33,8 +32,6 @@ import com.choosemuse.libmuse.MuseDataPacketType;
 
 public class EEGPlot extends Activity implements View.OnClickListener {
 
-
-    public String offlineData = "";
     public DataListener dataListener;
     MainActivity appState;
     private LineAndPointFormatter lineFormatter;
@@ -42,50 +39,107 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     private static final int PLOT_LENGTH = 256 * 4;
     public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
     private static final String PLOT_TITLE = "Raw_EEG";
-    private int PLOT_LOW_BOUND = 600;
-    private int PLOT_HIGH_BOUND = 1000;
+    private int PLOT_LOW_BOUND = -200;
+    private int PLOT_HIGH_BOUND = 200;
     public DynamicSeries dataSeries;
     public XYPlot filterPlot;
     public int samplingRate = 256;
     public Filter activeFilter;
     public double[][] filtState;
-    public int channelOfInterest = 1;
+    public int channelOfInterest = 3;
     MainActivity TAG;
+    private int frameCounter = 0;
+    private int numberOfRecordings = 0;
+    private double[][] extractedArray = new double[1020][4];
 
-    EEGFileWriter csv = new EEGFileWriter(this, "Titulo de ejemplo");
+    Button btn_start_capture;
+    Button btn_save_record;
+    Button btn_delete_record;
+
+    EEGFileWriter csv = new EEGFileWriter(this, "Captura de datos");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.egg_graph);
         csv.initFile(PLOT_TITLE);
-        startDataListener();
+        //startDataListener();
         setNotchFrequency(notchFrequency);
-        setFilterType("BANDPASS");
+        setFilterType();
         initUI();
 
     }
 
     @Override
     public void onClick(View view) {
-//        if (view.getId() == R.id.btn_init_file) {
-//            initFile();
-//        }
+        if (view.getId() == R.id.btn_save_record) {
+            saveRecord();
+        } else if (view.getId() == R.id.btn_capture) {
+            startCapture();
+        } else if (view.getId() == R.id.btn_delete_record) {
+            deleteRecord();
+        }
+    }
+
+    void startCapture() {
+        startDataListener();
+    }
+
+    void deleteRecord() {
+        btnsState("waiting_start");
+        dataSeries.clear();
+        updatePlot();
+    }
+
+    void saveRecord() {
+        btnsState("waiting_start");
+        numberOfRecordings++;
+        makeToast(numberOfRecordings);
+
+        for (int i = 0; i < 1020; i++) {
+            csv.addDataToFile(extractedArray[i]);
+        }
+
+        if (numberOfRecordings == 50)
+            csv.writeFile(PLOT_TITLE);
+        dataSeries.clear();
+        updatePlot();
 
     }
 
+    public void makeToast(int numberOfRecordings) {
+        CharSequence toastText = "La grabación número " + numberOfRecordings + " fue guardada con éxito.";
+        Toast toast = Toast.makeText(this, toastText, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
     public void initUI() {
 
         dataSeries = new DynamicSeries(PLOT_TITLE);
         filterPlot = new XYPlot(this, PLOT_TITLE);
         initView(this);
-//        Button init_file = (Button) findViewById(R.id.btn_init_file);
-//        init_file.setOnClickListener(this);
-    }
+        /*btn_start_capture = findViewById(R.id.btn_capture);
+        btn_start_capture.setOnClickListener(this);
+        btn_save_record = findViewById(R.id.btn_save_record);
+        btn_save_record.setOnClickListener(this);
+        btn_delete_record = findViewById(R.id.btn_delete_record);
+        btn_delete_record.setOnClickListener(this);
+        btnsState("waiting_start");*/
 
-    public void initFile() {
-        csv.writeFile(PLOT_TITLE);
+        btn_start_capture = (Button) findViewById(R.id.btn_capture);
+        btn_start_capture.setBackground(getResources().getDrawable(R.drawable.enable_button));
+        btn_start_capture.setOnClickListener(this);
+
+        btn_save_record = (Button) findViewById(R.id.btn_save_record);
+        btn_save_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+        btn_save_record.setEnabled(false);
+        btn_save_record.setOnClickListener(this);
+
+        btn_delete_record = (Button) findViewById(R.id.btn_delete_record);
+        btn_delete_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+        btn_save_record.setEnabled(false);
+        btn_delete_record.setOnClickListener(this);
+
     }
 
     public void setNotchFrequency(int notchFrequency) {
@@ -94,7 +148,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             dataListener.updateFilter(notchFrequency);
         }
     }
-
 
     public void initView(Context context) {
 
@@ -157,42 +210,66 @@ public class EEGPlot extends Activity implements View.OnClickListener {
 
         // Add plot to FilterGraph
         frameLayout.addView(filterPlot, new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT));
     }
 
-    public void setFilterType(String filterType) {
-        PLOT_HIGH_BOUND = 200;
-        PLOT_LOW_BOUND = -200;
-        //activeFilter =  new Filter(256, "bandstop", 5, 15, 5);
-        activeFilter = new Filter(samplingRate, "bandpass", 5, 2, 10);
+    public void btnsState(String state) {
 
+        switch (state) {
+            case "recording":
+                btn_delete_record.setEnabled(false);
+                btn_delete_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                btn_save_record.setEnabled(false);
+                btn_save_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                btn_start_capture.setEnabled(false);
+                btn_start_capture.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                break;
+            case "record_saved":
+                btn_delete_record.setEnabled(true);
+                btn_delete_record.setBackground(getResources().getDrawable(R.drawable.delete_button));
+                btn_save_record.setEnabled(true);
+                btn_save_record.setBackground(getResources().getDrawable(R.drawable.enable_button));
+                btn_start_capture.setEnabled(false);
+                btn_start_capture.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                break;
+            case "waiting_start":
+                btn_delete_record.setEnabled(false);
+                btn_delete_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                btn_save_record.setEnabled(false);
+                btn_save_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                btn_start_capture.setEnabled(true);
+                btn_start_capture.setBackground(getResources().getDrawable(R.drawable.enable_button));
+                break;
+        }
+
+    }
+
+    public void setFilterType() {
+        activeFilter = new Filter(samplingRate, "bandpass", 5, 2, 10);
         filtState = new double[4][activeFilter.getNB()];
     }
 
     public void startDataListener() {
-
+        btnsState("recording");
         if (dataListener == null) {
             dataListener = new DataListener();
         }
         appState.connectedMuse.registerDataListener(dataListener, MuseDataPacketType.EEG);
     }
 
-    private final class DataListener extends MuseDataListener {
-        public double[] newData;
+    public void stopDataListener() {
+        btnsState("record_saved");
+        appState.connectedMuse.unregisterAllListeners();
+    }
 
-        // Filter variables
-        public boolean filterOn = false;
+    private final class DataListener extends MuseDataListener {
+
+        public double[] newData;
         public Filter bandstopFilter;
-        public double[][] bandstopFiltState;
         private int frameCounter = 0;
 
-        // if connected Muse is a 2016 BLE version, init a bandstop filter to remove 60hz noise
         DataListener() {
-            if (appState.connectedMuse.isLowEnergy()) {
-                filterOn = true;
-                bandstopFilter = new Filter(256, "bandstop", 5, notchFrequency - 5, notchFrequency + 5);
-                bandstopFiltState = new double[4][bandstopFilter.getNB()];
-            }
             newData = new double[4];
         }
 
@@ -201,18 +278,21 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
             getEegChannelValues(newData, p);
 
-            // bandstopFiltState = bandstopFilter.transform(newData, bandstopFiltState);
-            // newData = bandstopFilter.extractFilteredSamples(bandstopFiltState);
-
             filtState = activeFilter.transform(newData, filtState);
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
+
+            extractedArray[frameCounter] = activeFilter.extractFilteredSamples(filtState);
 
             frameCounter++;
             if (frameCounter % 15 == 0) {
                 updatePlot();
             }
-            csv.addDataToFile(newData);
 
+            //Detiene la grabacion de datos a los 4 segundos
+            if (frameCounter == 1020) {
+                frameCounter = 0;
+                stopDataListener();
+            }
         }
 
         // Updates newData array based on incoming EEG channel values
@@ -221,7 +301,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             newData[1] = p.getEegChannelValue(Eeg.EEG2);
             newData[2] = p.getEegChannelValue(Eeg.EEG3);
             newData[3] = p.getEegChannelValue(Eeg.EEG4);
-            //System.out.println("---" + newData[3]);
         }
 
         @Override
@@ -244,7 +323,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         }
 
         // For adding all data points (Full sampling)
-        dataSeries.addAll(eegBuffer.extractSingleChannelTransposedAsDouble(numEEGPoints, 3));
+        dataSeries.addAll(eegBuffer.extractSingleChannelTransposedAsDouble(numEEGPoints, channelOfInterest));
 
         // resets the 'points-since-dataSource-read' value
         eegBuffer.resetPts();

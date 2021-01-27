@@ -1,5 +1,6 @@
 package com.yzhao.musecode.components.signal;
 
+
 import java.util.Arrays;
 
 // A pure Java implementation of a circular buffer
@@ -132,6 +133,7 @@ public class CircularBuffer {
 
         for(int i = 0; i < nbSamples; i++) {
             extractIndex = mod(index - nbSamples + i, bufferLength);
+
             extractedArray[i] = buffer[extractIndex][channelofinterest];
         }
 

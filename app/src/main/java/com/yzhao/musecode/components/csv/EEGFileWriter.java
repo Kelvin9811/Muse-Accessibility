@@ -44,24 +44,23 @@ public class EEGFileWriter {
     public void initFile(String title) {
         builder = new StringBuilder();
         System.out.println(title);
-        builder.append("Timestamp (ms),");
-        makeToast(title);
+        builder.append("Timestamp (ms);");
         isRecording = true;
         if(title.contains("Power")) {
             for(int i=1; i<129; i++) {
-                builder.append(i + " hz,");
+                builder.append(i + " hz;");
             }
             builder.append("\n");
         } else if(title.contains("Classifier")) {
-            builder.append("Label,");
+            builder.append("Label;");
             for(int i=1; i<=16; i++) {
-                builder.append(" Feature " + i + ",");
+                builder.append(" Feature " + i + ";");
             }
             builder.append("\n");
         }
         else {
             for(int i=1; i<5; i++) {
-                builder.append("Electrode " + i + ",");
+                builder.append("Electrode " + i + ";");
             }
             builder.append("\n");
         }
@@ -70,14 +69,15 @@ public class EEGFileWriter {
     public void addDataToFile(double[] data) {
         // Append timestamp
         Long tsLong = System.currentTimeMillis();
-        builder.append(tsLong.toString() +",");
+        builder.append(tsLong.toString() +";");
         for (int j = 0; j < data.length; j++) {
             builder.append(Double.toString(data[j]));
             if (j < data.length - 1) {
-                builder.append(",");
+                builder.append(";");
             }
         }
         builder.append("\n");
+
     }
 
     public void addLineToFile(String line){
@@ -99,13 +99,6 @@ public class EEGFileWriter {
             fileNum ++;
             isRecording = false;
         } catch (IOException e) {}
-    }
-
-
-    public void makeToast(String title) {
-        CharSequence toastText = "Recording data in " + title+fileNum+".csv";
-        Toast toast = Toast.makeText(context, toastText, Toast.LENGTH_SHORT);
-        toast.show();
     }
 
     public void sendData(File dataCSV) {
