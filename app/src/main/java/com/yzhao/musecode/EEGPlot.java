@@ -17,6 +17,7 @@ import com.androidplot.ui.VerticalPositioning;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.FastLineAndPointRenderer;
 import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 import com.choosemuse.libmuse.Eeg;
 import com.choosemuse.libmuse.Muse;
@@ -39,8 +40,8 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     private static final int PLOT_LENGTH = 256 * 4;
     public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
     private static final String PLOT_TITLE = "Raw_EEG";
-    private int PLOT_LOW_BOUND = -200;
-    private int PLOT_HIGH_BOUND = 200;
+    private int PLOT_LOW_BOUND = 600;
+    private int PLOT_HIGH_BOUND = 1100;
     public DynamicSeries dataSeries;
     public XYPlot filterPlot;
     public int samplingRate = 256;
@@ -62,7 +63,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.egg_graph);
-        csv.initFile(PLOT_TITLE);
+        csv.initFile();
         //startDataListener();
         setNotchFrequency(notchFrequency);
         setFilterType();
@@ -100,12 +101,35 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             csv.addDataToFile(extractedArray[i]);
         }
 
-        if (numberOfRecordings == 50)
+        if (numberOfRecordings == 15)
             csv.writeFile(PLOT_TITLE);
         dataSeries.clear();
         updatePlot();
 
     }
+
+
+
+
+    /*
+    *
+    * if(processedSignal(i) < 830 && posibliBlink ==0)
+        disp('Existe un probable parpadeo')
+        posibliBlink = 1;
+        posibliBlinkPosition = i;
+     end
+
+     if(posibliBlink == 1 && (posibliBlinkPosition+510) == i)
+        disp('Se evalua el parpadeo despues de 2 segundos de una probabilidad de parpadeo')
+        posibliBlink = 0;
+        sampleToEvaluate = getSampleRange(processedSignal,i);
+        knnFunction(sampleToEvaluate)
+     end
+
+ plot(getSampleRange(processedSignal,i));drawnow
+ *
+    * */
+
 
     public void makeToast(int numberOfRecordings) {
         CharSequence toastText = "La grabación número " + numberOfRecordings + " fue guardada con éxito.";
@@ -159,7 +183,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         dataSeries = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlot.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
+        filterPlot.setRangeBoundaries(PLOT_LOW_BOUND,PLOT_HIGH_BOUND, BoundaryMode.FIXED);
         filterPlot.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -186,6 +210,8 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         filterPlot.getGraph().getDomainOriginLinePaint().setColor(Color.TRANSPARENT);
         filterPlot.getGraph().getRangeGridLinePaint().setColor(Color.TRANSPARENT);
         filterPlot.getGraph().getRangeOriginLinePaint().setColor(Color.TRANSPARENT);
+
+        //filterPlot.getGraph().setLineLabelEdges(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM);
 
         // Remove axis labels and values
         // Domain = X; Range = Y
@@ -246,7 +272,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     }
 
     public void setFilterType() {
-        activeFilter = new Filter(samplingRate, "bandpass", 5, 2, 10);
+        activeFilter = new Filter(samplingRate, "bandstop", 5, 1, 6);
         filtState = new double[4][activeFilter.getNB()];
     }
 
@@ -278,11 +304,15 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
             getEegChannelValues(newData, p);
 
+
+
             filtState = activeFilter.transform(newData, filtState);
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
 
             extractedArray[frameCounter] = activeFilter.extractFilteredSamples(filtState);
-
+            //extractedArray[frameCounter] = newData;
+            //System.out.println(activeFilter.extractFilteredSamples(filtState)[channelOfInterest]);
+            //csv.addDataToFile(newData);
             frameCounter++;
             if (frameCounter % 15 == 0) {
                 updatePlot();
@@ -301,6 +331,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             newData[1] = p.getEegChannelValue(Eeg.EEG2);
             newData[2] = p.getEegChannelValue(Eeg.EEG3);
             newData[3] = p.getEegChannelValue(Eeg.EEG4);
+
         }
 
         @Override

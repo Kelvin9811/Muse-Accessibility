@@ -41,39 +41,19 @@ public class EEGFileWriter {
     // ---------------------------------------------------------------------------
     // Internal methods
 
-    public void initFile(String title) {
+    public void initFile() {
         builder = new StringBuilder();
-        System.out.println(title);
-        builder.append("Timestamp (ms);");
         isRecording = true;
-        if(title.contains("Power")) {
-            for(int i=1; i<129; i++) {
-                builder.append(i + " hz;");
-            }
-            builder.append("\n");
-        } else if(title.contains("Classifier")) {
-            builder.append("Label;");
-            for(int i=1; i<=16; i++) {
-                builder.append(" Feature " + i + ";");
-            }
-            builder.append("\n");
-        }
-        else {
-            for(int i=1; i<5; i++) {
-                builder.append("Electrode " + i + ";");
-            }
-            builder.append("\n");
-        }
     }
 
     public void addDataToFile(double[] data) {
         // Append timestamp
         Long tsLong = System.currentTimeMillis();
-        builder.append(tsLong.toString() +";");
+        builder.append(tsLong.toString() +",");
         for (int j = 0; j < data.length; j++) {
             builder.append(Double.toString(data[j]));
             if (j < data.length - 1) {
-                builder.append(";");
+                builder.append(",");
             }
         }
         builder.append("\n");
@@ -90,7 +70,7 @@ public class EEGFileWriter {
     public void writeFile(String title) {
         try {
             final File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-            final File file = new File(dir, title + fileNum + ".csv");
+            final File file = new File(dir, title + fileNum + ".json");
             fileWriter = new java.io.FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(builder.toString());

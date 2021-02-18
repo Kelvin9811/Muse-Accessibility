@@ -59,8 +59,17 @@ public class Filter {
 
         coeffs = IirFilterDesignFisher.design(filterPassType, filterCharacteristicsType, filterOrder, 0., fc1 / samplingFrequency, fc2 / samplingFrequency);
 
-        b = coeffs.b;
-        a = coeffs.a;
+        //a     1	    -4.76174050667987	9.07509931084016	-8.65282300936090	4.12739951130037	-0.787933380651263
+        //b     6017026,58	30085132,90	60170265,80	60170265,80	30085132,90	6017026,58
+
+        //b = coeffs.b;
+        //a = coeffs.a;
+
+
+
+        b = new double[]{6.01702657976322e-08,3.00851328988161e-07,6.01702657976322e-07,6.01702657976322e-07,3.00851328988161e-07,6.01702657976322e-08};
+        //b = new double[]{6017026.58, 30085132.90, 60170265.80, 60170265.80, 30085132.90, 6017026.58};
+        a = new double[]{1, -4.76174050667987, 9.07509931084016, -8.65282300936090, 4.12739951130037, -0.787933380651263};
 
         nB = b.length;
         nA = a.length;

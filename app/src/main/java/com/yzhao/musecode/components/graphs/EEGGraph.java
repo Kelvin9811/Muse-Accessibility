@@ -94,7 +94,7 @@ public class EEGGraph extends FrameLayout {
     }
 
     public void startRecording() {
-        fileWriter.initFile(PLOT_TITLE);
+        fileWriter.initFile();
         isRecording = true;
     }
 

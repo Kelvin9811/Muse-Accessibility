@@ -207,6 +207,95 @@ El parpadeo deberia ser en el mismo instante de tiempo por eso podria no parecer
 Plot de 1024 de 2 a 10 muestras aleatorias superpuestas.Grafias por usuario y juntasr muestras entre usuarios
 
 
+---------------------------------------------28 de enero
+cada 256 ptos, el salto de 256 ptos 
+dtw comparacion de parpadeos haciendo knn
+
+
+recortar la parte de la señal que contiene la perturbacio
+
+GRABAR SIEMPRE LA SEÑAL ORIGINAL
+
+
+Sacar el balor absoluto de la señal (Rectificar la señal)
+
+
+
+Pasabajos. Con frecuencias de corte mas bajas
+
+Superponer la original, la filtrada y la rectificada
+
+
+
+Vamos a usar knn y la medida de distancia es dtw dinamic time warping que es una medida para compara formas de onda.
+
+Detectores de ondas, 
+
+
+Consultar como calcular energia y potencia de la onda en mathlab.
+
+http://laplace.us.es/wiki/index.php/Potencia_y_energ%C3%ADa_en_una_onda#Energ.C3.ADa_total
+https://la.mathworks.com/help/signal/ref/bandpower.html
+
+Invesgtigar KNN y dtw
+https://www.programcreek.com/2013/01/use-k-nearest-neighbors-knn-classifier-in-java/ weka
+
+
+Caracteristica: Energia y cruces por cerop
+
+Con cuantos bits  12 - = 2^12 = 4095 max
+
+------------------------------------------------------------
+
+
+
+
+Dataset de cuantos sujetos o si es de uno no habria problema --- dataset = 50 muestras
+
+
+Acc = aciertos sobr muestras clacificadas.
+
+
+
+-------------------------------------------------------------11-02
+
+Ventanas de 4 segundos en intervalos de saltos de .5
+Evaluar en varias señales simulando una señal online
+
+Poner una fila por muestra
+
+Promedio de las señales
+
+minimo de todas ... las muestras 
+maximo de todas
+diseñado el algoritmo
+
+esas son constantes para el online porque si hago por ventana el ruido lo va a estirar la amplitud.
+
+Buscar el dtw en java sino toca esperar el código del inge.
+
+Hacer los moks del menu de dispositivos a controlar
+
+---------------------------------------------------------------------
+
+probar con ruidos - para ver que tan robusto es
+
+20s grabacion con otra persona en matlab
+
+dtw en java comparado con el de matlab
+
+Si el umbral es muy sensible calcular el area 
+
+suma desde 9 a 9+99 de valores absolutos = Potencia 
+Eso podria hacer mas robuisto ante ruidos
+
+
+Documentando todo para justificar... ejemplo las clases y porque agregamos 
+
+
+
+
+
 
 
 
