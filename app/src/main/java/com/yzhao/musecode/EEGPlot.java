@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -23,12 +24,18 @@ import com.choosemuse.libmuse.Eeg;
 import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseArtifactPacket;
 import com.choosemuse.libmuse.MuseDataPacket;
+import com.yzhao.musecode.components.csv.EEGFileReader;
 import com.yzhao.musecode.components.csv.EEGFileWriter;
 import com.yzhao.musecode.components.graphs.DynamicSeries;
 import com.yzhao.musecode.components.signal.CircularBuffer;
 import com.yzhao.musecode.components.signal.Filter;
 import com.choosemuse.libmuse.MuseDataListener;
 import com.choosemuse.libmuse.MuseDataPacketType;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class EEGPlot extends Activity implements View.OnClickListener {
@@ -37,7 +44,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     MainActivity appState;
     private LineAndPointFormatter lineFormatter;
     private int notchFrequency = 14;
-    private static final int PLOT_LENGTH = 256 * 4;
+    private static final int PLOT_LENGTH = 255 * 3;
     public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
     private static final String PLOT_TITLE = "Raw_EEG";
     private int PLOT_LOW_BOUND = 600;
@@ -68,7 +75,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         setNotchFrequency(notchFrequency);
         setFilterType();
         initUI();
-
     }
 
     @Override
@@ -107,28 +113,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         updatePlot();
 
     }
-
-
-
-
-    /*
-    *
-    * if(processedSignal(i) < 830 && posibliBlink ==0)
-        disp('Existe un probable parpadeo')
-        posibliBlink = 1;
-        posibliBlinkPosition = i;
-     end
-
-     if(posibliBlink == 1 && (posibliBlinkPosition+510) == i)
-        disp('Se evalua el parpadeo despues de 2 segundos de una probabilidad de parpadeo')
-        posibliBlink = 0;
-        sampleToEvaluate = getSampleRange(processedSignal,i);
-        knnFunction(sampleToEvaluate)
-     end
-
- plot(getSampleRange(processedSignal,i));drawnow
- *
-    * */
 
 
     public void makeToast(int numberOfRecordings) {
@@ -183,7 +167,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         dataSeries = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlot.setRangeBoundaries(PLOT_LOW_BOUND,PLOT_HIGH_BOUND, BoundaryMode.FIXED);
+        filterPlot.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
         filterPlot.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -299,20 +283,15 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             newData = new double[4];
         }
 
-        // Updates eegBuffer with new data from all 4 channels. Bandstop filter for 2016 Muse
         @Override
         public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
             getEegChannelValues(newData, p);
-
-
 
             filtState = activeFilter.transform(newData, filtState);
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
 
             extractedArray[frameCounter] = activeFilter.extractFilteredSamples(filtState);
-            //extractedArray[frameCounter] = newData;
-            //System.out.println(activeFilter.extractFilteredSamples(filtState)[channelOfInterest]);
-            //csv.addDataToFile(newData);
+
             frameCounter++;
             if (frameCounter % 15 == 0) {
                 updatePlot();
@@ -352,14 +331,8 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         if (dataSeries.size() >= PLOT_LENGTH) {
             dataSeries.remove(numEEGPoints);
         }
-
-        // For adding all data points (Full sampling)
         dataSeries.addAll(eegBuffer.extractSingleChannelTransposedAsDouble(numEEGPoints, channelOfInterest));
-
-        // resets the 'points-since-dataSource-read' value
         eegBuffer.resetPts();
-
         filterPlot.redraw();
     }
-
 }

@@ -29,5 +29,14 @@
     <string name="diadema_cuarto_paso">4.- El maquillaje, hidratantes o acumulación natural de grasa puede interferir en la toma de datos de los sensores.</string>
     <string name="diadema_quinto_paso">5.- Pasa un pañuelo por tu piel para mejorar la señal.</string>
     <string name="empezar">Empezar</string>
+    <string name="txt_comand_up">.-</string>
+    <string name="txt_command_down">-.</string>
+    <string name="txt_command_accept">..</string>
+    <string name="televisor">Televisor</string>
+    <string name="cambiar_canal">Cambiar canal +</string>
+    <string name="cambiar_canal_down">Cambiar canal -</string>
+    <string name="encender_televisor">Encender/Apagar televisor</string>
+    <string name="comando_actual">Comando actual</string>
+    <string name="txt_comand_activate">--</string>
 
 </resources>

@@ -9,6 +9,7 @@ import com.yzhao.musecode.components.csv.EEGFileWriter;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
@@ -87,6 +88,19 @@ public class DynamicSeries implements XYSeries, PlotListener {
             csv.addLineToFile("" + yVals.get(i));
         }
     }
+
+    public float[] getPSample() {
+        final float[] pSample = new float[yVals.size()];
+        for (int i = 0; i < yVals.size(); i++) {
+            pSample[i] = Float.parseFloat(String.valueOf(yVals.get(i)));
+        }
+        return pSample;
+    }
+
+    public List<Number> getAll() {
+        return yVals.subList(0, yVals.size());
+    }
+
 
     // ------------------------------------------------------------
     // PlotListener Methods

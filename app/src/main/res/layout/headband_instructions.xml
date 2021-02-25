@@ -70,14 +70,7 @@
                 android:layout_marginVertical="12dp"
                 android:text="@string/diadema_segundo_paso" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:contentDescription="@string/instrucciones"
-                app:srcCompat="@drawable/muse_headband_air_position"
 
-            />
 
             <TextView
                 android:id="@+id/textView8"
@@ -86,12 +79,7 @@
                 android:layout_marginVertical="12dp"
                 android:text="@string/diadema_tercer_paso" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:srcCompat="@drawable/muse_headband_position"
-                android:contentDescription="@string/instrucciones" />
+
 
             <TextView
                 android:id="@+id/textView9"
@@ -107,12 +95,6 @@
                 android:layout_marginVertical="12dp"
                 android:text="@string/diadema_quinto_paso" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:srcCompat="@drawable/muse_headband_clear_head"
-                android:contentDescription="@string/instrucciones" />
 
         </LinearLayout>
     </ScrollView>

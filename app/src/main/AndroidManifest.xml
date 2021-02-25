@@ -42,6 +42,9 @@
             android:name=".EEGPlot"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".DeviceControl"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".HeadbandInstructions"
             android:screenOrientation="portrait" />
         <provider

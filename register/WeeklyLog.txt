@@ -291,7 +291,7 @@ Eso podria hacer mas robuisto ante ruidos
 
 
 Documentando todo para justificar... ejemplo las clases y porque agregamos 
-
+//800 funciono bien 830 muy sensible y 730 muy abajo
 
 
 

@@ -40,6 +40,7 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
     private WeakReference<MuseConnection> weakActivity = new WeakReference<>(this);
     private Button connectButton;
     private Button continueButton;
+    private String flow;
     MainActivity appState;
     MainActivity TAG;
 
@@ -66,8 +67,18 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
         } else if (view.getId() == R.id.btn_refresh) {
             refreshMuseList();
         } else if (view.getId() == R.id.btn_continue) {
-            Intent intent = new Intent(this, HeadbandInstructions.class);
-            startActivity(intent);
+            switch (flow) {
+                case "RECORD":
+                    Intent recordIntent = new Intent(this, HeadbandInstructions.class);
+                    startActivity(recordIntent);
+                    break;
+                case "CONTROL":
+                    Intent controlIntent = new Intent(this, DeviceControl.class);
+                    startActivity(controlIntent);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -111,6 +122,9 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initUI() {
+
+        flow = getIntent().getStringExtra("FLOW");
+
         setContentView(R.layout.muse_conection);
         Button refreshButton = (Button) findViewById(R.id.btn_refresh);
         refreshButton.setOnClickListener(this);

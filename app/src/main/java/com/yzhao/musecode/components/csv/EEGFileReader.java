@@ -58,10 +58,24 @@ public class EEGFileReader {
     public double[][] readToArray() {
         readList = read();
         int len = readList.size();
-        double[][] readArray = new double[4][readList.size()];
+
+        double[][] readArray = new double[readList.size()][4];
 
         for(int i =0; i < len; i++) {
             readArray[i] = readList.get(i);
+        }
+
+        return readArray;
+    }
+
+    public float[] readToVector() {
+        readList = read();
+        int len = readList.size();
+
+        float[] readArray = new float[readList.size()];
+
+        for(int i =0; i < len; i++) {
+            readArray[i] = (float) readList.get(i)[4];
         }
 
         return readArray;

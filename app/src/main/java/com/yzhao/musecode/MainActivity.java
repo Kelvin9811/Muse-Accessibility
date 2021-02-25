@@ -25,20 +25,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initUI();
     }
 
-    public void initUI(){
-        Button start_connection = (Button) findViewById(R.id.btn_start_conection);
-        start_connection.setOnClickListener(new View.OnClickListener() {
+    public void initUI() {
+        Button start_record = (Button) findViewById(R.id.btn_start_conection);
+        start_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startConnectionActivity();
+                startRecordActivity();
+            }
+        });
+
+        Button start_control = (Button) findViewById(R.id.btn_start_device_control);
+        start_control.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startControlActivity();
             }
         });
     }
 
-    public void startConnectionActivity() {
+    public void startRecordActivity() {
         Intent intent = new Intent(this, MuseConnection.class);
+        intent.putExtra("FLOW", "RECORD");
         startActivity(intent);
     }
 
+    public void startControlActivity() {
+        Intent intent = new Intent(this, MuseConnection.class);
+        intent.putExtra("FLOW", "CONTROL");
+        startActivity(intent);
+    }
 
 }

@@ -320,8 +320,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_white_plus_circle" />
-                            <entry key="sourceFile" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\resources\plus-circle.svg" />
+                            <entry key="outputName" value="ic_sign_out" />
+                            <entry key="sourceFile" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\resources\sign-out.svg" />
                           </map>
                         </option>
                       </PersistentState>
