@@ -51,7 +51,7 @@ public class EEGFileWriter {
         Long tsLong = System.currentTimeMillis();
         builder.append(tsLong.toString() +",");
         for (int j = 0; j < data.length; j++) {
-            builder.append(Double.toString(data[j]));
+            builder.append(""+(data[j]));
             if (j < data.length - 1) {
                 builder.append(",");
             }
@@ -70,6 +70,7 @@ public class EEGFileWriter {
     public void writeFile(String title) {
         try {
             final File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
             final File file = new File(dir, title + fileNum + ".json");
             fileWriter = new java.io.FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -105,4 +106,16 @@ public class EEGFileWriter {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
+
+    public void addLineToFile(String data, Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.csv", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
 }

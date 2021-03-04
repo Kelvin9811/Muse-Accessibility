@@ -60,6 +60,10 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     private int numberOfRecordings = 0;
     private double[][] extractedArray = new double[1020][4];
 
+    private String[] extractedArrayString = new String[1020];
+
+    private int secondsOfRecording = 510;
+
     Button btn_start_capture;
     Button btn_save_record;
     Button btn_delete_record;
@@ -81,6 +85,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         if (view.getId() == R.id.btn_save_record) {
             saveRecord();
+            // saveRecordString();
         } else if (view.getId() == R.id.btn_capture) {
             startCapture();
         } else if (view.getId() == R.id.btn_delete_record) {
@@ -103,11 +108,29 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         numberOfRecordings++;
         makeToast(numberOfRecordings);
 
-        for (int i = 0; i < 1020; i++) {
+        for (int i = 0; i < secondsOfRecording; i++) {
+            System.out.println(Arrays.toString(extractedArray[i]));
             csv.addDataToFile(extractedArray[i]);
         }
 
         if (numberOfRecordings == 15)
+            csv.writeFile(PLOT_TITLE);
+        dataSeries.clear();
+        updatePlot();
+
+    }
+
+    void saveRecordString() {
+        btnsState("waiting_start");
+        numberOfRecordings++;
+        makeToast(numberOfRecordings);
+
+        for (int i = 0; i < secondsOfRecording; i++) {
+            System.out.println(extractedArrayString[i] + " en la posicion: " + i);
+            csv.addLineToFile(extractedArrayString[i]);
+        }
+
+        if (numberOfRecordings == 50)
             csv.writeFile(PLOT_TITLE);
         dataSeries.clear();
         updatePlot();
@@ -126,13 +149,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         dataSeries = new DynamicSeries(PLOT_TITLE);
         filterPlot = new XYPlot(this, PLOT_TITLE);
         initView(this);
-        /*btn_start_capture = findViewById(R.id.btn_capture);
-        btn_start_capture.setOnClickListener(this);
-        btn_save_record = findViewById(R.id.btn_save_record);
-        btn_save_record.setOnClickListener(this);
-        btn_delete_record = findViewById(R.id.btn_delete_record);
-        btn_delete_record.setOnClickListener(this);
-        btnsState("waiting_start");*/
 
         btn_start_capture = (Button) findViewById(R.id.btn_capture);
         btn_start_capture.setBackground(getResources().getDrawable(R.drawable.enable_button));
@@ -287,10 +303,14 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
             getEegChannelValues(newData, p);
 
+
             filtState = activeFilter.transform(newData, filtState);
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
 
             extractedArray[frameCounter] = activeFilter.extractFilteredSamples(filtState);
+            //extractedArray[frameCounter] = newData;
+
+            //extractedArrayString[frameCounter] = Arrays.toString(newData);
 
             frameCounter++;
             if (frameCounter % 15 == 0) {
@@ -298,7 +318,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             }
 
             //Detiene la grabacion de datos a los 4 segundos
-            if (frameCounter == 1020) {
+            if (frameCounter == secondsOfRecording) {
                 frameCounter = 0;
                 stopDataListener();
             }

@@ -296,6 +296,42 @@ Documentando todo para justificar... ejemplo las clases y porque agregamos
 
 
 
+---------------------------------25/2
+
+DTW No necesariamente debe ser del mismo tamaño
+
+mIS PARPADEOS PARA OTRAS PERSONAS
+
+Variacion interusuario: muestra de alguien comparado para la muestra de otra persona
+Variacion intrapersonal :muestra de un gesto y comparado con la misma persona
+
+
+Ver la nube entre 2 personas (eso que ya se hizo para ver que tanto se parecen): Misma longitud y gestos empezandos en la misma posición
+tsne bien recortado
+
+tomar el punto del medio: Hacer tsne para ver si es necesario hacer la grabacion de datos previa a controlar los dispositivos: 50
+
+Deputrar la base de datos con parpadeos de 2 segundos 
+Calibrar el tiempo de los parpadeos 
+
+Mientros avanzando la coneccion mqtt para control de dispositivos. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
