@@ -325,7 +325,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
                     posibliBlink = true;
                     posibliBlinkPosition = frameCounter;
                 }
-                if (posibliBlink && (posibliBlinkPosition + 510) == frameCounter) {
+                if (posibliBlink && (posibliBlinkPosition + 390) == frameCounter) {
                     posibliBlink = false;
 
                     String blink = knn.evaluateBlink(dataSeries);

@@ -37,7 +37,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\muse-code-master\app\src\main\res\drawable\muse-headband-position.jpg" />
+                                                <entry key="imagePath" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\resources\icon_fav.svg" />
                                                 <entry key="opacityPercent" value="60" />
                                               </map>
                                             </option>
@@ -71,7 +71,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\muse-code-master\app\src\main\res\drawable\muse-headband-position.jpg" />
+                                      <entry key="imageAsset" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\resources\icon_fav.svg" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -87,7 +87,9 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+                                                <entry key="color" value="000000" />
                                                 <entry key="imagePath" value="C:\Users\kortiz\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -99,6 +101,9 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="imagePath" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\resources\icon_fav.svg" />
+                                                <entry key="scalingPercent" value="120" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -110,6 +115,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -121,11 +127,18 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="68b0ab" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -294,11 +307,6 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

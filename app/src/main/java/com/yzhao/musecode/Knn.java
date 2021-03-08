@@ -10,7 +10,7 @@ public class Knn {
     float[] originalSignalLongBlink;
     float[] originalSignalNoneBlink;
     int chanelOfInteres = 2;
-    int sampleLength = 765;
+    int sampleLength = 510;
     double umbral = 0.7;
 
     private List data;
