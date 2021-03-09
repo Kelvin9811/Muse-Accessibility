@@ -1,13 +1,16 @@
 package com.yzhao.musecode;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.*;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidplot.ui.HorizontalPositioning;
@@ -58,6 +61,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     MainActivity TAG;
     private int frameCounter = 0;
     private int numberOfRecordings = 0;
+    private String typeofRecord = "cortos";
     private double[][] extractedArray = new double[1020][4];
 
     private String[] extractedArrayString = new String[1020];
@@ -68,14 +72,18 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     Button btn_save_record;
     Button btn_delete_record;
 
-    EEGFileWriter csv = new EEGFileWriter(this, "Captura de datos");
+    TextView txt_current_blink;
+    TextView txt_current_blink_number;
+
+    EEGFileWriter shorBlinkFile = new EEGFileWriter(this, "Captura de datos");
+    EEGFileWriter longBlinkFile = new EEGFileWriter(this, "Captura de datos");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.egg_graph);
-        csv.initFile();
-        //startDataListener();
+        shorBlinkFile.initFile();
+        longBlinkFile.initFile();
         setNotchFrequency(notchFrequency);
         setFilterType();
         initUI();
@@ -106,15 +114,42 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     void saveRecord() {
         btnsState("waiting_start");
         numberOfRecordings++;
+        txt_current_blink_number.setText("Número de grabación: " + numberOfRecordings);
         makeToast(numberOfRecordings);
-
-        for (int i = 0; i < secondsOfRecording; i++) {
-            System.out.println(Arrays.toString(extractedArray[i]));
-            csv.addDataToFile(extractedArray[i]);
+        switch (typeofRecord) {
+            case "cortos":
+                for (int i = 0; i < secondsOfRecording; i++) {
+                    System.out.println(Arrays.toString(extractedArray[i]));
+                    shorBlinkFile.addDataToFile(extractedArray[i]);
+                }
+                break;
+            case "largos":
+                for (int i = 0; i < secondsOfRecording; i++) {
+                    System.out.println(Arrays.toString(extractedArray[i]));
+                    longBlinkFile.addDataToFile(extractedArray[i]);
+                }
+                break;
         }
 
-        if (numberOfRecordings == 15)
-            csv.writeFile(PLOT_TITLE);
+
+        if (numberOfRecordings == 15 && typeofRecord.equals("cortos")) {
+            numberOfRecordings = 0;
+            shorBlinkFile.writeShortBlinkFile();
+            typeofRecord = "largos";
+            txt_current_blink.setText("Grabación de parpadeos " + typeofRecord);
+
+        }
+        if (numberOfRecordings == 15 && typeofRecord.equals("largos")) {
+
+            appState.connectedMuse.disconnect(false);
+            appState.connectedMuse.unregisterAllListeners();
+            appState.connectedMuse = null;
+
+            longBlinkFile.writeLongBlinkFile();
+            Intent i = new Intent(this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }
         dataSeries.clear();
         updatePlot();
 
@@ -127,11 +162,11 @@ public class EEGPlot extends Activity implements View.OnClickListener {
 
         for (int i = 0; i < secondsOfRecording; i++) {
             System.out.println(extractedArrayString[i] + " en la posicion: " + i);
-            csv.addLineToFile(extractedArrayString[i]);
+            shorBlinkFile.addLineToFile(extractedArrayString[i]);
         }
 
         if (numberOfRecordings == 50)
-            csv.writeFile(PLOT_TITLE);
+            shorBlinkFile.writeFile(PLOT_TITLE);
         dataSeries.clear();
         updatePlot();
 
@@ -144,6 +179,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         toast.show();
     }
 
+    @SuppressLint("SetTextI18n")
     public void initUI() {
 
         dataSeries = new DynamicSeries(PLOT_TITLE);
@@ -163,6 +199,13 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         btn_delete_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
         btn_save_record.setEnabled(false);
         btn_delete_record.setOnClickListener(this);
+
+
+        txt_current_blink = findViewById(R.id.txt_current_blink);
+        txt_current_blink_number = findViewById(R.id.txt_current_blink_number);
+
+        txt_current_blink.setText("Grabación de parpadeos " + typeofRecord);
+        txt_current_blink_number.setText("Número de grabación: " + numberOfRecordings);
 
     }
 

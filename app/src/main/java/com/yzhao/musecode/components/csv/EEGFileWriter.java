@@ -3,15 +3,20 @@ package com.yzhao.musecode.components.csv;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 
 /**
  * Writes EEG data (either raw/filtered EEG or computed FFT) into a csv. Presents a toast when
@@ -49,9 +54,9 @@ public class EEGFileWriter {
     public void addDataToFile(double[] data) {
         // Append timestamp
         Long tsLong = System.currentTimeMillis();
-        builder.append(tsLong.toString() +",");
+        builder.append(tsLong.toString() + ",");
         for (int j = 0; j < data.length; j++) {
-            builder.append(""+(data[j]));
+            builder.append("" + (data[j]));
             if (j < data.length - 1) {
                 builder.append(",");
             }
@@ -60,11 +65,10 @@ public class EEGFileWriter {
 
     }
 
-    public void addLineToFile(String line){
+    public void addLineToFile(String line) {
         builder.append(line);
         builder.append("\n");
     }
-
 
 
     public void writeFile(String title) {
@@ -77,11 +81,59 @@ public class EEGFileWriter {
             bufferedWriter.write(builder.toString());
             bufferedWriter.close();
             sendData(file);
-            fileNum ++;
+            fileNum++;
             isRecording = false;
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 
+    public void writeShortBlinkFile() {
+        try {
+            final File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
+            final File file = new File(dir, "ShortBlinkDB.json");
+            fileWriter = new java.io.FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(builder.toString());
+            bufferedWriter.close();
+            sendData(file);
+            fileNum++;
+            isRecording = false;
+        } catch (IOException e) {
+        }
+    }
+
+    public void writeLongBlinkFile() {
+        try {
+            final File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
+            final File file = new File(dir, "LongBlinkDB.json");
+            fileWriter = new java.io.FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(builder.toString());
+            bufferedWriter.close();
+            sendData(file);
+            fileNum++;
+            isRecording = false;
+        } catch (IOException e) {
+        }
+    }
+
+    public void writeNoneBlinkFile() {
+        try {
+            final File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
+            final File file = new File(dir, "NoneBlinkDB.json");
+            fileWriter = new java.io.FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(builder.toString());
+            bufferedWriter.close();
+            sendData(file);
+            fileNum++;
+            isRecording = false;
+        } catch (IOException e) {
+        }
+    }
     public void sendData(File dataCSV) {
 
         //FileProvider fileProvider = new FileProvider();
@@ -101,8 +153,7 @@ public class EEGFileWriter {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.csv", Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
@@ -112,9 +163,21 @@ public class EEGFileWriter {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.csv", Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    public void readFile(String title) {
+        try {
+
+            final File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "filename");
+
+            FileReader fileReader = new java.io.FileReader(file);
+
+            BufferedReader readeasr = new BufferedReader(fileReader);
+
+        } catch (IOException e) {
         }
     }
 

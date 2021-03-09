@@ -45,7 +45,8 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_capture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerView" />
+        app:layout_constraintTop_toBottomOf="@+id/texts_state_container"
+        />
 
     <Button
         android:id="@+id/btn_capture"
@@ -113,6 +114,43 @@
             android:textColor="@color/primary_white"
             android:textSize="18sp" />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/texts_state_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/frame_layout_xyplot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerView">
+        <TextView
+            android:id="@+id/txt_current_blink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingTop="10dp"
+            android:text=""
+            android:textColor="@color/primary_black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:id="@+id/txt_current_blink_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingTop="10dp"
+            android:text=""
+            android:textColor="@color/primary_black"
+            android:textSize="18sp"
+             />
 
     </LinearLayout>
 

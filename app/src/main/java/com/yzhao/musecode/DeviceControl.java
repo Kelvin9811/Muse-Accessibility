@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,8 @@ import com.yzhao.musecode.components.graphs.DynamicSeries;
 import com.yzhao.musecode.components.signal.CircularBuffer;
 import com.yzhao.musecode.components.signal.Filter;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -100,7 +103,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             excecuteCommand("..");
 
         } else if (view.getId() == R.id.channel_down) {
-            changeButton("CHNUP");
+            changeButton("CHNDW");
             excecuteCommand("..");
         }
 
@@ -236,12 +239,10 @@ public class DeviceControl extends Activity implements View.OnClickListener {
         System.out.println("systemActivated: " + systemActivated);
 
         if (systemActivated) {
-            System.out.println("Se setea en visible");
             layout_up.setVisibility(LinearLayout.VISIBLE);
             layout_down.setVisibility(LinearLayout.VISIBLE);
             layout_check.setVisibility(LinearLayout.VISIBLE);
         } else {
-            System.out.println("Se setea en GONE");
             layout_up.setVisibility(LinearLayout.GONE);
             layout_down.setVisibility(LinearLayout.GONE);
             layout_check.setVisibility(LinearLayout.GONE);
@@ -372,25 +373,40 @@ public class DeviceControl extends Activity implements View.OnClickListener {
         String dbNoneBlink = "NoneBlinkDB";
 
         try {
+            final File file = new File( this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbShortBlink+ ".json");
+            FileReader filePathReader = new java.io.FileReader(file);
             InputStream inputStream = getResources().getAssets().open(dbShortBlink + ".json");
-            EEGFileReader fileReader = new EEGFileReader(inputStream);
+            EEGFileReader fileReader = new EEGFileReader(filePathReader);
+            //EEGFileReader fileReader = new EEGFileReader(inputStream);
             originalSignalShortBlink = fileReader.readToVector();
+            System.out.println("Lectura del primer archivo");
+
         } catch (IOException e) {
             Log.w("EEGGraph", "File not found error");
         }
 
         try {
+            final File file = new File( this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbLongBlink+ ".json");
+            FileReader filePathReader = new java.io.FileReader(file);
             InputStream inputStream = getResources().getAssets().open(dbLongBlink + ".json");
-            EEGFileReader fileReader = new EEGFileReader(inputStream);
+            EEGFileReader fileReader = new EEGFileReader(filePathReader);
+            //EEGFileReader fileReader = new EEGFileReader(inputStream);
+
             originalSignalLongBlink = fileReader.readToVector();
+            System.out.println("Lectura del segundo archivo");
         } catch (IOException e) {
             Log.w("EEGGraph", "File not found error");
         }
 
         try {
+            final File file = new File( this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbNoneBlink+ ".json");
+            FileReader filePathReader = new java.io.FileReader(file);
             InputStream inputStream = getResources().getAssets().open(dbNoneBlink + ".json");
-            EEGFileReader fileReader = new EEGFileReader(inputStream);
+            EEGFileReader fileReader = new EEGFileReader(filePathReader);
+            //EEGFileReader fileReader = new EEGFileReader(inputStream);
             originalSignalNoneBlink = fileReader.readToVector();
+            System.out.println("Lectura del tercer archivo");
+
         } catch (IOException e) {
             Log.w("EEGGraph", "File not found error");
         }

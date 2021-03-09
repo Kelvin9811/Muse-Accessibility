@@ -14,26 +14,27 @@ import java.util.List;
  * Reads EEG data from CSV files
  */
 
-public class EEGFileReader {
+public class DataBaseFileWriter {
 
     // ---------------------------------------------------------------------------
     // Variables
 
-    FileReader inputStream;
-    //InputStream inputStream;
+    //FileReader inputStream;
+    InputStream inputStream;
     private Context context;
     List<double[]> readList;
 
-    public EEGFileReader(FileReader inputStream) {
-    //    public EEGFileReader(InputStream inputStream) {
+
+    // public DataBaseFileWriter(FileReader inputStream) {
+    public DataBaseFileWriter(InputStream inputStream) {
         this.inputStream = inputStream;
         this.context = context;
     }
 
     public List read() {
         List<double[]> resultList = new ArrayList();
-        BufferedReader reader = new BufferedReader(inputStream);
-        //BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        //BufferedReader reader = new BufferedReader(inputStream);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
             String csvLine;
             while ((csvLine = reader.readLine()) != null) {
@@ -56,29 +57,30 @@ public class EEGFileReader {
         return resultList;
     }
 
-    public double[][] readToArray() {
+    public void writeShortBlinkDataBase(EEGFileWriter file) {
         readList = read();
         int len = readList.size();
-
-        double[][] readArray = new double[readList.size()][4];
-
         for (int i = 0; i < len; i++) {
-            readArray[i] = readList.get(i);
+            file.addDataToFile(readList.get(i));
         }
-
-        return readArray;
+        file.writeShortBlinkFile();
     }
 
-    public float[] readToVector() {
+    public void writeLongBlinkDataBase(EEGFileWriter file) {
         readList = read();
         int len = readList.size();
-
-        float[] readArray = new float[readList.size()];
-
         for (int i = 0; i < len; i++) {
-            readArray[i] = (float) readList.get(i)[4];
+            file.addDataToFile(readList.get(i));
         }
+        file.writeLongBlinkFile();
+    }
 
-        return readArray;
+    public void writeNoneBlinkDataBase(EEGFileWriter file) {
+        readList = read();
+        int len = readList.size();
+        for (int i = 0; i < len; i++) {
+            file.addDataToFile(readList.get(i));
+        }
+        file.writeNoneBlinkFile();
     }
 }

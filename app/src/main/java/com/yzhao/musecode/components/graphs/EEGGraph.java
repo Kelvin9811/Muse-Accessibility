@@ -310,13 +310,13 @@ public class EEGGraph extends FrameLayout {
         private int index = 0;
 
         OfflineDataListener(String offlineData) {
-            try {
+            /*try {
                 InputStream inputStream = getResources().getAssets().open(offlineData + ".csv");
                 EEGFileReader fileReader = new EEGFileReader(inputStream);
                 data = fileReader.read();
             } catch (IOException e) {
                 Log.w("EEGGraph", "File not found error");
-            }
+            }*/
         }
 
         @Override
