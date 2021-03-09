@@ -36,4 +36,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation "com.androidplot:androidplot-core:+"
     implementation group: 'com.github.wendykierp', name: 'JTransforms', version: '3.1'
+
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+
 }

@@ -25,6 +25,7 @@ allprojects {
     repositories {
         google()
         maven { url 'https://www.jitpack.io' }
+        maven { url "https://repo.eclipse.org/content/repositories/paho-releases/"}
         jcenter()
     }
 }

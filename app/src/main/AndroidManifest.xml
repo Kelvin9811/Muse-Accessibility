@@ -20,6 +20,9 @@
         android:name="android.permission.READ_PHONE_STATE"
         tools:node="remove" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -59,6 +62,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service android:name="org.eclipse.paho.android.service.MqttService">
+        </service>
     </application>
 
 </manifest>

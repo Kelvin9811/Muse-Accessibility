@@ -13,12 +13,16 @@ import com.choosemuse.libmuse.Muse;
 import com.yzhao.musecode.components.csv.DataBaseFileWriter;
 import com.yzhao.musecode.components.csv.EEGFileReader;
 import com.yzhao.musecode.components.csv.EEGFileWriter;
+import com.yzhao.musecode.components.mqtt.Subscriber;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.introduction);
         initUI();
         startDataBase();
+
     }
 
     public void initUI() {
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("FLOW", "CONTROL");
         startActivity(intent);
     }
+
 
     void startDataBase() {
 

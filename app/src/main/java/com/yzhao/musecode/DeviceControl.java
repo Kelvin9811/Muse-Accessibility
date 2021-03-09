@@ -32,13 +32,17 @@ import com.choosemuse.libmuse.MuseDataPacketType;
 import com.yzhao.musecode.components.csv.EEGFileReader;
 import com.yzhao.musecode.components.csv.EEGFileWriter;
 import com.yzhao.musecode.components.graphs.DynamicSeries;
+import com.yzhao.musecode.components.mqtt.Subscriber;
 import com.yzhao.musecode.components.signal.CircularBuffer;
 import com.yzhao.musecode.components.signal.Filter;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 
 
 public class DeviceControl extends Activity implements View.OnClickListener {
@@ -80,6 +84,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     private static int BTN_STATE = 0;
     private static String CURRENT_COMMAND = "";
 
+    Subscriber mqttSuscriber;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,15 +101,27 @@ public class DeviceControl extends Activity implements View.OnClickListener {
 
         if (view.getId() == R.id.tv_on_of) {
             changeButton("TV");
-            excecuteCommand("..");
+            try {
+                excecuteCommand("..");
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
 
         } else if (view.getId() == R.id.channel_up) {
             changeButton("CHNUP");
-            excecuteCommand("..");
+            try {
+                excecuteCommand("..");
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
 
         } else if (view.getId() == R.id.channel_down) {
             changeButton("CHNDW");
-            excecuteCommand("..");
+            try {
+                excecuteCommand("..");
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -174,7 +191,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
 
     };
 
-    public void addCommand(String command) {
+    public void addCommand(String command) throws MqttException {
         CURRENT_COMMAND = CURRENT_COMMAND + "" + command;
         TextView statusText = findViewById(R.id.current_command);
         statusText.setText(CURRENT_COMMAND);
@@ -186,7 +203,12 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     }
 
 
-    public void excecuteCommand(String command) {
+    void startMqttConnection() throws MqttException, URISyntaxException {
+        mqttSuscriber = new Subscriber("mqtt://qnfkgujq:2S14ysy_WIFT@driver.cloudmqtt.com:18841");
+    }
+
+
+    public void excecuteCommand(String command) throws MqttException {
         if (command.equals("--"))
             disableEnableSistem();
 
@@ -220,12 +242,13 @@ public class DeviceControl extends Activity implements View.OnClickListener {
                     break;
                 case "..":
 
-                    if (BTN_STATE == 0)
-                        System.out.println("Se ejecuta el commando para tv");
-                    else if (BTN_STATE == 1)
-                        System.out.println("Se ejecuta el commando para uop");
-                    else if (BTN_STATE == 2)
-                        System.out.println("Se ejecuta el commando para down ");
+                    if (BTN_STATE == 0) {
+                        mqttSuscriber.sendMessage("tv_on_off");
+                    } else if (BTN_STATE == 1) {
+                        mqttSuscriber.sendMessage("chn_dwn");
+                    } else if (BTN_STATE == 2) {
+                        mqttSuscriber.sendMessage("chn_up");
+                    }
                     break;
                 default:
                     break;
@@ -286,8 +309,15 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     }
 
     public void startConfigurations() {
+        try {
+            startMqttConnection();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
-        dataSeries = new DynamicSeries(PLOT_TITLE);
+       /* dataSeries = new DynamicSeries(PLOT_TITLE);
 
         if (dataListener == null) {
             dataListener = new DataListener();
@@ -297,7 +327,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             dataListener.updateFilter(notchFrequency);
         }
         activeFilter = new Filter(samplingRate, "bandstop", 5, 1, 6);
-        filtState = new double[4][activeFilter.getNB()];
+        filtState = new double[4][activeFilter.getNB()];*/
     }
 
 
@@ -331,7 +361,11 @@ public class DeviceControl extends Activity implements View.OnClickListener {
 
                     String blink = knn.evaluateBlink(dataSeries);
                     if (blink.length() > 0) {
-                        addCommand(blink);
+                        try {
+                            addCommand(blink);
+                        } catch (MqttException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 updateDataSeries();
@@ -373,7 +407,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
         String dbNoneBlink = "NoneBlinkDB";
 
         try {
-            final File file = new File( this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbShortBlink+ ".json");
+            final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbShortBlink + ".json");
             FileReader filePathReader = new java.io.FileReader(file);
             InputStream inputStream = getResources().getAssets().open(dbShortBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
@@ -386,7 +420,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
         }
 
         try {
-            final File file = new File( this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbLongBlink+ ".json");
+            final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbLongBlink + ".json");
             FileReader filePathReader = new java.io.FileReader(file);
             InputStream inputStream = getResources().getAssets().open(dbLongBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
@@ -399,7 +433,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
         }
 
         try {
-            final File file = new File( this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbNoneBlink+ ".json");
+            final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbNoneBlink + ".json");
             FileReader filePathReader = new java.io.FileReader(file);
             InputStream inputStream = getResources().getAssets().open(dbNoneBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
