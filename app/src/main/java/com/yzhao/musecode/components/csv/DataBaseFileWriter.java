@@ -60,8 +60,10 @@ public class DataBaseFileWriter {
     public void writeShortBlinkDataBase(EEGFileWriter file) {
         readList = read();
         int len = readList.size();
+        double[] readArray ;
         for (int i = 0; i < len; i++) {
-            file.addDataToFile(readList.get(i));
+            readArray = new double[]{readList.get(i)[1], readList.get(i)[2], readList.get(i)[3], readList.get(i)[4]};
+            file.addDataToFile(readArray);
         }
         file.writeShortBlinkFile();
     }
@@ -69,8 +71,10 @@ public class DataBaseFileWriter {
     public void writeLongBlinkDataBase(EEGFileWriter file) {
         readList = read();
         int len = readList.size();
+        double[] readArray ;
         for (int i = 0; i < len; i++) {
-            file.addDataToFile(readList.get(i));
+            readArray = new double[]{readList.get(i)[1], readList.get(i)[2], readList.get(i)[3], readList.get(i)[4]};
+            file.addDataToFile(readArray);
         }
         file.writeLongBlinkFile();
     }
@@ -78,8 +82,10 @@ public class DataBaseFileWriter {
     public void writeNoneBlinkDataBase(EEGFileWriter file) {
         readList = read();
         int len = readList.size();
+        double[] readArray ;
         for (int i = 0; i < len; i++) {
-            file.addDataToFile(readList.get(i));
+            readArray = new double[]{readList.get(i)[1], readList.get(i)[2], readList.get(i)[3], readList.get(i)[4]};
+            file.addDataToFile(readArray);
         }
         file.writeNoneBlinkFile();
     }
