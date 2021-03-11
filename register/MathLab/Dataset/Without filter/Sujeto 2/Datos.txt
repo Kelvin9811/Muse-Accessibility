@@ -1,0 +1,6 @@
+peso 66
+altura 1.61
+femenino
+cabello Largo
+descansada
+edad 24

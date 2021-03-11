@@ -22,6 +22,7 @@ public class Subscriber implements MqttCallback {
 
     public Subscriber(URI uri) throws MqttException {
         String host = String.format("tcp://%s:%d", uri.getHost(), uri.getPort());
+
         String[] auth = this.getAuth(uri);
         String username = auth[0];
         String password = auth[1];
@@ -34,6 +35,7 @@ public class Subscriber implements MqttCallback {
         conOpt.setCleanSession(true);
         conOpt.setUserName(username);
         conOpt.setPassword(password.toCharArray());
+        System.out.println("--------------"+host);
 
         this.client = new MqttClient(host, clientId, new MemoryPersistence());
 
