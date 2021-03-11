@@ -132,7 +132,7 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
         connectButton.setOnClickListener(this);
         continueButton = (Button) findViewById(R.id.btn_continue);
         continueButton.setOnClickListener(this);
-        //+continueButton.setEnabled(false);
+        continueButton.setEnabled(false);
         continueButton.setBackground(getResources().getDrawable(R.drawable.disable_button));
 
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);

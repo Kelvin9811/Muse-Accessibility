@@ -35,14 +35,12 @@ public class Subscriber implements MqttCallback {
         conOpt.setCleanSession(true);
         conOpt.setUserName(username);
         conOpt.setPassword(password.toCharArray());
-        System.out.println("--------------"+host);
 
         this.client = new MqttClient(host, clientId, new MemoryPersistence());
 
         this.client.setCallback(this);
 
         this.client.connect(conOpt);
-        System.out.println("host");
 
         this.client.subscribe(this.topic, qos);
     }

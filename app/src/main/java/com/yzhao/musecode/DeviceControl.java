@@ -317,7 +317,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
 
-       /* dataSeries = new DynamicSeries(PLOT_TITLE);
+        dataSeries = new DynamicSeries(PLOT_TITLE);
 
         if (dataListener == null) {
             dataListener = new DataListener();
@@ -327,7 +327,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             dataListener.updateFilter(notchFrequency);
         }
         activeFilter = new Filter(samplingRate, "bandstop", 5, 1, 6);
-        filtState = new double[4][activeFilter.getNB()];*/
+        filtState = new double[4][activeFilter.getNB()];
     }
 
 
