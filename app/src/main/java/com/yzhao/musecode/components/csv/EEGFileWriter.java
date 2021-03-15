@@ -34,6 +34,7 @@ public class EEGFileWriter {
     int fileNum = 1;
     public FileWriter fileWriter;
     private static boolean isRecording;
+    int numberOfLines = 0;
 
     // ---------------------------------------------------------------------------
     // Constructor
@@ -52,6 +53,7 @@ public class EEGFileWriter {
     }
 
     public void addDataToFile(double[] data) {
+        numberOfLines = numberOfLines + 1;
         // Append timestamp
         Long tsLong = System.currentTimeMillis();
         builder.append(tsLong.toString() + ",");
@@ -62,7 +64,6 @@ public class EEGFileWriter {
             }
         }
         builder.append("\n");
-
     }
 
     public void addLineToFile(String line) {
@@ -70,6 +71,9 @@ public class EEGFileWriter {
         builder.append("\n");
     }
 
+    public int  numberOfLines() {
+        return numberOfLines;
+    }
 
     public void writeFile(String title) {
         try {
@@ -134,6 +138,7 @@ public class EEGFileWriter {
         } catch (IOException e) {
         }
     }
+
     public void sendData(File dataCSV) {
 
         //FileProvider fileProvider = new FileProvider();

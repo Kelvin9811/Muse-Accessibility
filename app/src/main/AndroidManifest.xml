@@ -48,6 +48,9 @@
             android:name=".DeviceControl"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".BlinkTest"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".HeadbandInstructions"
             android:screenOrientation="portrait" />
         <provider

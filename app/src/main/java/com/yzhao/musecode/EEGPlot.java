@@ -6,10 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,8 @@ import com.yzhao.musecode.components.signal.Filter;
 import com.choosemuse.libmuse.MuseDataListener;
 import com.choosemuse.libmuse.MuseDataPacketType;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -61,7 +67,11 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     MainActivity TAG;
     private int frameCounter = 0;
     private int numberOfRecordings = 0;
-    private String typeofRecord = "cortos";
+
+    private int numberOfShortRecordings = 0;
+    private int numberOfLongRecordings = 0;
+
+    private String typeofRecord = "largos";
     private double[][] extractedArray = new double[1020][4];
 
     private String[] extractedArrayString = new String[1020];
@@ -71,9 +81,14 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     Button btn_start_capture;
     Button btn_save_record;
     Button btn_delete_record;
+    Button btn_calibrate;
 
-    TextView txt_current_blink;
-    TextView txt_current_blink_number;
+    RadioGroup radio_group_type;
+
+    double[][] originalSignalShortBlink;
+    double[][] originalSignalLongBlink;
+    double[][] originalSignalNoneBlink;
+
 
     EEGFileWriter shorBlinkFile = new EEGFileWriter(this, "Captura de datos");
     EEGFileWriter longBlinkFile = new EEGFileWriter(this, "Captura de datos");
@@ -86,6 +101,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         longBlinkFile.initFile();
         setNotchFrequency(notchFrequency);
         setFilterType();
+        readDataBase();
         initUI();
     }
 
@@ -93,12 +109,22 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         if (view.getId() == R.id.btn_save_record) {
             saveRecord();
-            // saveRecordString();
+            /*
+                Para realizar grabaciones de datos sin filtrar
+                saveRecordString();
+             */
         } else if (view.getId() == R.id.btn_capture) {
             startCapture();
         } else if (view.getId() == R.id.btn_delete_record) {
             deleteRecord();
+        } else if (view.getId() == R.id.btn_calibrate) {
+            finishCalibration();
+        } else if (view.getId() == R.id.radio_btn_long) {
+            typeofRecord = "largos";
+        } else if (view.getId() == R.id.radio_btn_short) {
+            typeofRecord = "cortos";
         }
+
     }
 
     void startCapture() {
@@ -111,45 +137,68 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         updatePlot();
     }
 
+    void finishCalibration() {
+
+        if (numberOfShortRecordings < 15 && numberOfShortRecordings > 0) {
+            double[] readArray;
+            int shorLinesRecorded = shorBlinkFile.numberOfLines();
+            for (int i = 0; i < (7650 - shorLinesRecorded); i++) {
+                readArray = new double[]{originalSignalShortBlink[i][1], originalSignalShortBlink[i][2], originalSignalShortBlink[i][3], originalSignalShortBlink[i][4]};
+                shorBlinkFile.addDataToFile(readArray);
+            }
+            shorBlinkFile.writeShortBlinkFile();
+
+        }
+
+        if (numberOfLongRecordings < 15 && numberOfLongRecordings > 0) {
+            double[] readArray;
+            int longLinesRecorded = longBlinkFile.numberOfLines();
+            for (int i = 0; i < (7650 - longLinesRecorded); i++) {
+                readArray = new double[]{originalSignalLongBlink[i][1], originalSignalLongBlink[i][2], originalSignalLongBlink[i][3], originalSignalLongBlink[i][4]};
+                longBlinkFile.addDataToFile(readArray);
+            }
+            longBlinkFile.writeLongBlinkFile();
+        }
+
+
+
+        appState.connectedMuse.disconnect(false);
+        appState.connectedMuse.unregisterAllListeners();
+        appState.connectedMuse = null;
+
+        Intent i = new Intent(this, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
+
     void saveRecord() {
         btnsState("waiting_start");
-        numberOfRecordings++;
-        txt_current_blink_number.setText("Número de grabación: " + numberOfRecordings);
-        makeToast(numberOfRecordings);
+
         switch (typeofRecord) {
             case "cortos":
-                for (int i = 0; i < secondsOfRecording; i++) {
-                    System.out.println(Arrays.toString(extractedArray[i]));
-                    shorBlinkFile.addDataToFile(extractedArray[i]);
+                if (numberOfShortRecordings < 15) {
+                    for (int i = 0; i < secondsOfRecording; i++) {
+                        shorBlinkFile.addDataToFile(extractedArray[i]);
+                    }
+                    numberOfShortRecordings++;
+                    makeToast(numberOfShortRecordings);
                 }
                 break;
             case "largos":
-                for (int i = 0; i < secondsOfRecording; i++) {
-                    System.out.println(Arrays.toString(extractedArray[i]));
-                    longBlinkFile.addDataToFile(extractedArray[i]);
+                if (numberOfLongRecordings < 15) {
+                    for (int i = 0; i < secondsOfRecording; i++) {
+                        longBlinkFile.addDataToFile(extractedArray[i]);
+                    }
+                    numberOfLongRecordings++;
+                    makeToast(numberOfLongRecordings);
                 }
                 break;
         }
 
-
-        if (numberOfRecordings == 15 && typeofRecord.equals("cortos")) {
-            numberOfRecordings = 0;
-            shorBlinkFile.writeShortBlinkFile();
-            typeofRecord = "largos";
-            txt_current_blink.setText("Grabación de parpadeos " + typeofRecord);
-
+        if (numberOfShortRecordings == 15 && numberOfLongRecordings == 15) {
+            finishCalibration();
         }
-        if (numberOfRecordings == 15 && typeofRecord.equals("largos")) {
 
-            appState.connectedMuse.disconnect(false);
-            appState.connectedMuse.unregisterAllListeners();
-            appState.connectedMuse = null;
-
-            longBlinkFile.writeLongBlinkFile();
-            Intent i = new Intent(this, MainActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(i);
-        }
         dataSeries.clear();
         updatePlot();
 
@@ -179,7 +228,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         toast.show();
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "WrongViewCast"})
     public void initUI() {
 
         dataSeries = new DynamicSeries(PLOT_TITLE);
@@ -200,12 +249,36 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         btn_save_record.setEnabled(false);
         btn_delete_record.setOnClickListener(this);
 
+        btn_calibrate = (Button) findViewById(R.id.btn_calibrate);
+        btn_calibrate.setBackground(getResources().getDrawable(R.drawable.enable_button));
+        btn_calibrate.setOnClickListener(this);
 
-        txt_current_blink = findViewById(R.id.txt_current_blink);
-        txt_current_blink_number = findViewById(R.id.txt_current_blink_number);
 
-        txt_current_blink.setText("Grabación de parpadeos " + typeofRecord);
-        txt_current_blink_number.setText("Número de grabación: " + numberOfRecordings);
+        radio_group_type = findViewById(R.id.radio_group_type);
+
+        radio_group_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Button radio_btn_long = group.findViewById(checkedId);
+                Button radio_btn_short;
+                // This will get the radiobutton that has changed in its check state
+                RadioButton checkedRadioButton = (RadioButton) group.findViewById(checkedId);
+                // This puts the value (true/false) into the variable
+                boolean isChecked = checkedRadioButton.isChecked();
+                // If the radiobutton that has changed in check state is now checked...
+                if (isChecked) {
+                    // Changes the textview's text to "Checked: example radiobutton text"
+                    CharSequence text = checkedRadioButton.getText();
+
+                    if ("Largos".equals(text)) {
+                        typeofRecord = "largos";
+                    } else if ("Cortos".equals(text)) {
+                        typeofRecord = "cortos";
+                    }
+                }
+            }
+        });
+
+        btnsState("waiting_start");
 
     }
 
@@ -289,26 +362,44 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             case "recording":
                 btn_delete_record.setEnabled(false);
                 btn_delete_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                btn_delete_record.setVisibility(LinearLayout.VISIBLE);
+
                 btn_save_record.setEnabled(false);
                 btn_save_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                btn_save_record.setVisibility(LinearLayout.VISIBLE);
+
                 btn_start_capture.setEnabled(false);
                 btn_start_capture.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                btn_start_capture.setVisibility(LinearLayout.GONE);
+
                 break;
             case "record_saved":
                 btn_delete_record.setEnabled(true);
                 btn_delete_record.setBackground(getResources().getDrawable(R.drawable.delete_button));
+                btn_delete_record.setVisibility(LinearLayout.VISIBLE);
+
                 btn_save_record.setEnabled(true);
                 btn_save_record.setBackground(getResources().getDrawable(R.drawable.enable_button));
+                btn_save_record.setVisibility(LinearLayout.VISIBLE);
+
                 btn_start_capture.setEnabled(false);
                 btn_start_capture.setBackground(getResources().getDrawable(R.drawable.disable_button));
+                btn_start_capture.setVisibility(LinearLayout.GONE);
+
                 break;
             case "waiting_start":
                 btn_delete_record.setEnabled(false);
+                btn_delete_record.setVisibility(LinearLayout.GONE);
                 btn_delete_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+
                 btn_save_record.setEnabled(false);
+                btn_save_record.setVisibility(LinearLayout.GONE);
                 btn_save_record.setBackground(getResources().getDrawable(R.drawable.disable_button));
+
                 btn_start_capture.setEnabled(true);
                 btn_start_capture.setBackground(getResources().getDrawable(R.drawable.enable_button));
+                btn_start_capture.setVisibility(LinearLayout.VISIBLE);
+
                 break;
         }
 
@@ -397,5 +488,39 @@ public class EEGPlot extends Activity implements View.OnClickListener {
         dataSeries.addAll(eegBuffer.extractSingleChannelTransposedAsDouble(numEEGPoints, channelOfInterest));
         eegBuffer.resetPts();
         filterPlot.redraw();
+    }
+
+    void readDataBase() {
+
+        String dbShortBlink = "ShortBlinkDB";
+        String dbLongBlink = "LongBlinkDB";
+        String dbNoneBlink = "NoneBlinkDB";
+
+        try {
+            final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbShortBlink + ".json");
+            FileReader filePathReader = new java.io.FileReader(file);
+            InputStream inputStream = getResources().getAssets().open(dbShortBlink + ".json");
+            EEGFileReader fileReader = new EEGFileReader(filePathReader);
+            //EEGFileReader fileReader = new EEGFileReader(inputStream);
+            originalSignalShortBlink = fileReader.readToArray();
+            System.out.println("Lectura del primer archivo");
+
+        } catch (IOException e) {
+            Log.w("EEGGraph", "File not found error");
+        }
+
+        try {
+            final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbLongBlink + ".json");
+            FileReader filePathReader = new java.io.FileReader(file);
+            InputStream inputStream = getResources().getAssets().open(dbLongBlink + ".json");
+            EEGFileReader fileReader = new EEGFileReader(filePathReader);
+            //EEGFileReader fileReader = new EEGFileReader(inputStream);
+
+            originalSignalLongBlink = fileReader.readToArray();
+            System.out.println("Lectura del segundo archivo");
+        } catch (IOException e) {
+            Log.w("EEGGraph", "File not found error");
+        }
+
     }
 }

@@ -30,6 +30,8 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="18sp"
+
             android:fontFamily="@font/roboto_thin"
             android:text="@string/lista_de_dispositivos_disponibles"
             android:textColor="@color/primary_white"
@@ -55,28 +57,28 @@
             android:layout_marginEnd="15dp"
             android:orientation="vertical">
 
-            <SeekBar
-                android:id="@+id/seekBar_sensibility"
-                android:layout_width="150dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:rotation="270"
-                android:progress="65"
-                />
+<!--            <SeekBar-->
+<!--                android:id="@+id/seekBar_sensibility"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:rotation="270"-->
+<!--                android:progress="65"-->
+<!--                />-->
 
-            <TextView
-                android:id="@+id/txt_current_sensibility"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="20dp"
+<!--            <TextView-->
+<!--                android:id="@+id/txt_current_sensibility"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_margin="20dp"-->
 
-                android:fontFamily="@font/roboto_thin"
-                android:gravity="center"
+<!--                android:fontFamily="@font/roboto_thin"-->
+<!--                android:gravity="center"-->
 
-                android:textColor="@color/primary_white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+<!--                android:textColor="@color/primary_white"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textStyle="bold" />-->
 
         </FrameLayout>
 
@@ -127,6 +129,7 @@
                             android:drawableStart="@drawable/ic_arrow_up"
                             android:fontFamily="@font/roboto_thin"
                             android:gravity="center_vertical"
+
                             android:paddingLeft="10dp" />
                     </LinearLayout>
 
@@ -139,6 +142,8 @@
                         android:text="@string/txt_comand_up"
                         android:textColor="@color/primary_white"
                         android:textSize="32sp"
+                        android:autoSizeMaxTextSize="32sp"
+
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -180,6 +185,8 @@
                         android:text="@string/txt_command_down"
                         android:textColor="@color/primary_white"
                         android:textSize="32sp"
+                        android:autoSizeMaxTextSize="32sp"
+
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -220,6 +227,8 @@
                         android:text="@string/txt_command_accept"
                         android:textColor="@color/primary_white"
                         android:textSize="32sp"
+                        android:autoSizeMaxTextSize="32sp"
+
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -260,6 +269,7 @@
                         android:text="@string/txt_comand_activate"
                         android:textColor="@color/primary_white"
                         android:textSize="32sp"
+                        android:autoSizeMaxTextSize="32sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -294,6 +304,7 @@
                         android:text=""
                         android:textColor="@color/primary_color1"
                         android:textSize="32sp"
+                        android:autoSizeMaxTextSize="32sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -306,6 +317,7 @@
                     android:fontFamily="@font/roboto_thin"
                     android:paddingTop="10dp"
                     android:text="@string/comando_actual"
+                    android:autoSizeMaxTextSize="18sp"
                     android:textColor="@color/primary_white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -318,28 +330,28 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:orientation="vertical">
-            <SeekBar
-                android:id="@+id/seekBar_umbral"
-                android:layout_width="150dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:rotation="270"
-                android:progress="75"
-                />
+<!--            <SeekBar-->
+<!--                android:id="@+id/seekBar_umbral"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:rotation="270"-->
+<!--                android:progress="75"-->
+<!--                />-->
 
-            <TextView
-                android:id="@+id/txt_current_umbral"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="20dp"
+<!--            <TextView-->
+<!--                android:id="@+id/txt_current_umbral"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_margin="20dp"-->
 
-                android:fontFamily="@font/roboto_thin"
-                android:gravity="center"
+<!--                android:fontFamily="@font/roboto_thin"-->
+<!--                android:gravity="center"-->
 
-                android:textColor="@color/primary_white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+<!--                android:textColor="@color/primary_white"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textStyle="bold" />-->
 
         </FrameLayout>
     </LinearLayout>
@@ -371,6 +383,7 @@
             android:textAllCaps="false"
             android:textColor="@color/primary_white"
             android:textSize="18sp"
+            android:autoSizeMaxTextSize="18sp"
             android:textStyle="bold" />
 
         <Button
@@ -387,6 +400,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="@string/cambiar_canal"
+            android:autoSizeMaxTextSize="18sp"
             android:textAllCaps="false"
             android:textColor="@color/primary_color1"
             android:textSize="18sp"
@@ -407,6 +421,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="@string/cambiar_canal_down"
+            android:autoSizeMaxTextSize="18sp"
             android:textAllCaps="false"
             android:textColor="@color/primary_color1"
             android:textSize="18sp"

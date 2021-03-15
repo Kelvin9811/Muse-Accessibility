@@ -91,6 +91,7 @@ public class DynamicSeries implements XYSeries, PlotListener {
 
     public float[] getPSample() {
         final float[] pSample = new float[yVals.size()];
+
         for (int i = 0; i < yVals.size(); i++) {
             pSample[i] = Float.parseFloat(String.valueOf(yVals.get(i)));
         }

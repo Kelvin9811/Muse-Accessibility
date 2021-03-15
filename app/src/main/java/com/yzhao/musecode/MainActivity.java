@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startControlActivity();
             }
         });
+
+        Button start_test = (Button) findViewById(R.id.btn_start_test_activity);
+        start_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startTestActivity();
+            }
+        });
     }
 
     public void startRecordActivity() {
@@ -70,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void startControlActivity() {
         Intent intent = new Intent(this, MuseConnection.class);
         intent.putExtra("FLOW", "CONTROL");
+        startActivity(intent);
+    }
+
+    public void startTestActivity() {
+        Intent intent = new Intent(this, MuseConnection.class);
+        intent.putExtra("FLOW", "TEST");
         startActivity(intent);
     }
 

@@ -2,7 +2,6 @@
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#68B0AB"
@@ -12,36 +11,37 @@
         android:id="@+id/imageView4"
         android:layout_width="300dp"
         android:layout_height="72dp"
+        android:layout_marginBottom="200dp"
         android:contentDescription="@string/app_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"
         app:srcCompat="@drawable/ic_app_name" />
 
     <Button
         android:id="@+id/btn_start_conection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:background="@drawable/rounded_corners"
         android:backgroundTint="@color/primary_color2"
         android:drawableStart="@drawable/ic_user_white"
+        android:drawablePadding="5dp"
         android:fontFamily="@font/roboto_thin"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:drawablePadding="5dp"
-        android:text="@string/iniciar_captura_de_datos"
+        android:autoSizeMaxTextSize="18sp"
+        android:text="Calibración de datos"
         android:textAllCaps="false"
         android:textColor="@color/primary_white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginVertical="48dp"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@id/imageView4" />
 
     <Button
         android:id="@+id/btn_start_device_control"
@@ -54,16 +54,55 @@
         android:fontFamily="@font/roboto_thin"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/iniciar_contorl_de_dispositivos"
+        android:text="Control de dispositivos"
         android:textAllCaps="false"
+        android:autoSizeMaxTextSize="18sp"
         android:textColor="@color/primary_white"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginVertical="24dp"
+        app:layout_constraintHorizontal_bias="0.565"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start_conection"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintTop_toBottomOf="@id/btn_start_conection" />
 
+    <Button
+        android:id="@+id/btn_start_test_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/primary_color2"
+        android:drawableStart="@drawable/ic_pencil_square"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/roboto_thin"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Prueba de parpadeos"
+        android:textAllCaps="false"
+        android:autoSizeMaxTextSize="18sp"
+        android:textColor="@color/primary_white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginVertical="24dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_device_control" />
+
+    <TextView
+        android:id="@+id/txt_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:autoSizeMaxTextSize="18sp"
+        android:fontFamily="@font/roboto_thin"
+        android:gravity="center"
+        android:text="@string/app_version"
+        android:textColor="@color/primary_white"
+        android:textSize="18sp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -61,7 +61,7 @@ public class EEGFileReader {
         int len = readList.size();
 
         double[][] readArray = new double[readList.size()][4];
-
+        System.out.println("tamaño ---------"+readArray.length);
         for (int i = 0; i < len; i++) {
             readArray[i] = readList.get(i);
         }

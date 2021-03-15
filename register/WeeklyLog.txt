@@ -343,6 +343,57 @@ Que cambia yt porque cambia
 4 minutos hasta que se acostumbro jordan
 
 
+Revisar captura de datos.
+Muse v. mu02
+
+
+Asunto de evaluar clasificacion del sistema
+
+Que evaluar en las pruebas
+
+el sistema de reconocimiento, cuantos intentos de encender el dispositivo A
+El dispositivo B
+
+cuantas se ejecutaron/para las veces que intenté
+
+
+
+
+tema de usabilidad y funcionabilidad, exactitud.
+
+
+que tan amigable de usabilidad
+
+
+el usuario envio 2 parpadeos largos mal pero el sistema no fue la culpa de el
+
+
+pantalla de testeo para ver que modelo se evalua
+
+matriz de confucion?: 2 clases de interes 
+
+mismas clases en filas y mismas clases en clolumnas
+
+
+	0	1
+
+largo		50
+cortos		50
+
+incluir la base de datos quemada y la calibrada
+
+Cambiar el esquema de calibración
+
+
+
+
+
+
+
+
+
+
+
 
 
 

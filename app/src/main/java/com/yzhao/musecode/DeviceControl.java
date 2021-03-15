@@ -146,17 +146,17 @@ public class DeviceControl extends Activity implements View.OnClickListener {
         channel_down = (Button) findViewById(R.id.channel_down);
         channel_down.setOnClickListener(this);
 
-        SeekBar seekBar_sensibility = findViewById(R.id.seekBar_sensibility);
-        seekBar_sensibility.setOnSeekBarChangeListener(seekBarSensibilityChangeListener);
-
-        txt_current_sensibility = findViewById(R.id.txt_current_sensibility);
-        txt_current_sensibility.setText("" + sensibility_detection);
-
-        SeekBar seekBar_umbral = findViewById(R.id.seekBar_umbral);
-        seekBar_umbral.setOnSeekBarChangeListener(seekBarUmbralChangeListener);
-
-        txt_current_umbral = findViewById(R.id.txt_current_umbral);
-        txt_current_umbral.setText("" + current_umbral);
+//        SeekBar seekBar_sensibility = findViewById(R.id.seekBar_sensibility);
+//        seekBar_sensibility.setOnSeekBarChangeListener(seekBarSensibilityChangeListener);
+//
+//        txt_current_sensibility = findViewById(R.id.txt_current_sensibility);
+//        txt_current_sensibility.setText("" + sensibility_detection);
+//
+//        SeekBar seekBar_umbral = findViewById(R.id.seekBar_umbral);
+//        seekBar_umbral.setOnSeekBarChangeListener(seekBarUmbralChangeListener);
+//
+//        txt_current_umbral = findViewById(R.id.txt_current_umbral);
+//        txt_current_umbral.setText("" + current_umbral);
     }
 
     SeekBar.OnSeekBarChangeListener seekBarSensibilityChangeListener = new SeekBar.OnSeekBarChangeListener() {
