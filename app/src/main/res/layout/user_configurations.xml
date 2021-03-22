@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_white">
+
+    <LinearLayout
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/white_border_bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            android:background="#00FFFFFF"
+            android:foreground="@drawable/ic_black_arrow_left" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:autoSizeMaxTextSize="18dp"
+            android:fontFamily="@font/roboto_thin"
+            android:text="Configuraciones de usuario"
+            android:textColor="@color/primary_black"
+            android:textSize="18sp"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerView"
+        android:paddingBottom="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_corners_grey_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp"
+
+            >
+
+            <SeekBar
+                android:id="@+id/seekBar_sensibility"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:progress="65"
+
+                />
+
+            <TextView
+                android:id="@+id/txt_current_sensibility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:autoSizeMaxTextSize="18dp"
+                android:fontFamily="@font/roboto_thin"
+                android:text="Sensibilidad al detectar parpadeos: 65%"
+                android:textColor="@color/primary_black"
+                android:textSize="18sp"
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_corners_grey_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp"
+
+            >
+
+            <SeekBar
+                android:id="@+id/seekBar_umbral"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:progress="65"
+
+                />
+
+            <TextView
+                android:id="@+id/txt_current_umbral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:autoSizeMaxTextSize="18dp"
+                android:fontFamily="@font/roboto_thin"
+                android:text="Sensibilidad al clasificar un parpadeo: 65%"
+                android:textColor="@color/primary_black"
+                android:textSize="18sp"
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_corners_grey_border"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:autoSizeMaxTextSize="18dp"
+                android:fontFamily="@font/roboto_thin"
+                android:text="Número de vecinos cercanos"
+                android:textColor="@color/primary_black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_corners_grey_border"
+                android:orientation="horizontal"
+                >
+
+                <Button
+                    android:id="@+id/btn_subtract_neighbor"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_left_corners"
+                    android:text="-"
+                    android:textColor="@color/primary_white"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_current_knn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:autoSizeMaxTextSize="18dp"
+                    android:fontFamily="@font/roboto_thin"
+                    android:text="10"
+                    android:textColor="@color/primary_black"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btn_add_neighbor"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_rigth_corners"
+                    android:text="+"
+                    android:textColor="@color/primary_white" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_save_tree_configurations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp"
+            android:autoSizeMaxTextSize="18sp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/primary_color1"
+            android:drawableStart="@drawable/ic_floppy_disk"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Guardar"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_device_control" />
+
+        <Button
+            android:id="@+id/btn_chose_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp"
+            android:autoSizeMaxTextSize="18sp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/primary_color1"
+            android:drawableStart="@drawable/ic_list"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Escoger canal de transmisión"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_white"
+            android:textSize="18sp"
+
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_device_control" />
+
+
+
+        <Button
+            android:id="@+id/btn_start_test_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="18sp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/primary_color1"
+            android:drawableStart="@drawable/ic_pencil_square"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Probar el clasificador"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_white"
+            android:textSize="18sp"
+
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_device_control" />
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

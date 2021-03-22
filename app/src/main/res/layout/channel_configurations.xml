@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_white">
+
+    <LinearLayout
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/white_border_bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            android:background="#00FFFFFF"
+            android:foreground="@drawable/ic_black_arrow_left" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:autoSizeMaxTextSize="18dp"
+            android:fontFamily="@font/roboto_thin"
+            android:text="Configuraciones de usuario"
+            android:textColor="@color/primary_black"
+            android:textSize="18sp"
+
+            />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:fillViewport="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headerView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners_grey_border"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="12dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Canal: 1"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp"
+
+                        />
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/max_channel_1"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Máximo: 900"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/mean_channel_1"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Media: 800"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/min_channel_1"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Mínimo: 700"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <FrameLayout
+                        android:id="@+id/frame_layout_xyplot_channel_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@drawable/rounded_corners_grey_border"
+                        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/texts_state_container" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners_grey_border"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="12dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Canal: 2"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp"
+
+                        />
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/max_channel_2"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Máximo: 900"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/mean_channel_2"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Media: 800"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/min_channel_2"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Mínimo: 700"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <FrameLayout
+                        android:id="@+id/frame_layout_xyplot_channel_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@drawable/rounded_corners_grey_border"
+
+                        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/texts_state_container" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners_grey_border"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="12dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Canal: 3"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp"
+
+                        />
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/max_channel_3"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Máximo: 900"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/mean_channel_3"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Media: 800"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/min_channel_3"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Mínimo: 700"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <FrameLayout
+                        android:id="@+id/frame_layout_xyplot_channel_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@drawable/rounded_corners_grey_border"
+
+                        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/texts_state_container" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners_grey_border"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="12dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Canal: 4"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp"
+
+                        />
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/max_channel_4"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Máximo: 900"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/mean_channel_4"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Media: 800"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/min_channel_4"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:autoSizeMaxTextSize="18dp"-->
+<!--                        android:fontFamily="@font/roboto_thin"-->
+<!--                        android:text="Mínimo: 700"-->
+<!--                        android:textColor="@color/primary_black"-->
+<!--                        android:textSize="18sp" />-->
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <FrameLayout
+                        android:id="@+id/frame_layout_xyplot_channel_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@drawable/rounded_corners_grey_border"
+
+                        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/texts_state_container" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners_grey_border"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:autoSizeMaxTextSize="18dp"
+                    android:fontFamily="@font/roboto_thin"
+                    android:text="Número de canal"
+                    android:textColor="@color/primary_black"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/rounded_corners_grey_border"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/subtract_channel"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_left_corners"
+                        android:text="-"
+                        android:textColor="@color/primary_white" />
+
+                    <TextView
+                        android:id="@+id/channel_of_interest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="4"
+                        android:padding="5dp"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/add_channel"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_rigth_corners"
+                        android:text="+"
+                        android:textColor="@color/primary_white" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_save_channel_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:autoSizeMaxTextSize="18sp"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="@color/primary_color1"
+                android:drawableStart="@drawable/ic_pencil_square"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto_thin"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Guardar"
+                android:textAllCaps="false"
+                android:textColor="@color/primary_white"
+                android:textSize="18sp"
+
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_start_device_control" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

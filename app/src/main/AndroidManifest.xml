@@ -51,6 +51,12 @@
             android:name=".BlinkTest"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ChosseChannel"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserConfigurations"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".HeadbandInstructions"
             android:screenOrientation="portrait" />
         <provider

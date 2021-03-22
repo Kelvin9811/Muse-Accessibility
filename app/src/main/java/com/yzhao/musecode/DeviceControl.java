@@ -49,6 +49,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
 
     public DataListener dataListener;
     MainActivity appState;
+    MainActivity configurations;
     private int notchFrequency = 14;
     private static final int PLOT_LENGTH = 255 * 3;
     public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
@@ -89,6 +90,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        channelOfInterest=configurations.channelOfInterest;
         setContentView(R.layout.device_control);
         startConfigurations();
         readDataBase();

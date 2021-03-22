@@ -139,6 +139,24 @@ public class EEGFileWriter {
         }
     }
 
+
+    public void writeConfigurationsFile() {
+        try {
+            final File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
+            final File file = new File(dir, "Configurations.json");
+            fileWriter = new java.io.FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(builder.toString());
+            bufferedWriter.close();
+            sendData(file);
+            fileNum++;
+            isRecording = false;
+        } catch (IOException e) {
+        }
+    }
+
+
     public void sendData(File dataCSV) {
 
         //FileProvider fileProvider = new FileProvider();

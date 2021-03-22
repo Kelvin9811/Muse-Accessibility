@@ -81,4 +81,17 @@ public class EEGFileReader {
 
         return readArray;
     }
+
+    public int[] readConfigurations() {
+        readList = read();
+        int len = readList.size();
+
+        int[] readArray = new int[readList.size()];
+
+        for (int i = 0; i < len; i++) {
+            readArray[i] = (int) readList.get(i)[0];
+        }
+
+        return readArray;
+    }
 }

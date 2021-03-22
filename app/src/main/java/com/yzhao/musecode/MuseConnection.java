@@ -80,6 +80,10 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
                     Intent testIntent = new Intent(this, BlinkTest.class);
                     startActivity(testIntent);
                     break;
+                case "CHANNEL":
+                    Intent channelIntent = new Intent(this, ChosseChannel.class);
+                    startActivity(channelIntent);
+                    break;
                 default:
                     break;
             }

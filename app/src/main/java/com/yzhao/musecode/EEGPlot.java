@@ -64,7 +64,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     public Filter activeFilter;
     public double[][] filtState;
     public int channelOfInterest = 3;
-    MainActivity TAG;
+    MainActivity configurations;
     private int frameCounter = 0;
     private int numberOfRecordings = 0;
 
@@ -96,6 +96,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        channelOfInterest=configurations.channelOfInterest;
         setContentView(R.layout.egg_graph);
         shorBlinkFile.initFile();
         longBlinkFile.initFile();

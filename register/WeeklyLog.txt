@@ -384,9 +384,21 @@ incluir la base de datos quemada y la calibrada
 
 Cambiar el esquema de calibración
 
+------------------------------------------------------------------------------------------------
+Visualizacion de señales
 
 
 
+Pantalla de configuración
+
+sensibilidad del humbral
+sensibilidad de la probabilidad
+Numero de vecinos !> 15
+
+boton para Pantalla de canales
+boton para pruebas
+
+Buscar el formato para adctualizacion
 
 
 

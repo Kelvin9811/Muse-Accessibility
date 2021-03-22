@@ -328,8 +328,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_pencil_square" />
-                            <entry key="sourceFile" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\resources\pencil-square.svg" />
+                            <entry key="outputName" value="ic_floppy_disk" />
+                            <entry key="sourceFile" value="C:\Users\kortiz\Documents\Kelvin\Tesis\Android example\muse-code-master\resources\floppy-disk.svg" />
                           </map>
                         </option>
                       </PersistentState>

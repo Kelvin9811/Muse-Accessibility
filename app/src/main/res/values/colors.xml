@@ -12,5 +12,5 @@
     <color name="dissable_button">#C9C9C9</color>
     <color name="delete_button">#EBA6A6</color>
     <color name="primary_black">#000</color>
-
+    <color name="border_grey">#C4C4C4</color>
 </resources>

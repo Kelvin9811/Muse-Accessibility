@@ -29,15 +29,9 @@ public class Knn {
 
         double[][] distancesBlink = new double[150][150];
         float[] pSample = dataSeries.getPSample();
-        System.out.println("-------------------------");
-        System.out.println(originalSignalShortBlink.length);
-
         getSampleRange(originalSignalShortBlink, 0);
-        System.out.println("-------------------------");
+
         for (int i = 0; i < 15; i++) {
-            System.out.println("-------------------------");
-            System.out.println("FOR");
-            System.out.println("-------------------------");
 
             distancesBlink[1][i] = dtw.compute(pSample, getSampleRange(originalSignalShortBlink, i)).getDistance();
             distancesBlink[2][i] = 0;
@@ -65,7 +59,7 @@ public class Knn {
                 }
             }
         }
-        int k = 10;
+        int k = MainActivity.kNearestNeighbors;
 
         double numberOfShortBlinks = 0;
         double numberOfLongBlinks = 0;
@@ -83,6 +77,7 @@ public class Knn {
         System.out.println("Numero de parpadeos largos: " + numberOfLongBlinks);
         System.out.println("Numero de parpadeos ninguno: " + numberOfNoneBlinks);
         System.out.println("Numero umbral: " + umbral);
+        System.out.println("Numero de vecinos: " + k);
 
         if (numberOfNoneBlinks > umbral)
             return "";

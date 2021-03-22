@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.choosemuse.libmuse.Muse;
+import com.yzhao.musecode.components.csv.ConfigurationsFileManager;
 import com.yzhao.musecode.components.csv.DataBaseFileWriter;
 import com.yzhao.musecode.components.csv.EEGFileReader;
 import com.yzhao.musecode.components.csv.EEGFileWriter;
@@ -23,12 +24,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static Muse connectedMuse;
     public final String TAG = "MuseCode";
 
+    public static int channelOfInterest = 3;
+    public static int detectionSensibility = 65;
+    public static int probabilitySensibility = 65;
+    public static int kNearestNeighbors = 15;
 
     @Override
     public void onClick(View view) {
@@ -60,11 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        Button start_test = (Button) findViewById(R.id.btn_start_test_activity);
+        Button start_test = (Button) findViewById(R.id.btn_user_configurations);
         start_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startTestActivity();
+                userConfigurationsActivity();
             }
         });
     }
@@ -81,9 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void startTestActivity() {
-        Intent intent = new Intent(this, MuseConnection.class);
-        intent.putExtra("FLOW", "TEST");
+    public void userConfigurationsActivity() {
+        Intent intent = new Intent(this, UserConfigurations.class);
         startActivity(intent);
     }
 
@@ -91,18 +96,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void startDataBase() {
 
         boolean databaseReady = false;
+        boolean configurationsReady = false;
         String dbShortBlink = "ShortBlinkDB";
         String dbLongBlink = "LongBlinkDB";
         String dbNoneBlink = "NoneBlinkDB";
+        String configurations = "Configurations";
 
         final File fileShortBlinkDB = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbShortBlink + ".json");
         final File fileLongBlinkDB = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbLongBlink + ".json");
         final File fileNoneBlinkDB = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbNoneBlink + ".json");
+        final File configurationsDB = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), configurations + ".json");
 
         try {
-             new FileReader(fileShortBlinkDB);
-             new java.io.FileReader(fileLongBlinkDB);
-             new java.io.FileReader(fileNoneBlinkDB);
+            new FileReader(fileShortBlinkDB);
+            new java.io.FileReader(fileLongBlinkDB);
+            new java.io.FileReader(fileNoneBlinkDB);
+            new java.io.FileReader(configurationsDB);
         } catch (FileNotFoundException e) {
             databaseReady = true;
         }
@@ -111,9 +120,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             EEGFileWriter shorBlinkFile = new EEGFileWriter(this, "Captura de datos");
             EEGFileWriter longBlinkFile = new EEGFileWriter(this, "Captura de datos");
             EEGFileWriter noneBlinkFile = new EEGFileWriter(this, "Captura de datos");
-             shorBlinkFile.initFile();
-             longBlinkFile.initFile();
-             noneBlinkFile.initFile();
+            EEGFileWriter configurationsFile = new EEGFileWriter(this, "Captura de datos");
+
+            shorBlinkFile.initFile();
+            longBlinkFile.initFile();
+            noneBlinkFile.initFile();
+            configurationsFile.initFile();
+
             try {
 
                 InputStream inputStream = getResources().getAssets().open(dbShortBlink + ".json");
@@ -140,7 +153,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (IOException e) {
                 Log.w("EEGGraph", "File not found error");
             }
+
+            try {
+
+                InputStream inputStream = getResources().getAssets().open(configurations + ".json");
+                ConfigurationsFileManager fileReader = new ConfigurationsFileManager(inputStream);
+                fileReader.writeStartConfiguration(configurationsFile);
+
+                int[] readList = fileReader.readList;
+                channelOfInterest = readList[0];
+                detectionSensibility = readList[1];
+                probabilitySensibility = readList[2];
+                kNearestNeighbors = readList[3];
+
+            } catch (IOException e) {
+                Log.w("EEGGraph", "File not found error");
+            }
         }
+
+        try {
+            final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), configurations + ".json");
+            FileReader filePathReader = new java.io.FileReader(file);
+            EEGFileReader fileReader = new EEGFileReader(filePathReader);
+
+            int[] startConfigurations = fileReader.readConfigurations();
+
+            channelOfInterest = startConfigurations[0];
+            detectionSensibility = startConfigurations[1];
+            probabilitySensibility = startConfigurations[2];
+            kNearestNeighbors = startConfigurations[3];
+
+        } catch (IOException e) {
+            Log.w("EEGGraph", "File not found error");
+        }
+
     }
 
+
 }
+

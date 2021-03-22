@@ -53,7 +53,10 @@ import java.util.List;
 public class BlinkTest extends Activity implements View.OnClickListener {
 
     public DataListener dataListener;
+
     MainActivity appState;
+    MainActivity configurations;
+
     private LineAndPointFormatter lineFormatter;
     private int notchFrequency = 14;
     private static final int PLOT_LENGTH = 255 * 3;
@@ -98,7 +101,11 @@ public class BlinkTest extends Activity implements View.OnClickListener {
         setContentView(R.layout.blink_test);
         startConfigurations();
         readDataBase();
-        knn = new Knn(originalSignalShortBlink, originalSignalLongBlink, originalSignalNoneBlink, current_umbral);
+
+        channelOfInterest = configurations.channelOfInterest;
+        System.out.println(configurations.channelOfInterest);
+
+        knn = new Knn(originalSignalShortBlink, originalSignalLongBlink, originalSignalNoneBlink, configurations.probabilitySensibility);
         initUI();
     }
 
@@ -143,7 +150,7 @@ public class BlinkTest extends Activity implements View.OnClickListener {
         appState.connectedMuse.disconnect(false);
         appState.connectedMuse.unregisterAllListeners();
         appState.connectedMuse = null;
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, UserConfigurations.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
     }
