@@ -21,8 +21,8 @@ Se detallan los cambios realizados dentro del proyecto Muse Accesibility
 ### Features
 
 - Se añade la pantalla de configuración. Por medio de esta pantalla el usuario tendrá acceso a configurar las opciones: 
--- Sensibilidad al clasificar un parpadeo.
--- Canal de interes.
---  Sensibilidad al detectar un parpadeo.
---  Número de vecinos cercanos.
+- Sensibilidad al clasificar un parpadeo.
+- Canal de interes.
+- Sensibilidad al detectar un parpadeo.
+- Número de vecinos cercanos.
 - Las configuraciónes se guardarán en un archivo local. Al desisntalar la aplicación o eliminar el archivo se perderan las configuraciones y volveran al estado por defecto.
