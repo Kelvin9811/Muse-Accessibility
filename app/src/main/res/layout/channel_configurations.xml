@@ -94,15 +94,15 @@
 
                         />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/max_channel_1"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:autoSizeMaxTextSize="18dp"-->
-<!--                        android:fontFamily="@font/roboto_thin"-->
-<!--                        android:text="Máximo: 900"-->
-<!--                        android:textColor="@color/primary_black"-->
-<!--                        android:textSize="18sp" />-->
+                    <TextView
+                        android:id="@+id/average_channel_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Promedio: 0"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp" />
 
 <!--                    <TextView-->
 <!--                        android:id="@+id/mean_channel_1"-->
@@ -179,15 +179,15 @@
 
                         />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/max_channel_2"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:autoSizeMaxTextSize="18dp"-->
-<!--                        android:fontFamily="@font/roboto_thin"-->
-<!--                        android:text="Máximo: 900"-->
-<!--                        android:textColor="@color/primary_black"-->
-<!--                        android:textSize="18sp" />-->
+                    <TextView
+                        android:id="@+id/average_channel_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Promedio: 0"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp" />
 
 <!--                    <TextView-->
 <!--                        android:id="@+id/mean_channel_2"-->
@@ -266,15 +266,15 @@
 
                         />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/max_channel_3"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:autoSizeMaxTextSize="18dp"-->
-<!--                        android:fontFamily="@font/roboto_thin"-->
-<!--                        android:text="Máximo: 900"-->
-<!--                        android:textColor="@color/primary_black"-->
-<!--                        android:textSize="18sp" />-->
+                    <TextView
+                        android:id="@+id/average_channel_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Promedio: 0"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp" />
 
 <!--                    <TextView-->
 <!--                        android:id="@+id/mean_channel_3"-->
@@ -352,15 +352,15 @@
 
                         />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/max_channel_4"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:autoSizeMaxTextSize="18dp"-->
-<!--                        android:fontFamily="@font/roboto_thin"-->
-<!--                        android:text="Máximo: 900"-->
-<!--                        android:textColor="@color/primary_black"-->
-<!--                        android:textSize="18sp" />-->
+                    <TextView
+                        android:id="@+id/average_channel_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="18dp"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Promedio: 0"
+                        android:textColor="@color/primary_black"
+                        android:textSize="18sp" />
 
 <!--                    <TextView-->
 <!--                        android:id="@+id/mean_channel_4"-->

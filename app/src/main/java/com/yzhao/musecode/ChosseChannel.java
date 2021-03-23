@@ -95,6 +95,18 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
 
     private int secondsOfRecording = 510;
 
+    TextView txtAverage_channel_1;
+    TextView txtAverage_channel_2;
+    TextView txtAverage_channel_3;
+    TextView txtAverage_channel_4;
+
+    int average_channel_1 = 0;
+    int average_channel_2 = 0;
+    int average_channel_3 = 0;
+    int average_channel_4 = 0;
+
+    int average_channels = 100;
+
     EEGFileWriter configurationsFile = new EEGFileWriter(this, "Captura de datos");
 
     @Override
@@ -150,8 +162,12 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         substractChannelButton.setOnClickListener(this);
 
         TextView channelOfInterest = findViewById(R.id.channel_of_interest);
-        channelOfInterest.setText("" + (this.channelOfInterest+1));
+        channelOfInterest.setText("" + (this.channelOfInterest + 1));
 
+        txtAverage_channel_1 = findViewById(R.id.average_channel_1);
+        txtAverage_channel_2 = findViewById(R.id.average_channel_2);
+        txtAverage_channel_3 = findViewById(R.id.average_channel_3);
+        txtAverage_channel_4 = findViewById(R.id.average_channel_4);
     }
 
     public void initViewChannel1(Context context) {
@@ -164,7 +180,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         dataSeriesChannelOne = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlotChannelOne.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
+        filterPlotChannelOne.setRangeBoundaries(average_channel_1 - average_channels, average_channel_1 + average_channels, BoundaryMode.FIXED);
         filterPlotChannelOne.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -226,10 +242,10 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         filterPlotChannelTwo = new XYPlot(context, PLOT_TITLE);
 
         // Create dataSeries that will be drawn on plot (Y will be obtained from dataSource, x will be implicitly generated):
-        dataSeriesChannelTree = new DynamicSeries(PLOT_TITLE);
+        dataSeriesChannelTwo = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlotChannelTwo.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
+        filterPlotChannelTwo.setRangeBoundaries(average_channel_2 - average_channels, average_channel_2 + average_channels, BoundaryMode.FIXED);
         filterPlotChannelTwo.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -239,7 +255,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         lineFormatterChannelTwo.getLinePaint().setStrokeWidth(3);
 
         // Add line to plot
-        filterPlotChannelTwo.addSeries(dataSeriesChannelTree, lineFormatterChannelTwo);
+        filterPlotChannelTwo.addSeries(dataSeriesChannelTwo, lineFormatterChannelTwo);
 
         // Format plot layout
         //Remove margins, padding and border
@@ -294,7 +310,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         dataSeriesChannelTree = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlotChannelTree.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
+        filterPlotChannelTree.setRangeBoundaries(average_channel_3 - average_channels, average_channel_3 + average_channels, BoundaryMode.FIXED);
         filterPlotChannelTree.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -359,7 +375,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         dataSeriesChannelFour = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlotChannelFour.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
+        filterPlotChannelFour.setRangeBoundaries(average_channel_4 - average_channels, average_channel_4 + average_channels, BoundaryMode.FIXED);
         filterPlotChannelFour.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -498,6 +514,32 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
             frameCounter++;
             if (frameCounter % 15 == 0) {
                 updatePlot();
+            }
+
+            if (frameCounter % 510 == 0) {
+                average_channel_1 = dataSeriesChannelOne.getAverage();
+                average_channel_2 = dataSeriesChannelTwo.getAverage();
+                average_channel_3 = dataSeriesChannelTree.getAverage();
+                average_channel_4 = dataSeriesChannelFour.getAverage();
+
+                filterPlotChannelOne.setRangeBoundaries(average_channel_1 - average_channels, average_channel_1 + average_channels, BoundaryMode.FIXED);
+                filterPlotChannelTwo.setRangeBoundaries(average_channel_2 - average_channels, average_channel_2 + average_channels, BoundaryMode.FIXED);
+                filterPlotChannelTree.setRangeBoundaries(average_channel_3 - average_channels, average_channel_3 + average_channels, BoundaryMode.FIXED);
+                filterPlotChannelFour.setRangeBoundaries(average_channel_4 - average_channels, average_channel_4 + average_channels, BoundaryMode.FIXED);
+            }
+
+            if (frameCounter % 250 == 0) {
+                average_channel_1 = dataSeriesChannelOne.getAverage();
+                average_channel_2 = dataSeriesChannelTwo.getAverage();
+                average_channel_3 = dataSeriesChannelTree.getAverage();
+                average_channel_4 = dataSeriesChannelFour.getAverage();
+
+
+
+                txtAverage_channel_1.setText("Promedio: " + (average_channel_1));
+                txtAverage_channel_2.setText("Promedio: " + (average_channel_2));
+                txtAverage_channel_3.setText("Promedio: " + (average_channel_3));
+                txtAverage_channel_4.setText("Promedio: " + (average_channel_4));
             }
         }
 
