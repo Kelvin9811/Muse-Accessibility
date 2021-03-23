@@ -26,3 +26,15 @@ Se detallan los cambios realizados dentro del proyecto Muse Accesibility
 - Sensibilidad al detectar un parpadeo.
 - Número de vecinos cercanos.
 - Las configuraciónes se guardarán en un archivo local. Al desisntalar la aplicación o eliminar el archivo se perderan las configuraciones y volveran al estado por defecto.
+
+
+## Detalles de la version 2.0.1
+
+
+
+### Features
+
+- Se añade en la pantalla de seleccionar el canal una forma dinámica de captar los valores.
+- Cada canal toma los valores sin máximos ni mínimos.
+- Se añade una descripcion del promedio de los últimos 15 valores que ha enviado el Muse Headband
+- 
