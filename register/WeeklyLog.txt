@@ -432,3 +432,11 @@ Buscar el formato para adctualizacion
 
 
 
+
+
+Documentar parte práctica: KNN
+entra la sñal
+que procesamiento hace
+como se clasifica
+
+

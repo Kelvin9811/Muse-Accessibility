@@ -1,0 +1,254 @@
+VICERRECTORADO DE DOCENCIA
+
+ 
+
+FACULTAD DE INGENIERÍA DE SISTEMAS
+ 
+F_AA_225
+ 
+CARRERA DE INGENIERÍA EN SISTEMAS INFORMÁTICOS Y DE COMPUTACIÓN
+
+PLAN DE TRABAJO DE TITULACIÓN
+
+TIPO DE TRABAJO DE TITULACIÓN: PROYECTO INTEGRADOR
+
+I.- INFORMACIÓN BÁSICA
+PROPUESTO POR:
+Kelvin Alexis Ortiz Chicaiza	LÍNEA DE INVESTIGACIÓN:
+Computación centrada en el humano
+AUSPICIADO POR:
+Director: Dr. Marco Benalcázar	FECHA:
+10/03/2020
+RELACIÓN:
+Director del Proyecto de Investigación: N/A
+II.- INFORMACIÓN DEL TRABAJO DE TITULACIÓN
+1. Título del Trabajo de Titulación
+DESARROLLO DE UNA INTERFAZ CEREBRO-COMPUTADOR PARA EL CONTROL DE DISPOSITIVOS IOT MEDIANTE EL USO DE SEÑALES EEG DE PARPADEOS PARA PERSONAS CON DISCAPACIDAD MOTRIZ DE LA
+FUNDACIÓN HERMANO MIGUEL.
+2. Planteamiento del Problema
+A las personas con discapacidades motrices como distrofia muscular, espina bífida o paraplejias como se menciona en [1], se les dificulta realizar tareas como encender un televisor o un foco con facilidad, dificultando su interacción con el entorno. Son varios los problemas que puede generar la discapacidad motriz, entre los principales podemos mencionar: movimientos exacto-incontrolados, dificultades de coordinación, alcance limitado, fuerza reducida, habla no inteligible y mala accesibilidad al medio físico [1]. En muchos de los casos de personas que presentan discapacidades motrices, es dificultoso contar con una persona que brinde ayuda constante o por periodos regulados. Por ello a lo largo del tiempo se ha propuesto distintas alternativas de automatización de dispositivos como se menciona en [2], [3] y [4] que ofrecen ayuda a personas discapacitadas. Aunque existe varias soluciones que son de ayuda al realizar tareas como
+ 
+VICERRECTORADO DE DOCENCIA
+
+las mencionadas con anterioridad, cada una tiene su limitante como se puede evidenciar en los dispositivos que dependen de una batería integrada siendo limitados por el suministro de energía [5]. Además, existen casos en los cuales, la clasificación en tiempo real muestra falsos positivos [6]. Asimismo, si la persona discapacitada y el dispositivo que se desee controlar no están ubicados dentro de una misma habitación no se podrá efectuar ninguna actividad [7].
+Teniendo en cuenta lo mencionado, el presente proyecto propone resolver la limitante de contar con una persona que brinde ayuda constante a una persona discapacitada tomando en cuenta algunas ventajas con respecto a los dispositivos existentes. Por ello, se planteó el desarrollo de una interfaz cerebro-computador que utiliza señales EEG de parpadeos, dado que, este tipo de señales presentan mejores resultados de clasificación en tiempo real [8]. Además, se plantea implementar una arquitectura que utiliza IOT que permitirá el control de distintos dispositivos electrónicos como televisores o bombillas adaptadas sin importar su ubicación y utilizando equipos de adquisición de señales que pueden
+mantener un funcionamiento constante.
+3. Justificación Justificación Teórica
+Una Interfaz Cerebro-Computador (BCI) es un sistema que evalúa las actividades del Sistema Nervioso Central (SNC) y las traduce como un resultado artificial que simula la producción natural del SNC [9]. Esta tecnología ha sido utilizada para diversas aplicaciones, en sus principios las aplicaciones eran biomédicas [10], lo cual llevo a la generación de dispositivos de asistencia [11] como son las prótesis y las sillas de ruedas controladas con ondas cerebrales. Todas estas aplicaciones presentan beneficios para el ser humano, pero se puede evidenciar de mejor manera en personas con discapacidades. El desarrollo y la evolución tecnológica ha permitido el descubrimiento de nuevas herramientas que permiten brindar soporte a las personas con discapacidad física.
+Una BCI evalúa las ondas cerebrales las cuales pueden ser utilizadas para controlar dispositivos externos. En términos simples, esta tecnología actúa como una plataforma intermediaria entre el cerebro y un dispositivo electrónico. Con el tiempo, el alcance de la investigación del BCI se ha ampliado para incluir aplicaciones no médicas. Estudios más recientes han utilizado el BCI como un nuevo dispositivo de entrada para aplicaciones de manos libres [12]–[16] permitiéndole al usuario el control de diferentes
+dispositivos como autos y drones.
+ 
+VICERRECTORADO DE DOCENCIA
+
+Teniendo en cuenta lo antes mencionado, la implementación de un BCI para el control de dispositivos electrónicos es una solución viable para brindar soporte a las personas con discapacidades físicas. El sistema propuesto permitirá que las personas con discapacidades físicas realicen tareas como encender un foco o controlar un televisor sin necesidad de que exista un contacto físico directo entre el dispositivo y la persona discapacitada. El BCI utilizará señales EEG de parpadeos, dado que, ha presentado mejores resultados al clasificarlas en tiempo real comparados con EEG medidos en otras áreas de la cabeza [8]. Esto se realizará con el fin de enviar de comandos, que dependerán de la combinación de los parpadeos de la persona discapacitada, a los dispositivos electrónicos.
+
+Justificación Metodológica
+Para el desarrollo del presente proyecto se aplicará una adaptación conjunta de la metodología de investigación denominada “Action Research” [17], [18] y de la metodología de desarrollo del software llamada SCRUM [19], [20]. Action Research es una metodología en la cual, la investigación se basa en un proceso cíclico compuesto de cinco fases: diagnosticar, planificar, actuar, observar, y reflexionar. La ejecución de las cinco fases (denominada un ciclo) genera nuevos conocimientos (aprendizajes) que permite ejecutar la siguiente iteración con mayor acercamiento a la solución final. Los ciclos son ejecutados iterativamente hasta tener la solución final del problema. Se ha llegado a la conclusión de aplicar esta metodología ya que es la que mejor se adapta para la creación de prototipos. Cada iteración del ciclo (creación de una nueva versión del prototipo) permitirá el refinamiento de los requisitos y por ende al acercamiento de la versión final del sistema. Adicionalmente, se ha decidido en adaptar la metodología SCRUM por su flexibilidad y agilidad para trabajar en el desarrollo de proyectos en procesos iterativos.
+
+Justificación Practica
+En cuanto a la medición de la actividad cerebral, existe varias tecnologías que permiten hacerlo. Entre ellos, la tecnología no invasiva de electroencefalograma (EEG) es el más utilizado, debido a que no afecta físicamente al cuerpo humano, su instalación y uso es sencillo y el costo del equipo es relativamente económico [21]. El método de lectura de ondas cerebrales mediante el EEG tiene una alta frecuencia temporal y es capaz de medir los cambios que ocurren dentro de milisegundos [22]. Esta tecnología Incluye sensores
+ 
+VICERRECTORADO DE DOCENCIA
+
+que detectan las actividades eléctricas del cerebro que se registran en el cuero cabelludo [23]–[25]. En el mercado existe varios dispositivos que miden la actividad cerebral por medio de electroencefalografía con altos costos económicos de implementación [21]. El presente proyecto utilizará un sistema de biodetección OpenSource relativamente económico llamado OpenBCI [26]. Este dispositivo brinda autonomía eléctrica, además de proporcionar una batería que permite que el mecanismo sea portable.
+Como se mencionó anteriormente, las actividades de la persona se reflejan en sus ondas cerebrales; Por ejemplo, cuando una persona realiza una tarea como parpadear, es posible ver los cambios de las señales de EEG sin procesar, ya que dicho movimiento produce una leve activación de las ondas cerebrales. Los parpadeos de los ojos normalmente se consideran artefactos internos en el EEG, y estos artefactos pueden ser buenas señales de control, ya que pueden usarse en diversas aplicaciones de BCI [27].
+La importancia de desarrollar una BCI para personas discapacitadas es el cambio significativo en los estilos de vida de los interesados, dado que, por medio de un sistema podrán realizar tareas que se les hace imposible sin la ayuda de otra persona. Además, la fundación Hermano Miguel prestará sus servicios para realizar pruebas en entornos reales y con discapacidades motrices. Estas pruebas serán realizadas bajo la supervisión de un fisioterapista verificado por la fundación.
+El presente proyecto utilizará parpadeos como el método de control para los dispositivos IoT, debido a que la detección a tiempo real es sumamente efectiva [8], esto permitirá un rápido procesamiento de señales y características favorables para el trabajo. Esto en conjunto con una arquitectura de dispositivos conectados a un servidor MQTT, el control de artefactos electrónicos se efectuará con respuestas precisas.
+4. Hipótesis
+N/A
+5. Objetivo General
+Desarrollar una interfaz cerebro-computador para el control de dispositivos IoT mediante el uso de señales EEG de parpadeos para personas con discapacidad motriz de la fundación
+Hermano Miguel.
+6. Objetivos Específicos
+ 
+VICERRECTORADO DE DOCENCIA
+
+1.	Desarrollar una interfaz gráfica de usuario en la cual se muestren los dispositivos IoT y los comandos de control disponibles.
+2.	Integrar la interfaz cerebro-computador a un clasificador inteligente de señales EEG y establecer una media de tiempo por debajo de los 3 segundos al obtener y clasificar señales que se producen cuando el usuario parpadea para el envió de comandos de control.
+3.	Implementar una conexión entre la interfaz cerebro-computador y un servidor MQTT encargado de la recepción y envío de comandos de control con tiempos de respuesta menores a 1 segundo.
+4.	Realizar 5 pruebas de usabilidad del sistema con personas discapacitadas en la fundación
+Hermano Miguel y efectuar la valoración de los resultados obtenidos.
+7.	Metodología
+Action Research es una forma de indagación introspectiva colectiva emprendida por participantes en situaciones sociales que tiene el objeto de mejorar la racionalidad y la justicia de sus prácticas sociales o educativas, así como su comprensión de esas prácticas y de las situaciones en que éstas tienen lugar. La metodología SCRUM es un proceso en el que se aplican de manera regular un conjunto de buenas prácticas para trabajar colaborativamente, en equipo y obtener el mejor resultado posible de proyectos.
+
+
+ 
+
+
+●	Etapa del Estudio del problema: En esta etapa, se realizará una revisión de literatura del BCI y sus aplicaciones, en conjunto de las arquitecturas IoT utilicen herramientas que se
+puedan integrar a las interfaces cerero-computador. De la misma manera se realizará una
+ 
+VICERRECTORADO DE DOCENCIA
+
+comparación de los clasificadores inteligentes que satisfagan las necesidades del proyecto y el clasificador escogido a implementar (K-nn). Además, se analizarán las ventajas y desventajas de utilizar el electroencefalograma OpenBCIv2.
+●	Etapa de Ejecución: En esta etapa cíclica, se generarán diferentes versiones de modelos y prototipos utilizado los requerimientos otorgados por los usuarios de la fundación Hermano Miguel. Para la generación del modelo y prototipo, se utilizará las siguientes etapas para el desarrollo:
+a)	Muestreo
+En esta sección se realizará una toma de señales de los sujetos involucrados en el proyecto. Ninguna de estas personas habrá participado antes en proyectos de BCI. A estos participantes se les pedirá realizar 100 parpadeos con diversas duraciones de tiempo.
+Para la medición de las ondas cerebrales, se utilizó el dispositivo EEG llamado Muse Headband que graba los datos en un rango de 0 a1682.815 μV. También es importante mencionar que se utilizaron los electrodos TP89 y TP10 del sistema internacional 10-20.
+b)	Exploración y modificación de datos extraídos
+Al realizar la exploración de los datos de ondas cerebrales, se identificará las características de los parpadeos. Estos parpadeos serán denominamos parpadeos largos y cortos. Los parpadeos cortos son aquellos generados cuando el usuario parpadea normalmente, es decir, cierra los ojos y luego los abre en un intervalo de 0 a 1 segundos. Y los parpadeos largos son aquellos generados cuando el usuario cierra los ojos por un intervalo de 1 a 3 segundos y luego abre los ojos.
+c)	Modelado
+En el reconocimiento de patrones, el algoritmo K-nn será utilizado como método de clasificación de elementos asado en un entrenamiento mediante ejemplos cercanos en el espacio de los objetos. El sistema empieza a leer el voltaje de las ondas cerebrales en tiempo real, dicho voltaje se guarda en una variable W. Esta variable W será evaluada y se obtendrá directamente la probabilidad de que pertenezca a la clase L (parpadeo largo) o C (parpadeo corto).
+d)	Creación del prototipo
+Una vez desarrollado el modelo, se procederá a crear el prototipo para validar su funcionamiento. Las ondas cerebrales son capturadas por el dispositivo EEG y estos datos son enviados al Software desarrollado mediante el uso del Muse Monitor (esta aplicación actúa como un intermediario entre el EEG y Software). La comunicación entre el EEG y
+ 
+VICERRECTORADO DE DOCENCIA
+
+Muse monitor se realizará mediante el protocolo Bluetooth, mientras que la comunicación entre el Muse Monitor y el Software desarrollado lo hace mediante una conexión UDP.
+●	Etapa de Formalización de Resultados: Una vez concluida la parte investigativa y técnica del proyecto, se ha formalizado los resultados obtenidos a través de la creación de reportes e informes de los análisis de las pruebas de usabilidad. Una ves analizados los resultados se determinarán las mejoras de funcionalidad que puedan existir y se retomará el proceso desde la segunda etapa. Este proceso cíclico se repetirá hasta satisfacer los requerimientos presentados por la fundación Hermano Miguel.
+8.	Plan de Trabajo
+1.	Levantamiento de requisitos
+1.1.	Recolectar información acerca de los dispositivos que serán controlados en el entorno a implantar mediante entrevistas al personal.
+1.2.	Generación del Product Backlog realizando la representación de requisitos en
+Historias de Usuario.
+1.3.	Realizar Mockup´s de navegación entre las funciones del aplicativo a implementar.
+2.	Preparación del ambiente de desarrollo
+2.1.	Preparar el ambiente de hosting
+2.2.	Establecer el entorno NodeJS
+2.3.	Instalar el framework Electron
+2.4.	Establecer el entorno de desarrollo Visual Studio Code
+2.5.	Carga de proyecto al servicio GitLab para controlar versiones y publicaciones
+3.	Implementación del aplicativo bajo la metodología SCRUM:
+3.1.	Realizar la reunión Sprint Planning.
+3.2.	Codificar el aplicativo basándose en los requisitos y diseños seleccionados para cada iteración.
+3.3.	Configurar el servicio GitLab para la construcción continua (compilar en archivo de salida) del proyecto
+3.4.	Comprobar que la aplicación web cumple con los requisitos presentados en el Sprint Backlog.
+3.5.	Configurar el servicio GitLab para el lanzamiento (consolidar cambios) continuo de
+la aplicación.
+ 
+VICERRECTORADO DE DOCENCIA
+
+4.	Desarrollo del clasificador de señales adaptable al aplicativo
+4.1.	Desarrollo del clasificador de señales utilizado el método de clasificación supervisado KNN.
+4.2.	Obtención de datos y entrenamiento iterativo del clasificador.
+4.3.	Hacer uso del servicio GitLab para la construcción continua (compilar en archivo de salida) del proyecto.
+5.	Integración del sistema con el clasificador desarrollado
+5.1.	Determinar el método, dentro del aplicativo, donde se integrará el clasificador.
+5.2.	Una vez integrado el clasificador, calibrar el sistema con el objetivo de obtener los mejores resultados.
+6.	Encuesta de usabilidad basada en el Sistema de Escala de Usabilidad
+6.1.	Aplicar la encuesta a los miembros del hospital.
+6.2.	Analizar los resultados obtenidos de las encuestas.
+6.3.	Implementar mejoras en caso de ser requeridas.
+9. Bibliografía Referencias
+[1]	Cooper, J. A., Sagar, H. J., Jordan, N., Harvey, N. S., & Sullivan, E. V. (1991). Cognitive Impairment In Early, Untreated Parkinson’s Disease And Its Relationship To Motor Disability. Brain, 114(5), 2095–2122.
+[2]	D. P. Bhemjibhaih, G. D. Sanjay, V. Sreejith, and B. Prakash, “Brain-computer interface based home automation system for paralysed people,” 2018 IEEE Recent Adv. Intell. Comput. Syst. RAICS 2018, pp. 230– 233, 2019.
+[3]	S. Poveda Zavala, J. L. León Bayas, A. Ulloa, J. Sulca, J. L. Murillo López, and S. G. Yoo, Brain Computer Interface Application for People with Movement Disabilities, vol. 11354 LNCS. 2019.
+[4]	K. Shi, N. Gao, Q. Li, and O. Bai, “A P300 brain-computer interface design for virtual remote control system,”
+2017 3rd IEEE Int. Conf. Control Sci. Syst. Eng., pp. 326–329, 2017.
+[5]	H. Le, T. Dang, and F. Liu, “Eye blink detection for smart glasses,” Proc. - 2013 IEEE Int. Symp. Multimedia, ISM 2013, pp. 305–308, 2013.
+[6]	A. Pasarica, R. G. Bozomitu, V. Ceha, and C. Rotariu, “Eye blinking detection to perform selection for an eye tracking system used in assistive technology,” 2016 IEEE 22nd Int. Symp. Des. Technol. Electron. Packag. SIITME 2016, pp. 213–216, 2016.
+[7]	B. S. Sourab, H. S. Ranganatha Chakravarthy, and S. D’Souza, “Implementation of home automation using eye blink sensor,” 2014 Int. Conf. Electron. Commun. Comput. Eng. ICECCE 2014, pp. 242–244, 2014.
+[8]	T. Dhaush, B. Aswin Ramnath, T. Sree Sharmila, and J. S. Jennifer, “Determining Response Credibility by Blink Count,” Proc. 2018 Int. Conf. Recent Trends Adv. Comput. ICRTAC-CPS 2018, pp. 143–148, 2019.
+[9]	J. R. Wolpaw and E. W. Wolpaw, “Brain-computer interfaces: something new under the sun,” Brain-computer interfaces Princ. Pract., pp. 3–12, 2012.
+[10]	J. N. Mak and J. R. Wolpaw, “Clinical Applications of Brain-Computer Interfaces: Current State and Future Prospects,” IEEE Rev. Biomed. Eng., vol. 2, pp. 187–199, 2009.
+[11]	R. P. N. Rao and R. Scherer, “Brain-Computer Interfacing [In the Spotlight],” IEEE Signal Process. Mag.,
+ 
+vol. 27, no. 4, pp. 150–152, 2010.
+[12]	J. van Erp, F. Lotte, and M. Tangermann, “Brain-Computer Interfaces: Beyond Medical Applications,”
+Computer (Long. Beach. Calif)., vol. 45, no. 4, pp. 26–34, 2012.
+[13]	D. Göhring, D. Latotzky, M. Wang, and R. Rojas, “Semi-autonomous Car Control Using Brain Computer Interfaces BT - Intelligent Autonomous Systems 12,” 2013, pp. 393–408.
+[14]	K. LaFleur, K. Cassady, A. Doud, K. Shades, E. Rogin, and B. He, “Quadcopter control in three-dimensional space using a noninvasive motor imagery-based brain–computer interface,” J. Neural Eng., vol. 10, no. 4, p. 46003, 2013.
+[15]	D. S. Tan and A. Nijholt, Brain-Computer Interfaces: Applying Our Minds to Human-Computer Interaction. 2010.
+[16]	S. N. Abdulkader, A. Atia, and M. S. M. Mostafa, “Brain computer interfacing: Applications and challenges,”
+Egypt. Informatics J., vol. 16, no. 2, pp. 213–230, 2015.
+[17]	R. D. Evered, “An Assessment of the Scientific Merits of Action Research Gerald 1. Susman and,” Adm. Sci. Q., vol. 23, no. 4, pp. 582–603, 1978.
+[18]	R. Baskerville and J. Pries-Heje, “Grounded action research: a method for understanding IT in practice,”
+Accounting, Manag. Inf. Technol., vol. 9, no. 1, pp. 1–23, 1999.
+[19]	J. Sutherland and J. J. Sutherland, Scrum: the art of doing twice the work in half the time. Currency, 2014.
+[20]	K. Schwaber, Agile project management with Scrum. Microsoft press, 2004.
+[21]	B. He, S. Gao, H. Yuan, and J. R. Wolpaw, “Brain–computer interfaces,” in Neural Engineering, Springer US, 2013, pp. 87–151.
+[22]	P. Zhag, K. Jamison, S. Engel, B. He, and S. He, “Binocular Rivalry Requires Visual Attention,” Neuron, vol. 71, no. 2, pp. 362–369, 2011.
+[23]	W. Sałabun, “Processing and spectral analysis of the raw EEG signal from the MindWave,” Prz. Elektrotechniczny, vol. 90, no. 2, pp. 169–174, 2014.
+[24]	J. R. Wolpaw and D. J. McFarland, “Control of a two-dimensional movement signal by a noninvasive brain- computer interface in humans,” Proc. Natl. Acad. Sci., vol. 101, no. 51, pp. 17849–17854, 2004.
+[25]	A. J. Doud, J. P. Lucas, M. T. Pisansky, and B. He, “Continuous three-dimensional control of a virtual helicopter using a motor imagery based brain-computer interface,” PLoS One, vol. 6, no. 10, p. e26322, 2011.
+[26]	Samson, V. R. R., Praveen Kitti, B., Pradeep Kumar, S., Suresh Babu, D., & Monica, C. (2017). Electroencephalogram-Based OpenBCI Devices for Disabled People. Lecture Notes in Electrical Engineering, 229–238.
+[27]	B. Chambayil, R. Singla, and R. Jha, “Virtual keyboard BCI using Eye blinks in EEG,” in 2010 IEEE 6th International Conference on Wireless and Mobile Computing, Networking and Communications, 2010, pp. 466–470.
+ 
+10. Cronograma
+
+
+
+Actividades	
+Horas de Trabajo	
+Meses de trabajo
+		1	2	3	4	5
+
+1.	Levantamiento de requisitos	
+20	
+✔	
+
+ 	
+
+ 	
+
+ 	
+
+ 
+
+2.	Preparación del ambiente de desarrollo	
+20	
+✔	
+
+ 	
+
+ 	
+
+ 	
+
+ 
+3.		Implementación del aplicativo bajo la
+metodología SCRUM	
+120	
+✔	
+✔	
+✔		
+
+ 
+4. Desarrollo del clasificador de señales adaptable al aplicativo	
+180	
+
+ 	
+✔	
+✔		
+
+ 
+5.		Integración del sistema con el clasificador desarrollado	
+40	
+
+ 			
+✔	
+6.	Encuesta de usabilidad basada en el Sistema de Escala de
+Usabilidad	
+80	
+
+ 	
+
+ 	
+
+ 	
+✔	
+✔
+Horas totales	460	
+ 
+Firma
+
+
+
+Kelvin Alexis Ortiz Chicaiza
+PROPONENTE
+Email: kelvin.ortiz@epn.edu.ec
+Telf.: +593 998911939
+
+
+
+
+
+
+Firma
+
+
+
+Nombre completo del Profesor
+DIRECTOR
+Email: marco.benalcazar@epn.edu.ec Telf.: +1 (304) 306-8104
+
