@@ -35,6 +35,7 @@ import com.yzhao.musecode.components.csv.EEGFileReader;
 import com.yzhao.musecode.components.csv.EEGFileWriter;
 import com.yzhao.musecode.components.graphs.DynamicSeries;
 import com.yzhao.musecode.components.signal.CircularBuffer;
+import com.yzhao.musecode.components.signal.CircularBufferProcessed;
 import com.yzhao.musecode.components.signal.Filter;
 import com.choosemuse.libmuse.MuseDataListener;
 import com.choosemuse.libmuse.MuseDataPacketType;
@@ -54,10 +55,10 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     private LineAndPointFormatter lineFormatter;
     private int notchFrequency = 14;
     private static final int PLOT_LENGTH = 255 * 3;
-    public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
+    public CircularBufferProcessed eegBuffer;
     private static final String PLOT_TITLE = "Raw_EEG";
-    private int PLOT_LOW_BOUND = 600;
-    private int PLOT_HIGH_BOUND = 1100;
+    private int PLOT_LOW_BOUND = -3;
+    private int PLOT_HIGH_BOUND = 3;
     public DynamicSeries dataSeries;
     public XYPlot filterPlot;
     public int samplingRate = 256;
@@ -70,6 +71,9 @@ public class EEGPlot extends Activity implements View.OnClickListener {
 
     private int numberOfShortRecordings = 0;
     private int numberOfLongRecordings = 0;
+    public int maxSignalFrequency = 950;
+    public int minSignalFrequency = 750;
+    public int meanSignalFrequency = 850;
 
     private String typeofRecord = "largos";
     private double[][] extractedArray = new double[1020][4];
@@ -96,7 +100,12 @@ public class EEGPlot extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        channelOfInterest=configurations.channelOfInterest;
+        maxSignalFrequency = configurations.maxSignalFrequency;
+        minSignalFrequency = configurations.minSignalFrequency;
+        channelOfInterest = configurations.channelOfInterest;
+        meanSignalFrequency = (maxSignalFrequency + minSignalFrequency) / 2;
+        eegBuffer = new CircularBufferProcessed(220, 4, maxSignalFrequency, minSignalFrequency);
+
         setContentView(R.layout.egg_graph);
         shorBlinkFile.initFile();
         longBlinkFile.initFile();
@@ -140,9 +149,10 @@ public class EEGPlot extends Activity implements View.OnClickListener {
 
     void finishCalibration() {
 
-        if (numberOfShortRecordings < 15 && numberOfShortRecordings > 0) {
+        if (numberOfShortRecordings < 16 && numberOfShortRecordings > 0) {
             double[] readArray;
             int shorLinesRecorded = shorBlinkFile.numberOfLines();
+            System.out.println();
             for (int i = 0; i < (7650 - shorLinesRecorded); i++) {
                 readArray = new double[]{originalSignalShortBlink[i][1], originalSignalShortBlink[i][2], originalSignalShortBlink[i][3], originalSignalShortBlink[i][4]};
                 shorBlinkFile.addDataToFile(readArray);
@@ -151,7 +161,7 @@ public class EEGPlot extends Activity implements View.OnClickListener {
 
         }
 
-        if (numberOfLongRecordings < 15 && numberOfLongRecordings > 0) {
+        if (numberOfLongRecordings < 16 && numberOfLongRecordings > 0) {
             double[] readArray;
             int longLinesRecorded = longBlinkFile.numberOfLines();
             for (int i = 0; i < (7650 - longLinesRecorded); i++) {
@@ -160,7 +170,6 @@ public class EEGPlot extends Activity implements View.OnClickListener {
             }
             longBlinkFile.writeLongBlinkFile();
         }
-
 
 
         appState.connectedMuse.disconnect(false);
@@ -441,8 +450,8 @@ public class EEGPlot extends Activity implements View.OnClickListener {
 
             filtState = activeFilter.transform(newData, filtState);
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
-
-            extractedArray[frameCounter] = activeFilter.extractFilteredSamples(filtState);
+            //extractedArray[frameCounter] = activeFilter.extractFilteredSamples(filtState);
+            extractedArray[frameCounter] = activeFilter.extractFilteredSamplesProcessed(filtState, maxSignalFrequency, minSignalFrequency, meanSignalFrequency);
             //extractedArray[frameCounter] = newData;
 
             //extractedArrayString[frameCounter] = Arrays.toString(newData);

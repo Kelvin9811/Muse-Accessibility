@@ -16,8 +16,6 @@ Se detallan los cambios realizados dentro del proyecto Muse Accesibility
 
 ## Detalles de la version 2.0.0
 
-
-
 ### Features
 
 - Se añade la pantalla de configuración. Por medio de esta pantalla el usuario tendrá acceso a configurar las opciones: 
@@ -30,11 +28,28 @@ Se detallan los cambios realizados dentro del proyecto Muse Accesibility
 
 ## Detalles de la version 2.0.1
 
-
-
 ### Features
 
 - Se añade en la pantalla de seleccionar el canal una forma dinámica de captar los valores.
 - Cada canal toma los valores sin máximos ni mínimos.
 - Se añade una descripcion del promedio de los últimos 15 valores que ha enviado el Muse Headband
 - 
+
+
+## Detalles de la version 2.1.1
+
+
+
+### Features
+
+- Se añade, en la pantalla de seleccionar el canal, entradas de texto para determinar dinamicamente los máximos y mínimos de la frecuencia.
+- Se añade la funcionalidad de máxima y mímina frecuencia a las pantallas de toma de datos y control de dispositivos.
+
+
+## Detalles de la version 2.1.2
+
+
+
+### Features
+
+- Se actualiza la base de datos por defecto

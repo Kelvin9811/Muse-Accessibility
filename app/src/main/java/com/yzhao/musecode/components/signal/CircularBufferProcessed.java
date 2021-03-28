@@ -15,16 +15,20 @@ public class CircularBufferProcessed {
     protected int pts;
     protected double[][] buffer;
 
-    public int meanSignal = 850;
-    public int maxSignal = 150;
+    public int maxSignalFrequency = 950;
+    public int minSignalFrequency = 750;
+    public int meanSignalFrecuency = 850;
 
     //5.6
     // ------------------------------------------------------------------------
     // Constructor
 
-    public CircularBufferProcessed(int bufferLength, int nChannels, int meanSignal) {
+    public CircularBufferProcessed(int bufferLength, int nChannels, int maxSignalFrequency, int minSignalFrequency) {
         this.bufferLength = bufferLength;
         this.nbCh = nChannels;
+        this.maxSignalFrequency = maxSignalFrequency;
+        this.minSignalFrequency = minSignalFrequency;
+        this.meanSignalFrecuency = (maxSignalFrequency + minSignalFrequency) / 2;
         index = 0;
         pts = 0;
         buffer = new double[bufferLength][nbCh];
@@ -38,9 +42,9 @@ public class CircularBufferProcessed {
     public void update(double[] newData) {
 
         for (int i = 0; i < nbCh; i++) {
-            //buffer[index][i] = (newData[i]-meanSignal)/maxSignal;
-            buffer[index][i] = (newData[i]);
+            buffer[index][i] = (newData[i] - meanSignalFrecuency) / (maxSignalFrequency-meanSignalFrecuency);
 
+            //buffer[index][i] = (newData[i]);
         }
         index = (index + 1) % bufferLength;
         pts++;

@@ -35,6 +35,7 @@ import com.yzhao.musecode.components.csv.EEGFileReader;
 import com.yzhao.musecode.components.csv.EEGFileWriter;
 import com.yzhao.musecode.components.graphs.DynamicSeries;
 import com.yzhao.musecode.components.signal.CircularBuffer;
+import com.yzhao.musecode.components.signal.CircularBufferProcessed;
 import com.yzhao.musecode.components.signal.Filter;
 import com.choosemuse.libmuse.MuseDataListener;
 import com.choosemuse.libmuse.MuseDataPacketType;
@@ -60,16 +61,18 @@ public class BlinkTest extends Activity implements View.OnClickListener {
     private LineAndPointFormatter lineFormatter;
     private int notchFrequency = 14;
     private static final int PLOT_LENGTH = 255 * 3;
-    public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
+    public CircularBufferProcessed eegBuffer;
     private static final String PLOT_TITLE = "Raw_EEG";
-    private int PLOT_LOW_BOUND = 600;
-    private int PLOT_HIGH_BOUND = 1100;
+
     public DynamicSeries dataSeries;
     public XYPlot filterPlot;
     public int samplingRate = 256;
     public Filter activeFilter;
     public double[][] filtState;
     public int channelOfInterest = 3;
+    public int maxSignalFrequency = 950;
+    public int minSignalFrequency = 750;
+
     MainActivity TAG;
     private int frameCounter = 0;
     private int numberOfRecordings = 0;
@@ -78,9 +81,7 @@ public class BlinkTest extends Activity implements View.OnClickListener {
     private int numberOfLongRecordings = 0;
 
     private String typeofRecord = "largos";
-    private double[][] extractedArray = new double[1020][4];
 
-    private String[] extractedArrayString = new String[1020];
 
     private int secondsOfRecording = 510;
 
@@ -103,6 +104,11 @@ public class BlinkTest extends Activity implements View.OnClickListener {
         readDataBase();
 
         channelOfInterest = configurations.channelOfInterest;
+        maxSignalFrequency = configurations.maxSignalFrequency;
+        minSignalFrequency = configurations.minSignalFrequency;
+
+        eegBuffer = new CircularBufferProcessed(220, 4,maxSignalFrequency,minSignalFrequency);
+
         System.out.println(configurations.channelOfInterest);
 
         knn = new Knn(originalSignalShortBlink, originalSignalLongBlink, originalSignalNoneBlink, configurations.probabilitySensibility);
@@ -183,7 +189,7 @@ public class BlinkTest extends Activity implements View.OnClickListener {
 
         dataSeries = new DynamicSeries(PLOT_TITLE);
 
-        filterPlot.setRangeBoundaries(PLOT_LOW_BOUND, PLOT_HIGH_BOUND, BoundaryMode.FIXED);
+        filterPlot.setRangeBoundaries(-3, 3, BoundaryMode.FIXED);
         filterPlot.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         lineFormatter = new FastLineAndPointRenderer.Formatter(Color.WHITE, null, null);
@@ -290,7 +296,6 @@ public class BlinkTest extends Activity implements View.OnClickListener {
 
             filtState = activeFilter.transform(newData, filtState);
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
-            extractedArray[frameCounter] = activeFilter.extractFilteredSamples(filtState);
             frameCounter++;
 
             if (frameCounter % 15 == 0) {
@@ -345,10 +350,10 @@ public class BlinkTest extends Activity implements View.OnClickListener {
         try {
             final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbShortBlink + ".json");
             FileReader filePathReader = new java.io.FileReader(file);
-            InputStream inputStream = getResources().getAssets().open(dbShortBlink + ".json");
+            //InputStream inputStream = getResources().getAssets().open(dbShortBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
             //EEGFileReader fileReader = new EEGFileReader(inputStream);
-            originalSignalShortBlink = fileReader.readToVector();
+            originalSignalShortBlink = fileReader.readToVector(channelOfInterest+1);
             System.out.println("Lectura del primer archivo");
 
         } catch (IOException e) {
@@ -358,11 +363,11 @@ public class BlinkTest extends Activity implements View.OnClickListener {
         try {
             final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbLongBlink + ".json");
             FileReader filePathReader = new java.io.FileReader(file);
-            InputStream inputStream = getResources().getAssets().open(dbLongBlink + ".json");
+            //InputStream inputStream = getResources().getAssets().open(dbLongBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
             //EEGFileReader fileReader = new EEGFileReader(inputStream);
 
-            originalSignalLongBlink = fileReader.readToVector();
+            originalSignalLongBlink = fileReader.readToVector(channelOfInterest+1);
             System.out.println("Lectura del segundo archivo");
         } catch (IOException e) {
             Log.w("EEGGraph", "File not found error");
@@ -371,7 +376,7 @@ public class BlinkTest extends Activity implements View.OnClickListener {
         try {
             final File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dbNoneBlink + ".json");
             FileReader filePathReader = new java.io.FileReader(file);
-            InputStream inputStream = getResources().getAssets().open(dbNoneBlink + ".json");
+            //InputStream inputStream = getResources().getAssets().open(dbNoneBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
             //EEGFileReader fileReader = new EEGFileReader(inputStream);
             originalSignalNoneBlink = fileReader.readNoneBlink();

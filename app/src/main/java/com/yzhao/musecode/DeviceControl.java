@@ -34,8 +34,10 @@ import com.yzhao.musecode.components.csv.EEGFileWriter;
 import com.yzhao.musecode.components.graphs.DynamicSeries;
 import com.yzhao.musecode.components.mqtt.Subscriber;
 import com.yzhao.musecode.components.signal.CircularBuffer;
+import com.yzhao.musecode.components.signal.CircularBufferProcessed;
 import com.yzhao.musecode.components.signal.Filter;
 
+import org.apache.commons.math3.analysis.integration.LegendreGaussIntegrator;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.File;
@@ -52,7 +54,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     MainActivity configurations;
     private int notchFrequency = 14;
     private static final int PLOT_LENGTH = 255 * 3;
-    public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
+    public CircularBufferProcessed eegBuffer;
     private static final String PLOT_TITLE = "Raw_EEG";
     public DynamicSeries dataSeries;
 
@@ -62,7 +64,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     public int channelOfInterest = 3;
     private boolean posibliBlink = false;
     private int posibliBlinkPosition = 0;
-    private int sensibility_detection = 65;
+    private double sensibility_detection = 0.65;
     private int current_umbral = 75;
     private boolean systemActivated = false;
 
@@ -77,6 +79,10 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     float[] originalSignalNoneBlink;
     private Knn knn;
 
+    int maxSignalFrequency = 950;
+    int minSignalFrequency = 750;
+    int meanSignalFrequency = 850;
+
     Button tv_on_of;
     Button channel_up;
     Button channel_down;
@@ -90,7 +96,14 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        channelOfInterest=configurations.channelOfInterest;
+        channelOfInterest = configurations.channelOfInterest;
+        current_umbral = configurations.probabilitySensibility;
+        sensibility_detection = (configurations.detectionSensibility *0.01);
+        maxSignalFrequency = configurations.maxSignalFrequency;
+        minSignalFrequency = configurations.minSignalFrequency;
+
+        eegBuffer = new CircularBufferProcessed(220, 4,maxSignalFrequency,minSignalFrequency);
+        meanSignalFrequency = (maxSignalFrequency - minSignalFrequency) / 2;
         setContentView(R.layout.device_control);
         startConfigurations();
         readDataBase();
@@ -161,37 +174,6 @@ public class DeviceControl extends Activity implements View.OnClickListener {
 //        txt_current_umbral.setText("" + current_umbral);
     }
 
-    SeekBar.OnSeekBarChangeListener seekBarSensibilityChangeListener = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int sensibility_detection, boolean fromUser) {
-            txt_current_sensibility.setText("" + sensibility_detection);
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-        }
-
-    };
-
-    SeekBar.OnSeekBarChangeListener seekBarUmbralChangeListener = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int current_umbral, boolean fromUser) {
-            txt_current_umbral.setText("" + current_umbral);
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-        }
-
-    };
 
     public void addCommand(String command) throws MqttException {
         CURRENT_COMMAND = CURRENT_COMMAND + "" + command;
@@ -353,8 +335,8 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             filtState = activeFilter.transform(newData, filtState);
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
             frameCounter++;
-            if (frameCounter % 15 == 0) {
-                if (eegBuffer.extract(1)[0][channelOfInterest] < (740 + sensibility_detection) && !posibliBlink) {
+            if (frameCounter % 15 == 0 && frameCounter > 250) {
+                if (eegBuffer.extract(1)[0][channelOfInterest] < (-1+sensibility_detection) && !posibliBlink) {
                     posibliBlink = true;
                     posibliBlinkPosition = frameCounter;
                 }
@@ -414,7 +396,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             InputStream inputStream = getResources().getAssets().open(dbShortBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
             //EEGFileReader fileReader = new EEGFileReader(inputStream);
-            originalSignalShortBlink = fileReader.readToVector();
+            originalSignalShortBlink = fileReader.readToVector(channelOfInterest + 1);
             System.out.println("Lectura del primer archivo");
 
         } catch (IOException e) {
@@ -428,7 +410,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
             //EEGFileReader fileReader = new EEGFileReader(inputStream);
 
-            originalSignalLongBlink = fileReader.readToVector();
+            originalSignalLongBlink = fileReader.readToVector(channelOfInterest + 1);
             System.out.println("Lectura del segundo archivo");
         } catch (IOException e) {
             Log.w("EEGGraph", "File not found error");
@@ -440,7 +422,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             InputStream inputStream = getResources().getAssets().open(dbNoneBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
             //EEGFileReader fileReader = new EEGFileReader(inputStream);
-            originalSignalNoneBlink = fileReader.readToVector();
+            originalSignalNoneBlink = fileReader.readNoneBlink();
             System.out.println("Lectura del tercer archivo");
 
         } catch (IOException e) {

@@ -170,6 +170,17 @@ public class Filter {
         return filtSignal;
     }
 
+    public static double[] extractFilteredSamplesProcessed(double[][] z,int maxSignalFrequency,int minSignalFrequency,float meanSignalFrecuency) {
+        // Utility function to extract the filtered samples from the returned array
+        // of transform()
+        int len = z.length;
+        double[] filtSignal = new double[len];     // TODO can this instantiation be avoided?
+        for (int i = 0; i < len; i++) {
+            filtSignal[i] = (z[i][z[0].length - 1] - meanSignalFrecuency) / (maxSignalFrequency-meanSignalFrecuency);
+        }
+        return filtSignal;
+    }
+
     public static double extractFilteredSamples(double[] z) {
         // Utility function to extract last value from array
         return z[z.length - 1];

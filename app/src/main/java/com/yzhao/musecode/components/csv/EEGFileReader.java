@@ -69,14 +69,21 @@ public class EEGFileReader {
         return readArray;
     }
 
-    public float[] readToVector() {
+    public float[] readToVector(int channelOfInterest) {
+        /*
+        * 0 - timestamp
+        * 1 - canal 1
+        * 2
+        * 3
+        * 4
+        * */
         readList = read();
         int len = readList.size();
 
         float[] readArray = new float[readList.size()];
 
         for (int i = 0; i < len; i++) {
-            readArray[i] = (float) readList.get(i)[4];
+            readArray[i] = (float) readList.get(i)[channelOfInterest];
         }
 
         return readArray;

@@ -492,7 +492,7 @@
                     android:id="@+id/txtInput_current_max_signal_frecuency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="850"
+                    android:hint=""
                     android:inputType="phone" />
 
 
@@ -523,7 +523,7 @@
                     android:id="@+id/txtInput_current_min_signal_frecuency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="850"
+                    android:hint=""
                     android:inputType="phone" />
 
 
