@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int detectionSensibility = 65;
     public static int probabilitySensibility = 65;
     public static int kNearestNeighbors = 15;
+    public static int maxSignalFrequency = 950;
+    public static int minSignalFrequency = 750;
 
     @Override
     public void onClick(View view) {
@@ -165,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 detectionSensibility = readList[1];
                 probabilitySensibility = readList[2];
                 kNearestNeighbors = readList[3];
+                maxSignalFrequency = readList[4];
+                minSignalFrequency = readList[5];
 
             } catch (IOException e) {
                 Log.w("EEGGraph", "File not found error");
@@ -182,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             detectionSensibility = startConfigurations[1];
             probabilitySensibility = startConfigurations[2];
             kNearestNeighbors = startConfigurations[3];
+            maxSignalFrequency = startConfigurations[4];
+            minSignalFrequency = startConfigurations[5];
 
         } catch (IOException e) {
             Log.w("EEGGraph", "File not found error");

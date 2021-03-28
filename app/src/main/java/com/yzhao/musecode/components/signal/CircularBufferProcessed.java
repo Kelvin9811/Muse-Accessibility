@@ -4,7 +4,7 @@ package com.yzhao.musecode.components.signal;
 import java.util.Arrays;
 
 // A pure Java implementation of a circular buffer
-public class CircularBuffer {
+public class CircularBufferProcessed {
 
     // ------------------------------------------------------------------------
     // Variables
@@ -17,10 +17,12 @@ public class CircularBuffer {
 
     public int meanSignal = 850;
     public int maxSignal = 150;
+
+    //5.6
     // ------------------------------------------------------------------------
     // Constructor
 
-    public CircularBuffer(int bufferLength, int nChannels) {
+    public CircularBufferProcessed(int bufferLength, int nChannels, int meanSignal) {
         this.bufferLength = bufferLength;
         this.nbCh = nChannels;
         index = 0;
@@ -35,7 +37,7 @@ public class CircularBuffer {
     // When index reaches the bufferLength it returns to 0.
     public void update(double[] newData) {
 
-        for(int i = 0; i < nbCh; i++) {
+        for (int i = 0; i < nbCh; i++) {
             //buffer[index][i] = (newData[i]-meanSignal)/maxSignal;
             buffer[index][i] = (newData[i]);
 
@@ -56,9 +58,9 @@ public class CircularBuffer {
         int extractIndex;
         double[][] extractedArray = new double[nbSamples][nbCh];
 
-        for(int i = 0; i < nbSamples; i++) {
+        for (int i = 0; i < nbSamples; i++) {
             extractIndex = mod(index - nbSamples + i, bufferLength);
-            for(int j = 0; j < nbCh; j++) {
+            for (int j = 0; j < nbCh; j++) {
                 extractedArray[i][j] = buffer[extractIndex][j];
             }
         }
@@ -93,7 +95,7 @@ public class CircularBuffer {
         double[][] extractedArray = new double[nbCh][nbSamples];
 
         for (int c = 0; c < nbCh; c++) {
-            for(int i = 0; i < nbSamples; i++) {
+            for (int i = 0; i < nbSamples; i++) {
                 extractIndex = mod(index - nbSamples + i, bufferLength);
                 extractedArray[c][i] = buffer[extractIndex][c];
             }
@@ -115,7 +117,7 @@ public class CircularBuffer {
         int extractIndex;
         double[] extractedArray = new double[nbSamples];
 
-        for(int i = 0; i < nbSamples; i++) {
+        for (int i = 0; i < nbSamples; i++) {
             extractIndex = mod(index - nbSamples + i, bufferLength);
             extractedArray[i] = buffer[extractIndex][channelofinterest];
         }
@@ -136,7 +138,7 @@ public class CircularBuffer {
         int extractIndex;
         Double[] extractedArray = new Double[nbSamples];
 
-        for(int i = 0; i < nbSamples; i++) {
+        for (int i = 0; i < nbSamples; i++) {
             extractIndex = mod(index - nbSamples + i, bufferLength);
 
             extractedArray[i] = buffer[extractIndex][channelofinterest];
@@ -145,7 +147,9 @@ public class CircularBuffer {
         return extractedArray;
     }
 
-    public int getPts() { return pts; }
+    public int getPts() {
+        return pts;
+    }
 
     public void resetPts() {
         pts = 0;
@@ -161,7 +165,9 @@ public class CircularBuffer {
 
     }
 
-    public int getIndex() { return index; }
+    public int getIndex() {
+        return index;
+    }
 
     private int mod(int a, int b) {
         // Modulo operation that always return a positive number

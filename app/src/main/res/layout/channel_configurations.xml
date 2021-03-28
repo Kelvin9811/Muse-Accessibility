@@ -467,6 +467,69 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners_grey_border"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:id="@+id/txt_current_max_signal_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:autoSizeMaxTextSize="18dp"
+                    android:fontFamily="@font/roboto_thin"
+                    android:text="Máxima frecuencia promedio:"
+                    android:textColor="@color/primary_black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/txtInput_current_max_signal_frecuency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="850"
+                    android:inputType="phone" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners_grey_border"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:id="@+id/txt_current_signal_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:autoSizeMaxTextSize="18dp"
+                    android:fontFamily="@font/roboto_thin"
+                    android:text="Mínima frecuencia promedio:"
+                    android:textColor="@color/primary_black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/txtInput_current_min_signal_frecuency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="850"
+                    android:inputType="phone" />
+
+
+            </LinearLayout>
+
+
             <Button
                 android:id="@+id/btn_save_channel_selected"
                 android:layout_width="wrap_content"
@@ -491,6 +554,8 @@
                 app:layout_constraintTop_toBottomOf="@id/btn_start_device_control" />
 
         </LinearLayout>
+
+
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

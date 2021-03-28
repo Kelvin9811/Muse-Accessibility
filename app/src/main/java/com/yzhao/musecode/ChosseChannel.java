@@ -1,19 +1,30 @@
 package com.yzhao.musecode;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.*;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,7 +116,12 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
     int average_channel_3 = 0;
     int average_channel_4 = 0;
 
-    int average_channels = 100;
+    int average_channels = 1;
+
+    TextView txt_current_signal_frequency;
+    int maxSignalFrequency = 950;
+    int minSignalFrequency = 750;
+    int rateChange = 15;
 
     EEGFileWriter configurationsFile = new EEGFileWriter(this, "Captura de datos");
 
@@ -115,6 +131,8 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         setContentView(R.layout.channel_configurations);
         configurationsFile.initFile();
         channelOfInterest = configurations.channelOfInterest;
+        maxSignalFrequency = configurations.maxSignalFrequency;
+        minSignalFrequency = configurations.minSignalFrequency;
         setNotchFrequency(notchFrequency);
         setFilterType();
         initUI();
@@ -168,7 +186,64 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         txtAverage_channel_2 = findViewById(R.id.average_channel_2);
         txtAverage_channel_3 = findViewById(R.id.average_channel_3);
         txtAverage_channel_4 = findViewById(R.id.average_channel_4);
+
+
+        EditText maxSignalFrequencyTextInput = (EditText) findViewById(R.id.txtInput_current_max_signal_frecuency);
+        maxSignalFrequencyTextInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+        maxSignalFrequencyTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    maxSignalFrequency = Integer.parseInt(s.toString());
+                    filterPlotChannelOne.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
+                    filterPlotChannelTwo.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
+                    filterPlotChannelTree.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
+                    filterPlotChannelFour.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
+                } catch (NumberFormatException nfe) {
+                    return;
+                }
+            }
+        });
+
+        EditText minSignalFrequencyTextInput = (EditText) findViewById(R.id.txtInput_current_min_signal_frecuency);
+        minSignalFrequencyTextInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+        minSignalFrequencyTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    minSignalFrequency = Integer.parseInt(s.toString());
+                    filterPlotChannelOne.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
+                    filterPlotChannelTwo.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
+                    filterPlotChannelTree.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
+                    filterPlotChannelFour.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
+
+                } catch (NumberFormatException nfe) {
+                    return;
+                }
+            }
+        });
+
     }
+
 
     public void initViewChannel1(Context context) {
 
@@ -180,7 +255,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         dataSeriesChannelOne = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlotChannelOne.setRangeBoundaries(average_channel_1 - average_channels, average_channel_1 + average_channels, BoundaryMode.FIXED);
+        filterPlotChannelOne.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
         filterPlotChannelOne.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -245,7 +320,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         dataSeriesChannelTwo = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlotChannelTwo.setRangeBoundaries(average_channel_2 - average_channels, average_channel_2 + average_channels, BoundaryMode.FIXED);
+        filterPlotChannelTwo.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
         filterPlotChannelTwo.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -310,7 +385,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         dataSeriesChannelTree = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlotChannelTree.setRangeBoundaries(average_channel_3 - average_channels, average_channel_3 + average_channels, BoundaryMode.FIXED);
+        filterPlotChannelTree.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
         filterPlotChannelTree.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -375,7 +450,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         dataSeriesChannelFour = new DynamicSeries(PLOT_TITLE);
 
         // Set X and Y domain
-        filterPlotChannelFour.setRangeBoundaries(average_channel_4 - average_channels, average_channel_4 + average_channels, BoundaryMode.FIXED);
+        filterPlotChannelFour.setRangeBoundaries(minSignalFrequency, maxSignalFrequency, BoundaryMode.FIXED);
         filterPlotChannelFour.setDomainBoundaries(0, PLOT_LENGTH, BoundaryMode.FIXED);
 
         // Create line formatter with set color
@@ -454,6 +529,13 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
 
     public void saveChannelOfInterest() {
 
+        try {
+            configurations.maxSignalFrequency = maxSignalFrequency;
+            configurations.minSignalFrequency = minSignalFrequency;
+        } catch (NumberFormatException nfe) {
+            errorNumber();
+            return;
+        }
 
         configurations.channelOfInterest = channelOfInterest;
 
@@ -461,6 +543,8 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         configurationsFile.addLineToFile("" + configurations.detectionSensibility);
         configurationsFile.addLineToFile("" + configurations.probabilitySensibility);
         configurationsFile.addLineToFile("" + configurations.kNearestNeighbors);
+        configurationsFile.addLineToFile("" + configurations.maxSignalFrequency);
+        configurationsFile.addLineToFile("" + configurations.minSignalFrequency);
 
         configurationsFile.writeConfigurationsFile();
 
@@ -471,6 +555,20 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
 
+    }
+
+    public void errorNumber() {
+        DialogInterface.OnClickListener buttonListener =
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                };
+        AlertDialog introDialog = new AlertDialog.Builder(this)
+                .setTitle("Error al guardar la configuración")
+                .setMessage("El númerop ingresado no cumple con el formato requerido. Porfavor valide su información e intentelo de nuevo.")
+                .setPositiveButton("Aceptar", buttonListener)
+                .create();
+        introDialog.show();
     }
 
     public void setFilterType() {
@@ -515,7 +613,7 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
             if (frameCounter % 15 == 0) {
                 updatePlot();
             }
-
+/*
             if (frameCounter % 510 == 0) {
                 average_channel_1 = dataSeriesChannelOne.getAverage();
                 average_channel_2 = dataSeriesChannelTwo.getAverage();
@@ -527,20 +625,20 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
                 filterPlotChannelTree.setRangeBoundaries(average_channel_3 - average_channels, average_channel_3 + average_channels, BoundaryMode.FIXED);
                 filterPlotChannelFour.setRangeBoundaries(average_channel_4 - average_channels, average_channel_4 + average_channels, BoundaryMode.FIXED);
             }
-
-            if (frameCounter % 250 == 0) {
+*/
+            if (frameCounter % 125 == 0) {
                 average_channel_1 = dataSeriesChannelOne.getAverage();
                 average_channel_2 = dataSeriesChannelTwo.getAverage();
                 average_channel_3 = dataSeriesChannelTree.getAverage();
                 average_channel_4 = dataSeriesChannelFour.getAverage();
-
-
 
                 txtAverage_channel_1.setText("Promedio: " + (average_channel_1));
                 txtAverage_channel_2.setText("Promedio: " + (average_channel_2));
                 txtAverage_channel_3.setText("Promedio: " + (average_channel_3));
                 txtAverage_channel_4.setText("Promedio: " + (average_channel_4));
             }
+
+
         }
 
         private void getEegChannelValues(double[] newData, MuseDataPacket p) {

@@ -37,7 +37,7 @@ public class ConfigurationsFileManager {
     }
 
     public int[] read() {
-        int[] resultList = new int[4];
+        int[] resultList = new int[10];
         //BufferedReader reader = new BufferedReader(inputStream);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
@@ -62,7 +62,7 @@ public class ConfigurationsFileManager {
 
     public void writeStartConfiguration(EEGFileWriter file) {
         readList = read();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 6; i++) {
             System.out.println("------------" + readList[i]);
             file.addLineToFile("" + readList[i]);
         }

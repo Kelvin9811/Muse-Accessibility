@@ -374,7 +374,7 @@ public class BlinkTest extends Activity implements View.OnClickListener {
             InputStream inputStream = getResources().getAssets().open(dbNoneBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
             //EEGFileReader fileReader = new EEGFileReader(inputStream);
-            originalSignalNoneBlink = fileReader.readToVector();
+            originalSignalNoneBlink = fileReader.readNoneBlink();
             System.out.println("Lectura del tercer archivo");
 
         } catch (IOException e) {

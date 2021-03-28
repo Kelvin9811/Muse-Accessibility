@@ -82,6 +82,19 @@ public class EEGFileReader {
         return readArray;
     }
 
+    public float[] readNoneBlink() {
+        readList = read();
+        int len = readList.size();
+
+        float[] readArray = new float[readList.size()];
+
+        for (int i = 0; i < len; i++) {
+            readArray[i] = (float) 0;
+        }
+
+        return readArray;
+    }
+
     public int[] readConfigurations() {
         readList = read();
         int len = readList.size();
