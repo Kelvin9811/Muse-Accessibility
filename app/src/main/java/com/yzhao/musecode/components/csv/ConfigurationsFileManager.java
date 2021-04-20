@@ -60,9 +60,9 @@ public class ConfigurationsFileManager {
         return resultList;
     }
 
-    public void writeStartConfiguration(EEGFileWriter file) {
-        readList = read();
-        for (int i = 0; i < 6; i++) {
+    public void writeStartConfiguration(EEGFileWriter file , int[] readList) {
+
+        for (int i = 0; i < readList.length; i++) {
             System.out.println("------------" + readList[i]);
             file.addLineToFile("" + readList[i]);
         }

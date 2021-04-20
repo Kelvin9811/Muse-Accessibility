@@ -160,15 +160,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 InputStream inputStream = getResources().getAssets().open(configurations + ".json");
                 ConfigurationsFileManager fileReader = new ConfigurationsFileManager(inputStream);
-                fileReader.writeStartConfiguration(configurationsFile);
-
-                int[] readList = fileReader.readList;
+                int[] readList = fileReader.read();
                 channelOfInterest = readList[0];
                 detectionSensibility = readList[1];
                 probabilitySensibility = readList[2];
                 kNearestNeighbors = readList[3];
                 maxSignalFrequency = readList[4];
                 minSignalFrequency = readList[5];
+
+                fileReader.writeStartConfiguration(configurationsFile,readList);
+
+
 
             } catch (IOException e) {
                 Log.w("EEGGraph", "File not found error");

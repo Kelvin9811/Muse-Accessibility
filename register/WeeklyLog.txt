@@ -1,4 +1,5 @@
 
+
 Guardar datos en archivos
 
 No preocuparme mucho por la parte visual pero si una rutina par programar 
@@ -384,7 +385,7 @@ incluir la base de datos quemada y la calibrada
 
 Cambiar el esquema de calibración
 
-------------------------------------------------------------------------------------------------
+---------------------------------------------------18-03---------------------------------------------
 Visualizacion de señales
 
 
@@ -400,43 +401,71 @@ boton para pruebas
 
 Buscar el formato para adctualizacion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---------------------------------------------------25-03---------------------------------------------
 Documentar parte práctica: KNN
 entra la sñal
 que procesamiento hace
 como se clasifica
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+hacer una lsita de cambios 
+
+
+porque los cambios ... justificados
+buscar el formiulario de actualizacion del plan
+
+
+placeholder en los imputs
+
+Verificar base de datos
+
+
+
+
+------------------------------------
+
+imprimir el dato en crudo
+
+en funcion de la pandemia se recomienda al comite aprobar los cambios
+
+--------------------
+introduccion 
+problema
+que propongo
+objetivos a alcanzar
+-
+Detalle de la propuesta
+Que hice y como se hizo
+describir la solución
+-
+
+RPruebas y resultados
+Disutir y analizar resultados
+
+-
+Conclusiones: No hacer tesis hecho informe pniendo teoria (ejem: que es BCI)

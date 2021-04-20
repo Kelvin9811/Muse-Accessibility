@@ -642,10 +642,13 @@ public class ChosseChannel extends Activity implements View.OnClickListener {
         }
 
         private void getEegChannelValues(double[] newData, MuseDataPacket p) {
+
             newData[0] = p.getEegChannelValue(Eeg.EEG1);
             newData[1] = p.getEegChannelValue(Eeg.EEG2);
             newData[2] = p.getEegChannelValue(Eeg.EEG3);
             newData[3] = p.getEegChannelValue(Eeg.EEG4);
+
+
         }
 
         @Override

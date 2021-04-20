@@ -59,6 +59,11 @@
         <activity
             android:name=".HeadbandInstructions"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".RecordDataSet"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.marek.myapplication.fileprovider"

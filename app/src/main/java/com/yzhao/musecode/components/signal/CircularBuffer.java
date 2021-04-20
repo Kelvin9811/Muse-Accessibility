@@ -15,8 +15,7 @@ public class CircularBuffer {
     protected int pts;
     protected double[][] buffer;
 
-    public int meanSignal = 850;
-    public int maxSignal = 150;
+
     // ------------------------------------------------------------------------
     // Constructor
 

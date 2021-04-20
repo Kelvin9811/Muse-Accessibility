@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_white">
+
+    <LinearLayout
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/white_border_bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_back_data_set"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            android:background="#00FFFFFF"
+            android:foreground="@drawable/ic_black_arrow_left" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="18dp"
+            android:fontFamily="@font/roboto_thin"
+            android:text="@string/registro_de_conjunto_de_datos"
+            android:textColor="@color/primary_black"
+            android:textSize="18sp"
+            />
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/frame_layout_xyplot_data_set"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/texts_state_container" />
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/footerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_layout_xyplot_data_set">
+
+        <Button
+            android:id="@+id/btn_delete_record_data_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:autoSizeMaxTextSize="18dp"
+            android:drawableStart="@drawable/ic_white_close"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="20dp"
+
+            android:paddingRight="20dp"
+            android:text="@string/borrar"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            />
+
+        <Button
+            android:id="@+id/btn_capture_data_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginVertical="12dp"
+            android:autoSizeMaxTextSize="18dp"
+            android:drawableStart="@drawable/ic_white_plus_circle"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:text="@string/capturar"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            />
+
+        <Button
+            android:id="@+id/btn_save_record_data_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:autoSizeMaxTextSize="18dp"
+            android:drawableStart="@drawable/ic_white_check"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:text="@string/guardar"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_border_top"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <Button
+            android:id="@+id/btn_share_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginVertical="12dp"
+            android:autoSizeMaxTextSize="18dp"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto_thin"
+            android:paddingHorizontal="30dp"
+            android:paddingLeft="20dp"
+            android:drawableStart="@drawable/ic_share"
+
+            android:paddingRight="20dp"
+            android:text="Compartir"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/texts_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/frame_layout_xyplot_data_set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_instructions">
+
+
+        <RadioGroup
+            android:id="@+id/radio_group_type_data_set"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn_long_data_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginRight="16dp"
+                android:autoSizeMaxTextSize="15dp"
+                android:checked="true"
+                android:text="@string/largos"
+                android:textSize="15dp" />
+
+            <RadioButton
+                android:id="@+id/radio_btn_short_data_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:autoSizeMaxTextSize="15dp"
+                android:checked="false"
+                android:text="@string/cortos"
+                android:textSize="15dp" />
+        </RadioGroup>
+
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_view_instructions"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_weight="1"
+        android:autoSizeMaxTextSize="18dp"
+        android:fontFamily="@font/roboto_thin"
+        android:gravity="center"
+        android:text="@string/el_sistema_solo_grabar_un_maximo_de_15_parpadeos_por_clase"
+        android:textColor="@color/primary_black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/texts_state_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerView"
+        tools:ignore="MissingConstraints" />
+
+
+</android.support.constraint.ConstraintLayout>

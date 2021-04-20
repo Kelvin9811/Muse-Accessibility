@@ -84,6 +84,10 @@ public class MuseConnection extends AppCompatActivity implements View.OnClickLis
                     Intent channelIntent = new Intent(this, ChosseChannel.class);
                     startActivity(channelIntent);
                     break;
+                case "DATASET":
+                    Intent datasetIntent = new Intent(this, RecordDataSet.class);
+                    startActivity(datasetIntent);
+                    break;
                 default:
                     break;
             }

@@ -70,6 +70,15 @@ public class UserConfigurations extends AppCompatActivity implements View.OnClic
             }
         });
 
+        Button record_data_set = (Button) findViewById(R.id.btn_start_data_set_recording);
+        record_data_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startDataSetActivity();
+            }
+        });
+
+
         Button btn_save_tree_configurations = (Button) findViewById(R.id.btn_save_tree_configurations);
         btn_save_tree_configurations.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +170,13 @@ public class UserConfigurations extends AppCompatActivity implements View.OnClic
         intent.putExtra("FLOW", "TEST");
         startActivity(intent);
     }
+
+    public void startDataSetActivity() {
+        Intent intent = new Intent(this, MuseConnection.class);
+        intent.putExtra("FLOW", "DATASET");
+        startActivity(intent);
+    }
+
 
     public void addNeighbor() {
         if (kNearestNeighbors < 15)

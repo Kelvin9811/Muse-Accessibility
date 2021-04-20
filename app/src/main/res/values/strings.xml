@@ -42,9 +42,11 @@
     <string name="cortos">Cortos</string>
     <string name="calibrar">Calibrar</string>
     <string name="el_sistema_solo_grabar_un_maximo_de_15_parpadeos_por_clase">El sistema solo grabará un maximo de 15 parpadeos por clase</string>
+    <string name="el_sistema_solo_grabar_un_maximo_de_50_parpadeos_por_clase">El sistema solo grabará un maximo de 50 parpadeos por clase</string>
     <string name="instrucciones_de_testeo">En esta pantalla usted puede probar el sistema y verificar que el clasificador funciona de la manera correcta. En caso de que los parpadeos no estén siendo clasificados correctamente, puede recalibrar el sistema desde la pantalla de calibración.</string>
     <string name="iniciar_prueba_de_parpadeos">Iniciar prueba de parpadeos</string>
-    <string name="app_version">Versión 2.1.1</string>
+    <string name="app_version">Versión 2.1.3</string>
     <string name="configuraci_n">Configuración</string>
+    <string name="registro_de_conjunto_de_datos">Registro de conjunto de datos</string>
 
 </resources>

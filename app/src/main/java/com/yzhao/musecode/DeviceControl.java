@@ -54,7 +54,8 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     MainActivity configurations;
     private int notchFrequency = 14;
     private static final int PLOT_LENGTH = 255 * 3;
-    public CircularBufferProcessed eegBuffer;
+    public CircularBuffer eegBuffer = new CircularBuffer(220, 4);
+
     private static final String PLOT_TITLE = "Raw_EEG";
     public DynamicSeries dataSeries;
 
@@ -98,11 +99,10 @@ public class DeviceControl extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         channelOfInterest = configurations.channelOfInterest;
         current_umbral = configurations.probabilitySensibility;
-        sensibility_detection = (configurations.detectionSensibility *0.01);
+        sensibility_detection = (configurations.detectionSensibility * 0.01);
         maxSignalFrequency = configurations.maxSignalFrequency;
         minSignalFrequency = configurations.minSignalFrequency;
 
-        eegBuffer = new CircularBufferProcessed(220, 4,maxSignalFrequency,minSignalFrequency);
         meanSignalFrequency = (maxSignalFrequency - minSignalFrequency) / 2;
         setContentView(R.layout.device_control);
         startConfigurations();
@@ -336,7 +336,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
             frameCounter++;
             if (frameCounter % 15 == 0 && frameCounter > 250) {
-                if (eegBuffer.extract(1)[0][channelOfInterest] < (-1+sensibility_detection) && !posibliBlink) {
+                if (eegBuffer.extract(1)[0][channelOfInterest] < (-1 + sensibility_detection) && !posibliBlink) {
                     posibliBlink = true;
                     posibliBlinkPosition = frameCounter;
                 }
@@ -422,7 +422,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             InputStream inputStream = getResources().getAssets().open(dbNoneBlink + ".json");
             EEGFileReader fileReader = new EEGFileReader(filePathReader);
             //EEGFileReader fileReader = new EEGFileReader(inputStream);
-            originalSignalNoneBlink = fileReader.readNoneBlink();
+            originalSignalNoneBlink = fileReader.readToVector(channelOfInterest + 1);
             System.out.println("Lectura del tercer archivo");
 
         } catch (IOException e) {
