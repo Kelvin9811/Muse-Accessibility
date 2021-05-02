@@ -469,3 +469,92 @@ Disutir y analizar resultados
 
 -
 Conclusiones: No hacer tesis hecho informe pniendo teoria (ejem: que es BCI)
+
+---------------------------------------------------------
+
+Se implementó y se presenta tan cosa y se hizo tal cosa
+Esto se diseño se hizo y se presentó 
+los resuutados son estos
+hice estas cosas y los resultados son estos
+
+50 por clase porque nos permite 25 para modelo y 25 para testeo o formal hacer 50*15: 750 
+desigualdad de hubgin dado un margen de eror, determinado nivel de confianza cuantas muestras necesito
+
+
+
+
+
+Al menos 30 onlinie
+
+margen de error de 7% es mucho y mi eexactitud esta entre 88 y 92
+
+	menos margen de error mejor
+	cantidad de datos >>
+	
+maergen de error = en que rango de valores va a estar osilando del 90 +- 5%
+
+intervalo de confiianza para la exactitud: 1-exactitud es erro 
+
+
+
+
+47/3 = 15*clase 
+
+
+
+
+
+
+------------
+estructura del escrito
+
+de como se pone la diadema
+
+grabar video sdel funcionamiento.
+
+para el 13 registrar el avance del proyecto de titulación
+
+el total de muestras es por las 2 clases
+
+nivel de confianza tipico 95%
+1000  y calculo margen de error
+
+
+1000 para el clasificador
+poner los resultados en forma de matriz de confución
+
+
+online para usabilidad
+
+
+
+cambiar simbolo de epsilon
+
+dado que la desigualdad permite tal cos entonces se aplico 
+
+dado que hace esto y en nuestro caso la discugulada la aplicamos haciendo tal cosas
+
+para que la uso
+
+
+no es para constatar: para evaluar la exactitud del clasificador
+
+
+
+Ser mas claro en las idedas.directo y preciso.
+Ser bastante cortante. mas puntos seguidos. Hacer oraciones mas cortas
+mas de 2 lineas es muy largo
+Cientifica usa muchos puntos seguidos de manera concreta
+
+
+las clases son largos y cortos.
+
+
+datos extra añadir antecedentes de prueba :atamaño cabello corto y descansado
+
+
+
+
+
+
+parrafo habla de una idea puntual y cuando acabe el parrafo que se muera la ideda ahi
