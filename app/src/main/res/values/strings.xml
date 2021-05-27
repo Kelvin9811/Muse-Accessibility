@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Accessibility Muse</string>
-    <string name="permission_dialog_title">Muse Needs Your Permission</string>
-    <string name="permission_dialog_description">Muse needs a few permissions to work properly. On the next screens, tap "Allow" to proceed. If you deny, Muse will not work properly until you go into your Android settings and allow.</string>
-    <string name="permission_dialog_understand">I Understand</string>
+    <string name="permission_dialog_title">Muse necsita su premiso</string>
+    <string name="permission_dialog_description">Muse necesita algunos permisos para funcionar correctamente. En las siguientes pantallas, toque "Permitir" para continuar. Si lo niega, Muse no funcionará correctamente hasta que acceda a la configuración de Android y lo permita.</string>
+    <string name="permission_dialog_understand">Aceptar</string>
     <string name="app_icon">app_icon</string>
     <string name="iniciar">Iniciar</string>
     <string name="iniciar_captura_de_datos">Iniciar captura de datos</string>

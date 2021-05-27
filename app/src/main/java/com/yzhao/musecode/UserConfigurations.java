@@ -204,6 +204,8 @@ public class UserConfigurations extends AppCompatActivity implements View.OnClic
         configurationsFile.addLineToFile("" + configurations.detectionSensibility);
         configurationsFile.addLineToFile("" + configurations.probabilitySensibility);
         configurationsFile.addLineToFile("" + configurations.kNearestNeighbors);
+        configurationsFile.addLineToFile("" + configurations.maxSignalFrequency);
+        configurationsFile.addLineToFile("" + configurations.minSignalFrequency);
 
         configurationsFile.writeConfigurationsFile();
 

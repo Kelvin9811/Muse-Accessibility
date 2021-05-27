@@ -142,7 +142,8 @@ public class DeviceControl extends Activity implements View.OnClickListener {
     }
 
     public void initUI() {
-
+        Long tsLong = System.currentTimeMillis();
+        System.out.println(tsLong);
         layout_up = (LinearLayout) this.findViewById(R.id.layout_up);
         layout_up.setVisibility(LinearLayout.GONE);
 
@@ -184,6 +185,8 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             excecuteCommand(CURRENT_COMMAND);
             CURRENT_COMMAND = "";
         }
+        Long tsLong = System.currentTimeMillis();
+        System.out.println(tsLong);
     }
 
 
@@ -197,6 +200,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             disableEnableSistem();
 
         if (systemActivated) {
+
             switch (command) {
                 case "-.":
 
@@ -228,17 +232,26 @@ public class DeviceControl extends Activity implements View.OnClickListener {
 
                     if (BTN_STATE == 0) {
                         mqttSuscriber.sendMessage("tv_on_off");
+                        makeToast("Encender/Apagar televisor");
                     } else if (BTN_STATE == 1) {
                         mqttSuscriber.sendMessage("chn_dwn");
+                        makeToast("Canal arriba");
                     } else if (BTN_STATE == 2) {
                         mqttSuscriber.sendMessage("chn_up");
+                        makeToast("Canal abajo");
                     }
+
                     break;
                 default:
                     break;
             }
         }
 
+    }
+    public void makeToast(String message) {
+        CharSequence toastText = "Comando enviado: "+ message;
+        Toast toast = Toast.makeText(this, toastText, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     public void disableEnableSistem() {
@@ -336,7 +349,7 @@ public class DeviceControl extends Activity implements View.OnClickListener {
             eegBuffer.update(activeFilter.extractFilteredSamples(filtState));
             frameCounter++;
             if (frameCounter % 15 == 0 && frameCounter > 250) {
-                if (eegBuffer.extract(1)[0][channelOfInterest] < (-1 + sensibility_detection) && !posibliBlink) {
+                if (eegBuffer.extract(1)[0][channelOfInterest] < (800) && !posibliBlink) {
                     posibliBlink = true;
                     posibliBlinkPosition = frameCounter;
                 }
