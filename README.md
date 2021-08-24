@@ -53,3 +53,7 @@ Se detallan los cambios realizados dentro del proyecto Muse Accesibility
 ### Features
 
 - Se actualiza la base de datos por defecto
+
+## Detalles de la version 2.1.3
+
+- Se hacen correcciones para las configuraciones por defecto 
