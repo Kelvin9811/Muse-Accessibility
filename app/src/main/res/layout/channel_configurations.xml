@@ -484,7 +484,7 @@
                     android:layout_marginRight="12dp"
                     android:autoSizeMaxTextSize="18dp"
                     android:fontFamily="@font/roboto_thin"
-                    android:text="Máxima frecuencia promedio:"
+                    android:text="Amplitud máxima promedio:"
                     android:textColor="@color/primary_black"
                     android:textSize="18sp" />
 
@@ -515,7 +515,7 @@
                     android:layout_marginRight="12dp"
                     android:autoSizeMaxTextSize="18dp"
                     android:fontFamily="@font/roboto_thin"
-                    android:text="Mínima frecuencia promedio:"
+                    android:text="Amplitud mínima promedio:"
                     android:textColor="@color/primary_black"
                     android:textSize="18sp" />
 
